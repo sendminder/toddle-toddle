@@ -1,11 +1,11 @@
 {
-    "name": "toddle_toddle",
-    "short_name": "toddle_toddle",
+    "name": "flutter_production_boilerplate_riverpod",
+    "short_name": "flutter_production_boilerplate_riverpod",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "A flutter boilerplate project containing riverpod, lints, hive, easy_translations and more",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

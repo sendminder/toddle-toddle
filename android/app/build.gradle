@@ -23,8 +23,8 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace "com.example.toddle_toddle"
-    compileSdk flutter.compileSdkVersion
+    namespace "dev.feichtinger.flutter_production_boilerplate_riverpod"
+    compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -42,10 +42,10 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.toddle_toddle"
+        applicationId "dev.feichtinger.flutter_production_boilerplate_riverpod"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 21 //flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -64,4 +64,4 @@ flutter {
     source '../..'
 }
 
-dependencies {}
+dependencies {implementation 'com.microsoft.design:fluent-system-icons:1.1.226@aar'}

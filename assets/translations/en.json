@@ -1,7 +1,11 @@
 {
   "app_name": "Toddle-Toddle",
-  "bottom_nav_first": "Home",
-  "bottom_nav_second": "Settings",
+  "bottom_nav_first": "Goal",
+  "bottom_nav_second": "Records",
+  "bottom_nav_third": "Settings",
+  "title_first": "Goal",
+  "title_second": "Records",
+  "title_third": "Settings",
   "localization_title": "Localization",
   "localization_content": "Simplified translations with the Easy Translations package.",
   "linting_title": "Linting",

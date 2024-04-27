@@ -4,8 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:toddle_toddle/widgets/app_bar_gone.dart';
 import 'package:toddle_toddle/widgets/bottom_nav_bar.dart';
 import 'package:toddle_toddle/widgets/bottom_nav_bar_state.dart';
-import 'first_screen.dart';
-import 'second_screen.dart';
+import 'check_screen.dart';
+import 'statistics_screen.dart';
+import 'settings_screen.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -14,8 +15,9 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final int? navIndex = ref.watch(bottomNavProvider) as int?;
     const List<Widget> pageNavigation = <Widget>[
-      FirstScreen(),
-      SecondScreen(),
+      CheckScreen(),
+      StatisticsScreen(),
+      SettingsScreen(),
     ];
 
     return Scaffold(

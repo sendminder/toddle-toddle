@@ -35,12 +35,16 @@ class BottomNavBar extends ConsumerWidget {
         unselectedItemColor: Theme.of(context).textTheme.bodySmall!.color,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: const Icon(FluentIcons.home_24_regular),
+            icon: const Icon(FluentIcons.run_24_regular),
             label: tr('bottom_nav_first'),
           ),
           BottomNavigationBarItem(
-            icon: const Icon(FluentIcons.info_24_regular),
+            icon: const Icon(FluentIcons.history_24_regular),
             label: tr('bottom_nav_second'),
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(FluentIcons.settings_24_regular),
+            label: tr('bottom_nav_third'),
           ),
         ],
       ),

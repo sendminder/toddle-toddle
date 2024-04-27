@@ -1,7 +1,11 @@
 {
     "app_name": "아장아장",
-    "bottom_nav_first": "홈",
-    "bottom_nav_second": "설정",
+    "bottom_nav_first": "목표",
+    "bottom_nav_second": "기록",
+    "bottom_nav_third": "설정",
+    "title_first": "목표",
+    "title_second": "기록",
+    "title_third": "설정",
     "localization_title": "로컬라이제이션",
     "localization_content": "Easy Translations 패키지를 사용한 간소화된 번역.",
     "linting_title": "린팅",

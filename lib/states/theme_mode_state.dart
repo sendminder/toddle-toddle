@@ -27,6 +27,8 @@ class ThemeModeState extends ChangeNotifier {
 
   ThemeMode? themeMode;
 
+  get currentThemeMode => themeMode;
+
   void setThemeMode(ThemeMode mode) {
     themeMode = mode;
     Hive.box('prefs').put('themeMode', themeMode.toString());

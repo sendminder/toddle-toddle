@@ -12,8 +12,6 @@
     "linting_content": "Dart 팀에서 추천하는 엄격한 린트 규칙.",
     "storage_title": "저장",
     "storage_content": "Dart로 작성된 순수한 Hive를 사용한 빠른 키-값 데이터베이스.",
-    "dark_mode_title": "다크 모드",
-    "dark_mode_content": "내장된 테마 엔진을 사용하여 부드러운 다크 모드 전환.",
     "state_title": "상태",
     "state_content": "Cubit & BLOC을 사용한 강력한 상태 관리.",
     "display_title": "디스플레이",
@@ -34,5 +32,9 @@
     "easy_localization": "Easy Localization",
     "hive": "Hive",
     "url_launcher": "URL Launcher",
-    "fluentui_system_icons": "FluentUI 아이콘"
+    "fluentui_system_icons": "FluentUI 아이콘",
+    "dark_mode_title": "다크 모드",
+    "dark_mode_content": "어플리케이션의 테마를 다크 모드로 전환",
+    "language_title": "언어 설정",
+    "language_content": "한국어와 영어 중 원하는 언어를 선택"
 }

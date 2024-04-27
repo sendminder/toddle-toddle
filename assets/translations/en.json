@@ -1,9 +1,9 @@
 {
   "app_name": "Toddle-Toddle",
-  "bottom_nav_first": "Goal",
+  "bottom_nav_first": "Goals",
   "bottom_nav_second": "Records",
   "bottom_nav_third": "Settings",
-  "title_first": "Goal",
+  "title_first": "Goals",
   "title_second": "Records",
   "title_third": "Settings",
   "localization_title": "Localization",
@@ -12,8 +12,6 @@
   "linting_content": "Stricter linting rules with flutter lints recommended by the Dart team.",
   "storage_title": "Storage",
   "storage_content": "Blazing fast key-value database written in pure Dart with Hive.",
-  "dark_mode_title": "Dark Mode",
-  "dark_mode_content": "Smooth transition to dark mode by using the inbuilt theming engine.",
   "state_title": "State",
   "state_content": "Powerful state management using Cubit & BLOC.",
   "display_title": "Display",
@@ -34,5 +32,9 @@
   "easy_localization": "Easy localization",
   "hive": "Hive",
   "url_launcher": "Url launcher",
-  "fluentui_system_icons": "FluentUI Icons"
+  "fluentui_system_icons": "FluentUI Icons",
+  "dark_mode_title": "Dark Mode",
+  "dark_mode_content": "Smooth transition to dark mode by using the inbuilt theming engine.",
+  "language_title": "Language",
+  "language_content": "Support for multiple languages between Korean and English."
 }

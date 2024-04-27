@@ -3,7 +3,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:toddle_toddle/widgets/bottom_nav_bar_state.dart';
+import 'package:toddle_toddle/states/bottom_nav_bar_state.dart';
 
 class BottomNavBar extends ConsumerWidget {
   const BottomNavBar({super.key});

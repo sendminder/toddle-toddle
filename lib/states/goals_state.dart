@@ -4,14 +4,25 @@ import 'package:toddle_toddle/data/models/goal.dart';
 import 'package:toddle_toddle/data/models/achievement.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:toddle_toddle/const/strings.dart';
+import 'package:logger/logger.dart';
+import 'package:get_it/get_it.dart';
 
 final goalsStateProvider = StateNotifierProvider<GoalsState, List<Goal>>((ref) {
   return GoalsState();
 });
 
 class GoalsState extends StateNotifier<List<Goal>> {
+  final logger = GetIt.I<Logger>();
+
   GoalsState() : super([]) {
     _initialize();
+  }
+
+  void printAll() async {
+    final box = Hive.box<Goal>(HiveGoalBox);
+    for (int i = 0; i < box.length; i++) {
+      logger.d("${box.getAt(i)!.id} ${box.getAt(i)!.name}");
+    }
   }
 
   Future<void> _initialize() async {

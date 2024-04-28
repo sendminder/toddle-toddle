@@ -6,6 +6,8 @@ import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:get_it/get_it.dart';
+import 'package:logger/logger.dart';
 
 import 'package:toddle_toddle/data/models/goal.dart';
 import 'package:toddle_toddle/data/models/schedule.dart';
@@ -16,22 +18,24 @@ import 'states/theme_mode_state.dart';
 import 'screens/home_screen.dart';
 import 'const/strings.dart';
 
-/// Try using const constructors as much as possible!
-
 void main() async {
   /// Initialize packages
+  GetIt.I.registerSingleton<Logger>(Logger());
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   if (Platform.isAndroid) {
     await FlutterDisplayMode.setHighRefreshRate();
   }
-  final Directory tmpDir = await getTemporaryDirectory();
-  await Hive.initFlutter(tmpDir.toString());
-  await Hive.openBox(HivePrefBox);
-  await Hive.openBox<Goal>(HiveGoalBox);
+
+  final Directory appDocDir = await getApplicationDocumentsDirectory();
+  await Hive.initFlutter(appDocDir.path);
+
   Hive.registerAdapter(GoalAdapter());
   Hive.registerAdapter(AchievementAdapter());
   Hive.registerAdapter(ScheduleAdapter());
+
+  await Hive.openBox(HivePrefBox);
+  await Hive.openBox<Goal>(HiveGoalBox);
 
   runApp(
     ProviderScope(

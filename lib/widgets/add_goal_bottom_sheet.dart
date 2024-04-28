@@ -89,7 +89,7 @@ class AddGoalBottomSheet extends ConsumerWidget {
               }),
             ),
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               if (frequency == 'Weekly') {
                 isDaily = false;
               }
@@ -106,7 +106,10 @@ class AddGoalBottomSheet extends ConsumerWidget {
                 startTime: startDate!,
                 schedule: schedule,
               );
-              ref.read(goalsStateProvider.notifier).addOrUpdateGoal(newGoal);
+              await ref
+                  .read(goalsStateProvider.notifier)
+                  .addOrUpdateGoal(newGoal);
+              ref.read(goalsStateProvider.notifier).printAll();
               Navigator.pop(context);
             },
             child: Text('추가하기'),

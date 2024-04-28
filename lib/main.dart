@@ -7,6 +7,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:path_provider/path_provider.dart';
 
+import 'package:toddle_toddle/data/models/goal.dart';
+import 'package:toddle_toddle/data/models/schedule.dart';
+import 'package:toddle_toddle/data/models/achievement.dart';
+
 import 'config/theme.dart';
 import 'states/theme_mode_state.dart';
 import 'screens/home_screen.dart';
@@ -24,6 +28,9 @@ void main() async {
   final Directory tmpDir = await getTemporaryDirectory();
   await Hive.initFlutter(tmpDir.toString());
   await Hive.openBox(HivePrefBox);
+  Hive.registerAdapter(GoalRecordAdapter());
+  Hive.registerAdapter(AchievementAdapter());
+  Hive.registerAdapter(ScheduleAdapter());
 
   runApp(
     ProviderScope(

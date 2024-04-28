@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
+import 'package:toddle_toddle/const/strings.dart';
 
 final AutoDisposeStateNotifierProvider<BottomNavBarState, Object?>
     bottomNavProvider = StateNotifierProvider.autoDispose(
@@ -9,7 +10,7 @@ final AutoDisposeStateNotifierProvider<BottomNavBarState, Object?>
 
 class BottomNavBarState extends StateNotifier<int> {
   BottomNavBarState(super.state) {
-    value = Hive.box('prefs').get('navIndex', defaultValue: state) as int;
+    value = Hive.box(HivePrefBox).get('navIndex', defaultValue: state) as int;
   }
 
   set value(int index) => state = index;
@@ -18,6 +19,6 @@ class BottomNavBarState extends StateNotifier<int> {
 
   void setAndPersistValue(int index) {
     value = index;
-    Hive.box('prefs').put('navIndex', index);
+    Hive.box(HivePrefBox).put('navIndex', index);
   }
 }

@@ -1,1 +1,1 @@
-const String HivePrefBox = 'pref';
+const String HivePrefBox = 'prefs';

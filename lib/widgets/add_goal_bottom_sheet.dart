@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:toddle_toddle/data/models/schedule.dart';
 import 'package:toddle_toddle/states/goals_state.dart';
@@ -8,27 +9,29 @@ import 'package:toddle_toddle/widgets/week_days_toggle.dart';
 import 'package:toddle_toddle/widgets/custom_text.dart';
 
 class AddGoalBottomSheet extends ConsumerWidget {
-  String? goalName;
-  List<int> selectedDays = [];
+  AddGoalBottomSheet({super.key});
+
   final selectedModeProvider = StateProvider<String>((ref) => 'Daily');
   final startDateProvider = StateProvider<DateTime?>((ref) => null);
   final notificationTimeProvider = StateProvider<String>((ref) => '');
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    String? goalName;
     final selectedMode = ref.watch(selectedModeProvider);
     final startDate = ref.watch(startDateProvider);
     final notificationTime = ref.watch(notificationTimeProvider);
+    final selectedDays = ref.watch(selectedDaysProvider);
 
     return Container(
-      padding: EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16.0),
       height: 800,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           TextField(
             decoration: InputDecoration(
-              labelText: '목표 이름',
+              labelText: 'goal_name'.tr(),
             ),
             onChanged: (value) {
               goalName = value;
@@ -51,22 +54,6 @@ class AddGoalBottomSheet extends ConsumerWidget {
           Column(
             children: [
               ToggleButtons(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: CustomText(
-                      text: 'daily',
-                      textSize: 12,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: CustomText(
-                      text: 'weekly',
-                      textSize: 12,
-                    ),
-                  ),
-                ],
                 isSelected: [
                   selectedMode == 'Daily',
                   selectedMode == 'Weekly',
@@ -76,11 +63,27 @@ class AddGoalBottomSheet extends ConsumerWidget {
                   ref.read(selectedModeProvider.notifier).state =
                       index == 0 ? 'Daily' : 'Weekly';
                 },
+                children: const <Widget>[
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: CustomText(
+                      text: 'daily',
+                      textSize: 12,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: CustomText(
+                      text: 'weekly',
+                      textSize: 12,
+                    ),
+                  ),
+                ],
               ),
               if (selectedMode == 'Weekly') ...[
                 // Weekly 선택 시 나타나는 요일 토글 버튼
-                SizedBox(height: 20),
-                WeekDaysToggle(),
+                const SizedBox(height: 20),
+                const WeekDaysToggle(),
               ],
             ],
           ),
@@ -99,7 +102,7 @@ class AddGoalBottomSheet extends ConsumerWidget {
             },
             child: Text('알림 시간 설정: $notificationTime'),
           ),
-          SizedBox(height: 50),
+          const SizedBox(height: 50),
           ElevatedButton(
             onPressed: () async {
               String id = generateUniqueId();
@@ -112,7 +115,7 @@ class AddGoalBottomSheet extends ConsumerWidget {
               Goal newGoal = Goal(
                 id: id,
                 name: goalName!,
-                startTime: startDate!,
+                startTime: startDate,
                 schedule: schedule,
               );
               await ref
@@ -121,7 +124,7 @@ class AddGoalBottomSheet extends ConsumerWidget {
               ref.read(goalsStateProvider.notifier).printAll();
               Navigator.pop(context);
             },
-            child: CustomText(text: 'add_goal', textSize: 15.0),
+            child: const CustomText(text: 'add_goal', textSize: 15.0),
           ),
         ],
       ),

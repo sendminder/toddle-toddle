@@ -47,5 +47,6 @@
   "sunday": "Sun",
   "daily": "Every day",
   "weekly": "Every week",
-  "add_goal": "Add a goal"
+  "add_goal": "Add a goal",
+  "goal_name": "Goal name"
 }

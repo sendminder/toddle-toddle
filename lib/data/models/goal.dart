@@ -28,7 +28,7 @@ class Goal extends HiveObject {
     required this.startTime,
     required this.schedule,
     List<Achievement>? achievements,
-  }) : this.achievements = achievements ?? [];
+  }) : achievements = achievements ?? [];
 
   // 특정 날짜에 해당하는 Achievement 찾기
   Achievement? findAchievementByDate(DateTime date) {

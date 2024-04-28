@@ -47,5 +47,6 @@
     "sunday": "일",
     "daily": "매일",
     "weekly": "매주",
-    "add_goal": "추가하기"
+    "add_goal": "추가하기",
+    "goal_name": "목표 이름"
 }

@@ -4,7 +4,6 @@ import 'package:toddle_toddle/data/models/goal.dart';
 import 'package:toddle_toddle/data/models/achievement.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:toddle_toddle/const/strings.dart';
-import 'package:collection/collection.dart';
 
 final goalRecordsStateProvider =
     StateNotifierProvider<GoalState, List<Goal>>((ref) {
@@ -51,22 +50,20 @@ class GoalState extends StateNotifier<List<Goal>> {
     final box = await Hive.openBox<Goal>(HiveGoalBox);
     Goal? goal = getGoalById(goalId);
     if (goal != null) {
-      Achievement? existingAchievement = goal.achievements.firstWhereOrNull(
-        (achievement) => achievement.date == date,
-      );
+      Achievement? existingAchievement = goal.findAchievementByDate(date);
       if (existingAchievement != null) {
         // 해당 날짜의 Achievement가 존재하면, achieved 값을 업데이트
-        existingAchievement.achieved = achieved;
-        await existingAchievement.save(); // 변경 사항을 Hive에 저장
+        await existingAchievement.updateAchieved(achieved);
       } else {
         // 해당 날짜의 Achievement가 존재하지 않으면, 새로운 Achievement를 추가
         Achievement newAchievement =
             Achievement(date: date, achieved: achieved);
-        goal.achievements.add(newAchievement);
-        await newAchievement.save(); // 새로운 Achievement를 Hive에 저장
+        await goal.addAchievement(newAchievement);
       }
-      await box.put(goalId, goal); // 변경 사항을 저장
-      state = List.from(state); // 상태 갱신
+      // 변경 사항을 저장
+      await box.put(goalId, goal);
+      // 상태 갱신
+      state = List.from(state);
     }
   }
 }

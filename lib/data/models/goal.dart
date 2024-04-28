@@ -1,6 +1,7 @@
 import 'package:hive/hive.dart';
 import 'package:toddle_toddle/data/models/schedule.dart';
 import 'package:toddle_toddle/data/models/achievement.dart';
+import 'package:collection/collection.dart';
 
 part 'goal.g.dart';
 
@@ -28,4 +29,16 @@ class Goal extends HiveObject {
     required this.schedule,
     List<Achievement>? achievements,
   }) : this.achievements = achievements ?? [];
+
+  // 특정 날짜에 해당하는 Achievement 찾기
+  Achievement? findAchievementByDate(DateTime date) {
+    return achievements
+        .firstWhereOrNull((achievement) => achievement.date == date);
+  }
+
+  // Achievement 추가
+  Future<void> addAchievement(Achievement achievement) async {
+    achievements.add(achievement);
+    await save(); // 변경사항 Hive에 저장
+  }
 }

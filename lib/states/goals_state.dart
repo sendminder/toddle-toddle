@@ -36,14 +36,14 @@ class GoalsState extends StateNotifier<List<Goal>> {
 
   // Goal 객체 추가 또는 업데이트
   Future<void> addOrUpdateGoal(Goal goal) async {
-    final box = await Hive.openBox<Goal>(HiveGoalBox);
+    final box = Hive.box<Goal>(HiveGoalBox);
     await box.put(goal.id, goal); // ID를 사용하여 저장
     state = [...state, goal]; // 상태 갱신
   }
 
   // 특정 Goal 삭제
   Future<void> removeGoal(String id) async {
-    final box = await Hive.openBox<Goal>(HiveGoalBox);
+    final box = Hive.box<Goal>(HiveGoalBox);
     await box.delete(id); // ID를 사용하여 삭제
     state = state.where((goal) => goal.id != id).toList(); // 상태 갱신
   }
@@ -51,7 +51,7 @@ class GoalsState extends StateNotifier<List<Goal>> {
   // 특정 Goal id의 Achievement를 수정하거나 추가하는 함수
   Future<void> addOrUpdateAchievement(
       String goalId, DateTime date, bool achieved) async {
-    final box = await Hive.openBox<Goal>(HiveGoalBox);
+    final box = Hive.box<Goal>(HiveGoalBox);
     Goal? goal = getGoalById(goalId);
     if (goal != null) {
       Achievement? existingAchievement = goal.findAchievementByDate(date);
@@ -74,7 +74,7 @@ class GoalsState extends StateNotifier<List<Goal>> {
   // 특정 Goal id의 Schedule을 수정하는 함수
   Future<void> updateSchedule(String goalId, List<int> daysOfWeek,
       String notificationTime, DateTime startDate, bool isDaily) async {
-    final box = await Hive.openBox<Goal>(HiveGoalBox);
+    final box = Hive.box<Goal>(HiveGoalBox);
     Goal? goal = getGoalById(goalId);
     if (goal != null) {
       await goal.schedule.updateDaysOfWeek(daysOfWeek);

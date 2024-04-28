@@ -5,19 +5,23 @@ import 'package:toddle_toddle/data/models/achievement.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:toddle_toddle/const/strings.dart';
 
-final goalRecordsStateProvider =
-    StateNotifierProvider<GoalState, List<Goal>>((ref) {
-  return GoalState();
+final goalsStateProvider = StateNotifierProvider<GoalsState, List<Goal>>((ref) {
+  return GoalsState();
 });
 
-class GoalState extends StateNotifier<List<Goal>> {
-  GoalState() : super([]) {
+class GoalsState extends StateNotifier<List<Goal>> {
+  GoalsState() : super([]) {
     _initialize();
   }
 
   Future<void> _initialize() async {
     final box = await Hive.openBox<Goal>(HiveGoalBox);
     state = box.values.toList();
+  }
+
+  bool isExist(String id) {
+    final box = Hive.box<Goal>(HiveGoalBox);
+    return box.get(id) == null;
   }
 
   // Goal을 id 기준으로 조회하는 함수
@@ -30,18 +34,18 @@ class GoalState extends StateNotifier<List<Goal>> {
     }
   }
 
-  // GoalRecord 객체 추가 또는 업데이트
-  Future<void> addOrUpdateGoalRecord(Goal goalRecord) async {
+  // Goal 객체 추가 또는 업데이트
+  Future<void> addOrUpdateGoal(Goal goal) async {
     final box = await Hive.openBox<Goal>(HiveGoalBox);
-    await box.put(goalRecord.id, goalRecord); // ID를 사용하여 저장
-    state = [...state, goalRecord]; // 상태 갱신
+    await box.put(goal.id, goal); // ID를 사용하여 저장
+    state = [...state, goal]; // 상태 갱신
   }
 
-  // 특정 GoalRecord 삭제
-  Future<void> removeGoalRecord(String id) async {
+  // 특정 Goal 삭제
+  Future<void> removeGoal(String id) async {
     final box = await Hive.openBox<Goal>(HiveGoalBox);
     await box.delete(id); // ID를 사용하여 삭제
-    state = state.where((goalRecord) => goalRecord.id != id).toList(); // 상태 갱신
+    state = state.where((goal) => goal.id != id).toList(); // 상태 갱신
   }
 
   // 특정 Goal id의 Achievement를 수정하거나 추가하는 함수
@@ -60,6 +64,23 @@ class GoalState extends StateNotifier<List<Goal>> {
             Achievement(date: date, achieved: achieved);
         await goal.addAchievement(newAchievement);
       }
+      // 변경 사항을 저장
+      await box.put(goalId, goal);
+      // 상태 갱신
+      state = List.from(state);
+    }
+  }
+
+  // 특정 Goal id의 Schedule을 수정하는 함수
+  Future<void> updateSchedule(String goalId, List<int> daysOfWeek,
+      String notificationTime, DateTime startDate, bool isDaily) async {
+    final box = await Hive.openBox<Goal>(HiveGoalBox);
+    Goal? goal = getGoalById(goalId);
+    if (goal != null) {
+      await goal.schedule.updateDaysOfWeek(daysOfWeek);
+      await goal.schedule.updateNotificationTime(notificationTime);
+      await goal.schedule.updateStartDate(startDate);
+      await goal.schedule.updateIsDaily(isDaily);
       // 변경 사항을 저장
       await box.put(goalId, goal);
       // 상태 갱신

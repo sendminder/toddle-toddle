@@ -40,4 +40,10 @@ class Schedule extends HiveObject {
     startDate = newStartDate;
     await save(); // Hive에 변경사항 저장
   }
+
+  // isDaily 수정 함수
+  Future<void> updateIsDaily(bool newIsDaily) async {
+    isDaily = newIsDaily;
+    await save(); // Hive에 변경사항 저장
+  }
 }

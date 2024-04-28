@@ -45,6 +45,7 @@ dependencies:
   flutter_datetime_picker: ^1.5.1
   multiselect: ^0.1.0
   collection: ^1.18.0
+  uuid: ^4.4.0
 
 dev_dependencies:
   build_runner: ^2.4.9

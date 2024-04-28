@@ -37,5 +37,12 @@
   "dark_mode_content": "Smooth transition to dark mode by using the inbuilt theming engine.",
   "language_title": "Language",
   "language_content": "Support for multiple languages between Korean and English.",
-  "no_goals": "There are no goals. Please add a goal."
+  "no_goals": "There are no goals. Please add a goal.",
+  "monday": "Mon",
+  "tuesday": "Tue",
+  "wednesday": "Wed",
+  "thursday": "Thu",
+  "friday": "Fri",
+  "saturday": "Sat",
+  "sunday": "Sun"
 }

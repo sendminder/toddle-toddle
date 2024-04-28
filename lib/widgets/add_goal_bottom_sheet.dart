@@ -4,18 +4,23 @@ import 'package:toddle_toddle/states/goals_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:toddle_toddle/data/models/goal.dart';
 import 'package:toddle_toddle/utils/id_generator.dart';
+import 'package:toddle_toddle/widgets/custom_text.dart';
 
 class AddGoalBottomSheet extends ConsumerWidget {
   String? goalName;
-  DateTime? startDate;
-  String frequency = 'Daily'; // 'Daily', 'Weekly', 'Custom'
+  String frequency = 'Daily';
   bool isDaily = true;
   List<int> selectedDays = [];
-  String notificationTime = '';
+  final selectedModeProvider = StateProvider<String>((ref) => 'Daily');
+  final startDateProvider = StateProvider<DateTime?>((ref) => null);
+  final notificationTimeProvider = StateProvider<String>((ref) => '');
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final goals = ref.watch(goalsStateProvider);
+    final selectedMode = ref.watch(selectedModeProvider);
+    final startDate = ref.watch(startDateProvider);
+    final notificationTime = ref.watch(notificationTimeProvider);
 
     return Container(
       padding: EdgeInsets.all(16.0),
@@ -40,23 +45,40 @@ class AddGoalBottomSheet extends ConsumerWidget {
                 lastDate: DateTime(2025),
               );
               if (picked != null && picked != startDate) {
-                startDate = picked;
+                ref.read(startDateProvider.notifier).state = picked;
               }
             },
             child: Text(startDate == null ? '시작 날짜 설정' : startDate.toString()),
           ),
-          DropdownButton<String>(
-            value: frequency,
-            onChanged: (String? newValue) {
-              frequency = newValue!;
-            },
-            items: <String>['Daily', 'Weekly', 'Custom']
-                .map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
+          Column(
+            children: [
+              ToggleButtons(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Text('Daily'),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Text('Weekly'),
+                  ),
+                ],
+                isSelected: [
+                  selectedMode == 'Daily',
+                  selectedMode == 'Weekly',
+                ],
+                onPressed: (int index) {
+                  // 선택된 모드 업데이트
+                  ref.read(selectedModeProvider.notifier).state =
+                      index == 0 ? 'Daily' : 'Weekly';
+                },
+              ),
+              if (selectedMode == 'Weekly') ...[
+                // Weekly 선택 시 나타나는 요일 토글 버튼
+                SizedBox(height: 20),
+                WeekDaysToggle(),
+              ],
+            ],
           ),
           // 시간 설정 버튼 추가
           ElevatedButton(
@@ -67,27 +89,12 @@ class AddGoalBottomSheet extends ConsumerWidget {
               );
               if (pickedTime != null) {
                 final String formattedTime = pickedTime.format(context);
-                notificationTime = formattedTime; // 시간 업데이트
+                ref.read(notificationTimeProvider.notifier).state =
+                    formattedTime;
               }
             },
             child: Text('알림 시간 설정: $notificationTime'),
           ),
-          if (frequency == 'Weekly')
-            Wrap(
-              children: List<Widget>.generate(7, (int index) {
-                String day = '월화수목금토일'[index];
-                return ChoiceChip(
-                    label: Text(day),
-                    selected: selectedDays.contains(day),
-                    onSelected: (bool selected) {
-                      if (selected) {
-                        selectedDays.add(index);
-                      } else {
-                        selectedDays.remove(index);
-                      }
-                    });
-              }),
-            ),
           ElevatedButton(
             onPressed: () async {
               if (frequency == 'Weekly') {
@@ -116,6 +123,29 @@ class AddGoalBottomSheet extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class WeekDaysToggle extends ConsumerWidget {
+  final List<bool> _isSelected = List.generate(7, (_) => false);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return ToggleButtons(
+      isSelected: _isSelected,
+      onPressed: (int index) {
+        _isSelected[index] = !_isSelected[index];
+      },
+      children: [
+        CustomText(text: 'monday'),
+        CustomText(text: 'tuesday'),
+        CustomText(text: 'wednesday'),
+        CustomText(text: 'thursday'),
+        CustomText(text: 'friday'),
+        CustomText(text: 'saturday'),
+        CustomText(text: 'sunday'),
+      ],
     );
   }
 }

@@ -62,67 +62,67 @@ final ColorScheme darkColorScheme = ColorScheme.dark(
 
 final ThemeData lightTheme = ThemeData(
   colorScheme: lightColorScheme,
-  fontFamily: 'Nunito',
+  fontFamily: 'SUITE',
   textTheme: TextTheme(
     displayLarge: TextStyle(
       color: textSwatch.shade700,
-      fontFamily: 'Nunito',
+      fontFamily: 'SUITE',
     ),
     displayMedium: TextStyle(
       color: textSwatch.shade600,
-      fontFamily: 'Nunito',
+      fontFamily: 'SUITE',
     ),
     displaySmall: TextStyle(
       color: textSwatch.shade500,
-      fontFamily: 'Nunito',
+      fontFamily: 'SUITE',
     ),
     headlineLarge: TextStyle(
       color: textSwatch.shade700,
-      fontFamily: 'Nunito',
+      fontFamily: 'SUITE',
     ),
     headlineMedium: TextStyle(
       color: textSwatch.shade600,
-      fontFamily: 'Nunito',
+      fontFamily: 'SUITE',
     ),
     headlineSmall: TextStyle(
       color: textSwatch.shade500,
-      fontFamily: 'Nunito',
+      fontFamily: 'SUITE',
     ),
     titleLarge: TextStyle(
       color: textSwatch.shade700,
-      fontFamily: 'Nunito',
+      fontFamily: 'SUITE',
     ),
     titleMedium: TextStyle(
       color: textSwatch.shade600,
-      fontFamily: 'Nunito',
+      fontFamily: 'SUITE',
     ),
     titleSmall: TextStyle(
       color: textSwatch.shade500,
-      fontFamily: 'Nunito',
+      fontFamily: 'SUITE',
     ),
     bodyLarge: TextStyle(
       color: textSwatch.shade700,
-      fontFamily: 'Nunito',
+      fontFamily: 'SUITE',
     ),
     bodyMedium: TextStyle(
       color: textSwatch.shade600,
-      fontFamily: 'Nunito',
+      fontFamily: 'SUITE',
     ),
     bodySmall: TextStyle(
       color: textSwatch.shade500,
-      fontFamily: 'Nunito',
+      fontFamily: 'SUITE',
     ),
     labelLarge: TextStyle(
       color: textSwatch.shade700,
-      fontFamily: 'Nunito',
+      fontFamily: 'SUITE',
     ),
     labelMedium: TextStyle(
       color: textSwatch.shade600,
-      fontFamily: 'Nunito',
+      fontFamily: 'SUITE',
     ),
     labelSmall: TextStyle(
       color: textSwatch.shade500,
-      fontFamily: 'Nunito',
+      fontFamily: 'SUITE',
     ),
   ),
   checkboxTheme: CheckboxThemeData(
@@ -178,63 +178,63 @@ final ThemeData darkTheme = lightTheme.copyWith(
   textTheme: TextTheme(
     displayLarge: TextStyle(
       color: textSwatch.shade200,
-      fontFamily: 'Nunito',
+      fontFamily: 'SUITE',
     ),
     displayMedium: TextStyle(
       color: textSwatch.shade300,
-      fontFamily: 'Nunito',
+      fontFamily: 'SUITE',
     ),
     displaySmall: TextStyle(
       color: textSwatch.shade400,
-      fontFamily: 'Nunito',
+      fontFamily: 'SUITE',
     ),
     headlineLarge: TextStyle(
       color: textSwatch.shade200,
-      fontFamily: 'Nunito',
+      fontFamily: 'SUITE',
     ),
     headlineMedium: TextStyle(
       color: textSwatch.shade300,
-      fontFamily: 'Nunito',
+      fontFamily: 'SUITE',
     ),
     headlineSmall: TextStyle(
       color: textSwatch.shade400,
-      fontFamily: 'Nunito',
+      fontFamily: 'SUITE',
     ),
     titleLarge: TextStyle(
       color: textSwatch.shade200,
-      fontFamily: 'Nunito',
+      fontFamily: 'SUITE',
     ),
     titleMedium: TextStyle(
       color: textSwatch.shade300,
-      fontFamily: 'Nunito',
+      fontFamily: 'SUITE',
     ),
     titleSmall: TextStyle(
       color: textSwatch.shade400,
-      fontFamily: 'Nunito',
+      fontFamily: 'SUITE',
     ),
     bodyLarge: TextStyle(
       color: textSwatch.shade200,
-      fontFamily: 'Nunito',
+      fontFamily: 'SUITE',
     ),
     bodyMedium: TextStyle(
       color: textSwatch.shade300,
-      fontFamily: 'Nunito',
+      fontFamily: 'SUITE',
     ),
     bodySmall: TextStyle(
       color: textSwatch.shade400,
-      fontFamily: 'Nunito',
+      fontFamily: 'SUITE',
     ),
     labelLarge: TextStyle(
       color: textSwatch.shade200,
-      fontFamily: 'Nunito',
+      fontFamily: 'SUITE',
     ),
     labelMedium: TextStyle(
       color: textSwatch.shade300,
-      fontFamily: 'Nunito',
+      fontFamily: 'SUITE',
     ),
     labelSmall: TextStyle(
       color: textSwatch.shade400,
-      fontFamily: 'Nunito',
+      fontFamily: 'SUITE',
     ),
   ),
   checkboxTheme: CheckboxThemeData(

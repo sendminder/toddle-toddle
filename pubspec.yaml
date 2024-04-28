@@ -76,6 +76,26 @@ flutter:
           weight: 400
         - asset: assets/fonts/Nunito-Light.ttf
           weight: 300
+    - family: CoockieRun
+      fonts:
+        - asset: assets/fonts/CookieRun-Black.ttf
+          weight: 700
+        - asset: assets/fonts/CookieRun-Bold.ttf
+          weight: 500
+        - asset: assets/fonts/CookieRun-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/CookieRun-Regular.ttf
+          weight: 300
+    - family: SUITE
+      fonts:
+        - asset: assets/fonts/SUITE-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/SUITE-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/SUITE-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/SUITE-Light.ttf
+          weight: 300
 
   # To add assets to your application, add an assets section, like this:
   # assets:

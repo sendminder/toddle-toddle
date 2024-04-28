@@ -33,6 +33,16 @@ class BottomNavBar extends ConsumerWidget {
         backgroundColor: Colors.transparent,
         selectedItemColor: Theme.of(context).colorScheme.primary,
         unselectedItemColor: Theme.of(context).textTheme.bodySmall!.color,
+        selectedFontSize: 12,
+        selectedLabelStyle: const TextStyle(
+          fontFamily: 'SUITE',
+          fontWeight: FontWeight.w300,
+        ),
+        unselectedFontSize: 12,
+        unselectedLabelStyle: const TextStyle(
+          fontFamily: 'SUITE',
+          fontWeight: FontWeight.w300,
+        ),
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: const Icon(FluentIcons.run_24_regular),

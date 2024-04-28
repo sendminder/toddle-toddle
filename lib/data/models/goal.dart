@@ -5,20 +5,24 @@ import 'package:toddle_toddle/data/models/achievement.dart';
 part 'goal.g.dart';
 
 @HiveType(typeId: 0)
-class GoalRecord extends HiveObject {
+class Goal extends HiveObject {
   @HiveField(0)
-  String name;
+  String id;
 
   @HiveField(1)
-  DateTime startTime;
+  String name;
 
   @HiveField(2)
-  Schedule schedule;
+  DateTime startTime;
 
   @HiveField(3)
+  Schedule schedule;
+
+  @HiveField(4)
   List<Achievement> achievements;
 
-  GoalRecord({
+  Goal({
+    required this.id,
     required this.name,
     required this.startTime,
     required this.schedule,

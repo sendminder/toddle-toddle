@@ -28,7 +28,8 @@ void main() async {
   final Directory tmpDir = await getTemporaryDirectory();
   await Hive.initFlutter(tmpDir.toString());
   await Hive.openBox(HivePrefBox);
-  Hive.registerAdapter(GoalRecordAdapter());
+  await Hive.openBox(HiveGoalBox);
+  Hive.registerAdapter(GoalAdapter());
   Hive.registerAdapter(AchievementAdapter());
   Hive.registerAdapter(ScheduleAdapter());
 

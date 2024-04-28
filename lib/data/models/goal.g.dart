@@ -6,35 +6,38 @@ part of 'goal.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class GoalRecordAdapter extends TypeAdapter<GoalRecord> {
+class GoalAdapter extends TypeAdapter<Goal> {
   @override
   final int typeId = 0;
 
   @override
-  GoalRecord read(BinaryReader reader) {
+  Goal read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return GoalRecord(
-      name: fields[0] as String,
-      startTime: fields[1] as DateTime,
-      schedule: fields[2] as Schedule,
-      achievements: (fields[3] as List?)?.cast<Achievement>(),
+    return Goal(
+      id: fields[0] as String,
+      name: fields[1] as String,
+      startTime: fields[2] as DateTime,
+      schedule: fields[3] as Schedule,
+      achievements: (fields[4] as List?)?.cast<Achievement>(),
     );
   }
 
   @override
-  void write(BinaryWriter writer, GoalRecord obj) {
+  void write(BinaryWriter writer, Goal obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
-      ..write(obj.name)
+      ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.startTime)
+      ..write(obj.name)
       ..writeByte(2)
-      ..write(obj.schedule)
+      ..write(obj.startTime)
       ..writeByte(3)
+      ..write(obj.schedule)
+      ..writeByte(4)
       ..write(obj.achievements);
   }
 
@@ -44,7 +47,7 @@ class GoalRecordAdapter extends TypeAdapter<GoalRecord> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is GoalRecordAdapter &&
+      other is GoalAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

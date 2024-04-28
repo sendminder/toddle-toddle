@@ -44,5 +44,8 @@
   "thursday": "Thu",
   "friday": "Fri",
   "saturday": "Sat",
-  "sunday": "Sun"
+  "sunday": "Sun",
+  "daily": "Every day",
+  "weekly": "Every week",
+  "add_goal": "Add a goal"
 }

@@ -4,12 +4,11 @@ import 'package:toddle_toddle/states/goals_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:toddle_toddle/data/models/goal.dart';
 import 'package:toddle_toddle/utils/id_generator.dart';
+import 'package:toddle_toddle/widgets/week_days_toggle.dart';
 import 'package:toddle_toddle/widgets/custom_text.dart';
 
 class AddGoalBottomSheet extends ConsumerWidget {
   String? goalName;
-  String frequency = 'Daily';
-  bool isDaily = true;
   List<int> selectedDays = [];
   final selectedModeProvider = StateProvider<String>((ref) => 'Daily');
   final startDateProvider = StateProvider<DateTime?>((ref) => null);
@@ -17,7 +16,6 @@ class AddGoalBottomSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final goals = ref.watch(goalsStateProvider);
     final selectedMode = ref.watch(selectedModeProvider);
     final startDate = ref.watch(startDateProvider);
     final notificationTime = ref.watch(notificationTimeProvider);
@@ -56,11 +54,17 @@ class AddGoalBottomSheet extends ConsumerWidget {
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Text('Daily'),
+                    child: CustomText(
+                      text: 'daily',
+                      textSize: 12,
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Text('Weekly'),
+                    child: CustomText(
+                      text: 'weekly',
+                      textSize: 12,
+                    ),
                   ),
                 ],
                 isSelected: [
@@ -95,17 +99,15 @@ class AddGoalBottomSheet extends ConsumerWidget {
             },
             child: Text('알림 시간 설정: $notificationTime'),
           ),
+          SizedBox(height: 50),
           ElevatedButton(
             onPressed: () async {
-              if (frequency == 'Weekly') {
-                isDaily = false;
-              }
               String id = generateUniqueId();
               Schedule schedule = Schedule(
                 daysOfWeek: selectedDays,
                 notificationTime: notificationTime,
                 startDate: startDate!,
-                isDaily: isDaily,
+                isDaily: selectedMode == 'Daily',
               );
               Goal newGoal = Goal(
                 id: id,
@@ -119,33 +121,10 @@ class AddGoalBottomSheet extends ConsumerWidget {
               ref.read(goalsStateProvider.notifier).printAll();
               Navigator.pop(context);
             },
-            child: Text('추가하기'),
+            child: CustomText(text: 'add_goal', textSize: 15.0),
           ),
         ],
       ),
-    );
-  }
-}
-
-class WeekDaysToggle extends ConsumerWidget {
-  final List<bool> _isSelected = List.generate(7, (_) => false);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return ToggleButtons(
-      isSelected: _isSelected,
-      onPressed: (int index) {
-        _isSelected[index] = !_isSelected[index];
-      },
-      children: [
-        CustomText(text: 'monday'),
-        CustomText(text: 'tuesday'),
-        CustomText(text: 'wednesday'),
-        CustomText(text: 'thursday'),
-        CustomText(text: 'friday'),
-        CustomText(text: 'saturday'),
-        CustomText(text: 'sunday'),
-      ],
     );
   }
 }

@@ -38,7 +38,13 @@ class CheckScreen extends ConsumerWidget {
             return ListTile(
               title: Text(goals[index].name),
               subtitle: Text(
-                goals[index].startTime.toString(),
+                goals[index].startTime.year.toString() +
+                    '-' +
+                    goals[index].startTime.month.toString() +
+                    '-' +
+                    goals[index].startTime.day.toString() +
+                    ' ' +
+                    goals[index].schedule.notificationTime,
                 style: const TextStyle(fontSize: 14),
               ),
             );

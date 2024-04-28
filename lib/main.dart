@@ -10,6 +10,7 @@ import 'package:path_provider/path_provider.dart';
 import 'config/theme.dart';
 import 'states/theme_mode_state.dart';
 import 'screens/home_screen.dart';
+import 'const/strings.dart';
 
 /// Try using const constructors as much as possible!
 
@@ -22,7 +23,7 @@ void main() async {
   }
   final Directory tmpDir = await getTemporaryDirectory();
   await Hive.initFlutter(tmpDir.toString());
-  await Hive.openBox('prefs');
+  await Hive.openBox(HivePrefBox);
 
   runApp(
     ProviderScope(

@@ -12,15 +12,20 @@ class Achievement extends HiveObject {
 
   Achievement({required this.date, required this.achieved});
 
+  Map<String, dynamic> toJson() {
+    return {
+      'date': date.toIso8601String(),
+      'achieved': achieved,
+    };
+  }
+
   // 날짜 업데이트 함수
   Future<void> updateDate(DateTime newDate) async {
     date = newDate;
-    await save(); // 변경 사항을 Hive에 저장
   }
 
   // 달성 여부 업데이트 함수
   Future<void> updateAchieved(bool newAchieved) async {
     achieved = newAchieved;
-    await save(); // 변경 사항을 Hive에 저장
   }
 }

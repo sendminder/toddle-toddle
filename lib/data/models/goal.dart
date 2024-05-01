@@ -30,6 +30,18 @@ class Goal extends HiveObject {
     List<Achievement>? achievements,
   }) : achievements = achievements ?? [];
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'startTime': startTime.toIso8601String(),
+      'schedule': schedule.toJson(), // Schedule 클래스에도 toJson() 구현 필요
+      'achievements': achievements
+          .map((a) => a.toJson())
+          .toList(), // Achievement 클래스에도 toJson() 구현 필요
+    };
+  }
+
   // 특정 날짜에 해당하는 Achievement 찾기
   Achievement? findAchievementByDate(DateTime date) {
     return achievements
@@ -39,6 +51,5 @@ class Goal extends HiveObject {
   // Achievement 추가
   Future<void> addAchievement(Achievement achievement) async {
     achievements.add(achievement);
-    await save(); // 변경사항 Hive에 저장
   }
 }

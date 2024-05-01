@@ -11,13 +11,14 @@ import 'package:toddle_toddle/widgets/custom_text.dart';
 class AddGoalBottomSheet extends ConsumerWidget {
   AddGoalBottomSheet({super.key});
 
+  final goalNameProvider = StateProvider<String>((ref) => '');
   final selectedModeProvider = StateProvider<String>((ref) => 'Daily');
   final startDateProvider = StateProvider<DateTime?>((ref) => null);
   final notificationTimeProvider = StateProvider<String>((ref) => '');
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    String? goalName;
+    final goalName = ref.watch(goalNameProvider);
     final selectedMode = ref.watch(selectedModeProvider);
     final startDate = ref.watch(startDateProvider);
     final notificationTime = ref.watch(notificationTimeProvider);
@@ -34,7 +35,7 @@ class AddGoalBottomSheet extends ConsumerWidget {
               labelText: 'goal_name'.tr(),
             ),
             onChanged: (value) {
-              goalName = value;
+              ref.read(goalNameProvider.notifier).state = value;
             },
           ),
           ElevatedButton(
@@ -95,7 +96,7 @@ class AddGoalBottomSheet extends ConsumerWidget {
                 initialTime: TimeOfDay.now(),
               );
               if (pickedTime != null) {
-                final String formattedTime = pickedTime.format(context);
+                final String formattedTime = pickedTime.toString();
                 ref.read(notificationTimeProvider.notifier).state =
                     formattedTime;
               }
@@ -114,7 +115,7 @@ class AddGoalBottomSheet extends ConsumerWidget {
               );
               Goal newGoal = Goal(
                 id: id,
-                name: goalName!,
+                name: goalName,
                 startTime: startDate,
                 schedule: schedule,
               );

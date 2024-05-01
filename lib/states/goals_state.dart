@@ -16,12 +16,15 @@ class GoalsState extends StateNotifier<List<Goal>> {
 
   GoalsState() : super([]) {
     _initialize();
+    sort();
+    printAll();
   }
 
   void printAll() async {
     final box = Hive.box<Goal>(HiveGoalBox);
     for (int i = 0; i < box.length; i++) {
-      logger.d("${box.getAt(i)!.id} ${box.getAt(i)!.name}");
+      var item = box.getAt(i)!;
+      logger.d(item.toJson());
     }
   }
 
@@ -65,10 +68,10 @@ class GoalsState extends StateNotifier<List<Goal>> {
     final box = Hive.box<Goal>(HiveGoalBox);
     Goal? goal = getGoalById(goalId);
     if (goal != null) {
-      Achievement? existingAchievement = goal.findAchievementByDate(date);
+      final existingAchievement = goal.findAchievementByDate(date);
       if (existingAchievement != null) {
         // 해당 날짜의 Achievement가 존재하면, achieved 값을 업데이트
-        await existingAchievement.updateAchieved(achieved);
+        existingAchievement.updateAchieved(achieved);
       } else {
         // 해당 날짜의 Achievement가 존재하지 않으면, 새로운 Achievement를 추가
         Achievement newAchievement =
@@ -97,5 +100,9 @@ class GoalsState extends StateNotifier<List<Goal>> {
       // 상태 갱신
       state = List.from(state);
     }
+  }
+
+  void sort() {
+    state.sort((a, b) => a.startTime.compareTo(b.startTime));
   }
 }

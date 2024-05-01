@@ -23,6 +23,15 @@ class Schedule extends HiveObject {
     required this.isDaily,
   });
 
+  Map<String, dynamic> toJson() {
+    return {
+      'daysOfWeek': daysOfWeek,
+      'notificationTime': notificationTime,
+      'startDate': startDate.toIso8601String(),
+      'isDaily': isDaily,
+    };
+  }
+
   // daysOfWeek 수정 함수
   Future<void> updateDaysOfWeek(List<int> newDaysOfWeek) async {
     daysOfWeek = newDaysOfWeek;

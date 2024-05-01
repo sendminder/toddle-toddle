@@ -103,6 +103,11 @@ class GoalsState extends StateNotifier<List<Goal>> {
   }
 
   void sort() {
-    state.sort((a, b) => a.startTime.compareTo(b.startTime));
+    state.sort((a, b) {
+      if (a.startTime == null && b.startTime == null) return 0;
+      if (a.startTime == null) return 1;
+      if (b.startTime == null) return -1;
+      return a.startTime!.compareTo(b.startTime!);
+    });
   }
 }

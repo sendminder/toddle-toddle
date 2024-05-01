@@ -14,7 +14,7 @@ class Goal extends HiveObject {
   String name;
 
   @HiveField(2)
-  DateTime startTime;
+  DateTime? startTime;
 
   @HiveField(3)
   Schedule schedule;
@@ -34,12 +34,21 @@ class Goal extends HiveObject {
     return {
       'id': id,
       'name': name,
-      'startTime': startTime.toIso8601String(),
+      'startTime': startTime?.toIso8601String(),
       'schedule': schedule.toJson(), // Schedule 클래스에도 toJson() 구현 필요
       'achievements': achievements
           .map((a) => a.toJson())
           .toList(), // Achievement 클래스에도 toJson() 구현 필요
     };
+  }
+
+  static Goal newDefaultGoal() {
+    return Goal(
+      id: '',
+      name: '',
+      startTime: null,
+      schedule: Schedule.newDefaultSchedule(),
+    );
   }
 
   // 특정 날짜에 해당하는 Achievement 찾기

@@ -4,6 +4,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:toddle_toddle/states/goals_state.dart';
 import 'package:toddle_toddle/widgets/custom_text.dart';
 import 'package:collection/collection.dart';
+import 'package:toddle_toddle/widgets/add_goal_bottom_sheet.dart';
 
 class GoalItemListWidget extends ConsumerWidget {
   const GoalItemListWidget({super.key});
@@ -31,7 +32,6 @@ class GoalItemListWidget extends ConsumerWidget {
           }
 
           var currentGoal = goals[index];
-
           var currentAchievement = currentGoal.achievements
               .where((element) => element.date == targetTime)
               .firstOrNull;
@@ -41,6 +41,17 @@ class GoalItemListWidget extends ConsumerWidget {
             subtitle: Text(
               '${goals[index].schedule.notificationTime}',
             ),
+            onTap: () {
+              showModalBottomSheet(
+                isScrollControlled: true,
+                context: context,
+                builder: (BuildContext context) {
+                  return AddOrUpdateGoalBottomSheet(
+                    goal: currentGoal,
+                  );
+                },
+              );
+            },
             trailing: Wrap(
               spacing: 12, // space between two icons
               children: <Widget>[

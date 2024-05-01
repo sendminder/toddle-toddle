@@ -11,7 +11,7 @@ class Schedule extends HiveObject {
   String notificationTime; // HH:MM
 
   @HiveField(2)
-  DateTime startDate;
+  DateTime? startDate;
 
   @HiveField(3)
   bool isDaily;
@@ -27,9 +27,18 @@ class Schedule extends HiveObject {
     return {
       'daysOfWeek': daysOfWeek,
       'notificationTime': notificationTime,
-      'startDate': startDate.toIso8601String(),
+      'startDate': startDate?.toIso8601String(),
       'isDaily': isDaily,
     };
+  }
+
+  static newDefaultSchedule() {
+    return Schedule(
+      daysOfWeek: [],
+      notificationTime: '9:30',
+      startDate: null,
+      isDaily: true,
+    );
   }
 
   // daysOfWeek 수정 함수

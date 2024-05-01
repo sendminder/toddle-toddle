@@ -8,16 +8,19 @@ import 'package:toddle_toddle/utils/id_generator.dart';
 import 'package:toddle_toddle/widgets/week_days_toggle.dart';
 import 'package:toddle_toddle/widgets/custom_text.dart';
 
-class AddGoalBottomSheet extends ConsumerWidget {
-  AddGoalBottomSheet({super.key});
-
-  final goalNameProvider = StateProvider<String>((ref) => '');
-  final selectedModeProvider = StateProvider<String>((ref) => 'Daily');
-  final startDateProvider = StateProvider<DateTime?>((ref) => null);
-  final notificationTimeProvider = StateProvider<String>((ref) => '');
+class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
+  AddOrUpdateGoalBottomSheet({super.key, required this.goal});
+  Goal goal;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final goalNameProvider = StateProvider<String>((ref) => goal.name);
+    final selectedModeProvider = StateProvider<String>(
+        (ref) => goal.schedule.isDaily == true ? 'Daily' : 'Weekly');
+    final startDateProvider = StateProvider<DateTime?>((ref) => null);
+    final notificationTimeProvider =
+        StateProvider<String>((ref) => goal.schedule.notificationTime);
+
     final goalName = ref.watch(goalNameProvider);
     final selectedMode = ref.watch(selectedModeProvider);
     final startDate = ref.watch(startDateProvider);
@@ -30,7 +33,8 @@ class AddGoalBottomSheet extends ConsumerWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          TextField(
+          TextFormField(
+            initialValue: goal.name,
             decoration: InputDecoration(
               labelText: 'goal_name'.tr(),
             ),

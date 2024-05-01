@@ -17,7 +17,7 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
     final goalNameProvider = StateProvider<String>((ref) => goal.name);
     final selectedModeProvider = StateProvider<String>(
         (ref) => goal.schedule.isDaily == true ? 'Daily' : 'Weekly');
-    final startDateProvider = StateProvider<DateTime?>((ref) => null);
+    final startDateProvider = StateProvider<DateTime?>((ref) => goal.startTime);
     final notificationTimeProvider =
         StateProvider<String>((ref) => goal.schedule.notificationTime);
 
@@ -39,6 +39,7 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
               labelText: 'goal_name'.tr(),
             ),
             onChanged: (value) {
+              goal.name = value;
               ref.read(goalNameProvider.notifier).state = value;
             },
           ),
@@ -51,6 +52,7 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
                 lastDate: DateTime(2025),
               );
               if (picked != null && picked != startDate) {
+                goal.startTime = picked;
                 ref.read(startDateProvider.notifier).state = picked;
               }
             },
@@ -65,6 +67,7 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
                 ],
                 onPressed: (int index) {
                   // 선택된 모드 업데이트
+                  goal.schedule.isDaily = index == 0;
                   ref.read(selectedModeProvider.notifier).state =
                       index == 0 ? 'Daily' : 'Weekly';
                 },
@@ -101,6 +104,7 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
               );
               if (pickedTime != null) {
                 final String formattedTime = pickedTime.toString();
+                goal.schedule.notificationTime = formattedTime;
                 ref.read(notificationTimeProvider.notifier).state =
                     formattedTime;
               }
@@ -110,22 +114,16 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
           const SizedBox(height: 50),
           ElevatedButton(
             onPressed: () async {
-              String id = generateUniqueId();
+              if (goal.id == '') {
+                goal.id = generateUniqueId();
+              }
               Schedule schedule = Schedule(
                 daysOfWeek: selectedDays,
                 notificationTime: notificationTime,
-                startDate: startDate!,
+                startDate: startDate,
                 isDaily: selectedMode == 'Daily',
               );
-              Goal newGoal = Goal(
-                id: id,
-                name: goalName,
-                startTime: startDate,
-                schedule: schedule,
-              );
-              await ref
-                  .read(goalsStateProvider.notifier)
-                  .addOrUpdateGoal(newGoal);
+              await ref.read(goalsStateProvider.notifier).addOrUpdateGoal(goal);
               ref.read(goalsStateProvider.notifier).printAll();
               Navigator.pop(context);
             },

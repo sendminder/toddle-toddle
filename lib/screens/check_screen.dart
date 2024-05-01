@@ -19,7 +19,15 @@ class CheckScreen extends ConsumerWidget {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
       ),
-      body: const GoalItemListWidget(),
+      body: Material(
+        color: Theme.of(context).colorScheme.background,
+        child: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          children: const <Widget>[
+            GoalItemListWidget(),
+          ],
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showModalBottomSheet<void>(

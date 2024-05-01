@@ -19,7 +19,7 @@ class GoalAdapter extends TypeAdapter<Goal> {
     return Goal(
       id: fields[0] as String,
       name: fields[1] as String,
-      startTime: fields[2] as DateTime,
+      startTime: fields[2] as DateTime?,
       schedule: fields[3] as Schedule,
       achievements: (fields[4] as List?)?.cast<Achievement>(),
     );

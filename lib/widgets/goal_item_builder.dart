@@ -15,68 +15,67 @@ class GoalItemListWidget extends ConsumerWidget {
     DateTime now = DateTime.now();
     DateTime targetTime = DateTime(now.year, now.month, now.day);
 
-    return Material(
-      color: Theme.of(context).colorScheme.background,
-      child: ListView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        itemCount: goals.isEmpty ? 1 : goals.length,
-        itemBuilder: (context, index) {
-          if (goals.isEmpty) {
-            return const Center(
-              child: CustomText(
-                text: 'no_goals',
-                textSize: 16,
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            );
-          }
-
-          var currentGoal = goals[index];
-          var currentAchievement = currentGoal.achievements
-              .where((element) => element.date == targetTime)
-              .firstOrNull;
-
-          return ListTile(
-            title: Text(goals[index].name),
-            subtitle: Text(
-              '${goals[index].schedule.notificationTime}',
-            ),
-            onTap: () {
-              showModalBottomSheet(
-                isScrollControlled: true,
-                context: context,
-                builder: (BuildContext context) {
-                  return AddOrUpdateGoalBottomSheet(
-                    goal: currentGoal,
-                  );
-                },
-              );
-            },
-            trailing: Wrap(
-              spacing: 12, // space between two icons
-              children: <Widget>[
-                Checkbox(
-                  value: currentAchievement?.achieved ?? false,
-                  onChanged: (bool? value) async {
-                    await ref
-                        .read(goalsStateProvider.notifier)
-                        .addOrUpdateAchievement(
-                            currentGoal.id, targetTime, value!);
-                  },
-                ),
-                IconButton(
-                  icon: const Icon(FluentIcons.delete_24_regular),
-                  onPressed: () async {
-                    await ref
-                        .read(goalsStateProvider.notifier)
-                        .removeGoal(currentGoal.id);
-                  },
-                ),
-              ],
+    return ListView.builder(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: goals.isEmpty ? 1 : goals.length,
+      itemBuilder: (context, index) {
+        if (goals.isEmpty) {
+          return const Center(
+            child: CustomText(
+              text: 'no_goals',
+              textSize: 16,
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
           );
-        },
-      ),
+        }
+
+        var currentGoal = goals[index];
+        var currentAchievement = currentGoal.achievements
+            .where((element) => element.date == targetTime)
+            .firstOrNull;
+
+        return ListTile(
+          title: Text(goals[index].name),
+          subtitle: Text(
+            '${goals[index].schedule.notificationTime}',
+          ),
+          onTap: () {
+            showModalBottomSheet(
+              isScrollControlled: true,
+              context: context,
+              builder: (BuildContext context) {
+                return AddOrUpdateGoalBottomSheet(
+                  goal: currentGoal,
+                );
+              },
+            );
+          },
+          trailing: Wrap(
+            spacing: 12, // space between two icons
+            children: <Widget>[
+              Checkbox(
+                value: currentAchievement?.achieved ?? false,
+                onChanged: (bool? value) async {
+                  await ref
+                      .read(goalsStateProvider.notifier)
+                      .addOrUpdateAchievement(
+                          currentGoal.id, targetTime, value!);
+                },
+              ),
+              IconButton(
+                icon: const Icon(FluentIcons.delete_24_regular),
+                onPressed: () async {
+                  await ref
+                      .read(goalsStateProvider.notifier)
+                      .removeGoal(currentGoal.id);
+                },
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

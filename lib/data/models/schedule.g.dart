@@ -19,7 +19,7 @@ class ScheduleAdapter extends TypeAdapter<Schedule> {
     return Schedule(
       daysOfWeek: (fields[0] as List).cast<int>(),
       notificationTime: fields[1] as String,
-      startDate: fields[2] as DateTime,
+      startDate: fields[2] as DateTime?,
       isDaily: fields[3] as bool,
     );
   }

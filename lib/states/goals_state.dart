@@ -21,9 +21,8 @@ class GoalsState extends StateNotifier<List<Goal>> {
   }
 
   void printAll() async {
-    final box = Hive.box<Goal>(HiveGoalBox);
-    for (int i = 0; i < box.length; i++) {
-      var item = box.getAt(i)!;
+    for (int i = 0; i < state.length; i++) {
+      var item = state[i];
       logger.d(item.toJson());
     }
   }
@@ -51,8 +50,16 @@ class GoalsState extends StateNotifier<List<Goal>> {
   // Goal 객체 추가 또는 업데이트
   Future<void> addOrUpdateGoal(Goal goal) async {
     final box = Hive.box<Goal>(HiveGoalBox);
-    await box.put(goal.id, goal); // ID를 사용하여 저장
-    state = [...state, goal]; // 상태 갱신
+    if (isExist(goal.id)) {
+      // Goal이 이미 존재하면 업데이트
+      await box.put(goal.id, goal);
+      state = state.map((g) => g.id == goal.id ? goal : g).toList();
+    } else {
+      // Goal이 존재하지 않으면 추가
+      await box.put(goal.id, goal);
+      state = [...state, goal];
+    }
+    sort();
   }
 
   // 특정 Goal 삭제
@@ -103,11 +110,7 @@ class GoalsState extends StateNotifier<List<Goal>> {
   }
 
   void sort() {
-    state.sort((a, b) {
-      if (a.startTime == null && b.startTime == null) return 0;
-      if (a.startTime == null) return 1;
-      if (b.startTime == null) return -1;
-      return a.startTime!.compareTo(b.startTime!);
-    });
+    state.sort((a, b) =>
+        a.schedule.notificationTime.compareTo(b.schedule.notificationTime));
   }
 }

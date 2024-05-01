@@ -7,17 +7,27 @@ import 'package:toddle_toddle/const/strings.dart';
 import 'package:logger/logger.dart';
 import 'package:get_it/get_it.dart';
 
-final goalsStateProvider = StateNotifierProvider<GoalsState, List<Goal>>((ref) {
-  return GoalsState();
+final StateNotifierProvider<GoalsState, List<Goal>> goalsStateProvider =
+    StateNotifierProvider<GoalsState, List<Goal>>((ref) {
+  var state = GoalsState();
+  // 비동기로 상태를 로드하고 설정
+  GoalsState.createSorted().then((initializedState) {
+    ref.read(goalsStateProvider.notifier).state = initializedState.state;
+  });
+  return state;
 });
 
 class GoalsState extends StateNotifier<List<Goal>> {
   final logger = GetIt.I<Logger>();
 
-  GoalsState() : super([]) {
-    _initialize();
-    sort();
-    printAll();
+  GoalsState() : super([]) {}
+
+  static Future<GoalsState> createSorted() async {
+    var state = GoalsState();
+    await state._initialize();
+    state.sort();
+    state.printAll();
+    return state;
   }
 
   void printAll() async {
@@ -34,7 +44,7 @@ class GoalsState extends StateNotifier<List<Goal>> {
 
   bool isExist(String id) {
     final box = Hive.box<Goal>(HiveGoalBox);
-    return box.get(id) == null;
+    return box.get(id) != null;
   }
 
   // Goal을 id 기준으로 조회하는 함수

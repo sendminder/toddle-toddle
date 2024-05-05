@@ -10,7 +10,7 @@ class WeekDaysToggle extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedDays = ref.watch(selectedDaysProvider);
-    List<bool> isSelected =
+    final isSelected =
         List.generate(7, (index) => selectedDays.contains(index));
 
     return ToggleButtons(

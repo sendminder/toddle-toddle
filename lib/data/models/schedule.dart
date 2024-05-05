@@ -35,7 +35,7 @@ class Schedule extends HiveObject {
   static newDefaultSchedule() {
     return Schedule(
       daysOfWeek: [],
-      notificationTime: '9:30',
+      notificationTime: '09:30 AM',
       startDate: null,
       isDaily: true,
     );

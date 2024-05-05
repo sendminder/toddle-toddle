@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:toddle_toddle/widgets/custom_text.dart';
 
-final selectedDaysProvider = StateProvider<List<int>>((ref) => []);
-
 class WeekDaysToggle extends ConsumerWidget {
-  const WeekDaysToggle({super.key});
+  const WeekDaysToggle({super.key, required this.selectedDaysProvider});
+  final StateProvider<List<int>> selectedDaysProvider;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

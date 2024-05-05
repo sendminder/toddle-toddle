@@ -107,6 +107,12 @@ class GoalItemListWidget extends ConsumerWidget {
       }
     }
 
+    if (goal.schedule.isDaily == false && goal.startTime != null) {
+      if (goal.startTime!.isAfter(targetTime)) {
+        return false;
+      }
+    }
+
     if (goal.schedule.daysOfWeek.contains(targetTime.weekday - 1)) {
       return true;
     }

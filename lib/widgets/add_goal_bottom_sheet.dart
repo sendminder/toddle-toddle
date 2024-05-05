@@ -10,18 +10,25 @@ import 'package:toddle_toddle/widgets/custom_text.dart';
 import 'package:toddle_toddle/utils/time.dart';
 
 class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
-  AddOrUpdateGoalBottomSheet({super.key, required this.goal});
-  Goal goal;
+  AddOrUpdateGoalBottomSheet({super.key, required this.goal}) {
+    goalNameProvider = StateProvider<String>((ref) => goal.name);
+    selectedModeProvider = StateProvider<String>(
+        (ref) => goal.schedule.isDaily == true ? 'Daily' : 'Weekly');
+    startDateProvider = StateProvider<DateTime?>((ref) => goal.startTime);
+    notificationTimeProvider =
+        StateProvider<String>((ref) => goal.schedule.notificationTime);
+    selectedDaysProvider =
+        StateProvider<List<int>>((ref) => goal.schedule.daysOfWeek ?? []);
+  }
+  final Goal goal;
+  late StateProvider<String> goalNameProvider;
+  late StateProvider<String> selectedModeProvider;
+  late StateProvider<String> notificationTimeProvider;
+  late StateProvider<DateTime?> startDateProvider;
+  late StateProvider<List<int>> selectedDaysProvider;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final goalNameProvider = StateProvider<String>((ref) => goal.name);
-    final selectedModeProvider = StateProvider<String>(
-        (ref) => goal.schedule.isDaily == true ? 'Daily' : 'Weekly');
-    final startDateProvider = StateProvider<DateTime?>((ref) => goal.startTime);
-    final notificationTimeProvider =
-        StateProvider<String>((ref) => goal.schedule.notificationTime);
-
     final goalName = ref.watch(goalNameProvider);
     final selectedMode = ref.watch(selectedModeProvider);
     final startDate = ref.watch(startDateProvider);
@@ -40,7 +47,6 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
               labelText: 'goal_name'.tr(),
             ),
             onChanged: (value) {
-              goal.name = value;
               ref.read(goalNameProvider.notifier).state = value;
             },
           ),
@@ -92,7 +98,9 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
               if (selectedMode == 'Weekly') ...[
                 // Weekly 선택 시 나타나는 요일 토글 버튼
                 const SizedBox(height: 20),
-                const WeekDaysToggle(),
+                WeekDaysToggle(
+                  selectedDaysProvider: selectedDaysProvider,
+                ),
               ],
             ],
           ),
@@ -118,6 +126,8 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
               if (goal.id == '') {
                 goal.id = generateUniqueId();
               }
+              goal.name = goalName;
+              goal.startTime = startDate;
               Schedule schedule = Schedule(
                 daysOfWeek: selectedDays,
                 notificationTime: notificationTime,

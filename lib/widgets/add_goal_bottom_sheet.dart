@@ -7,6 +7,7 @@ import 'package:toddle_toddle/data/models/goal.dart';
 import 'package:toddle_toddle/utils/id_generator.dart';
 import 'package:toddle_toddle/widgets/week_days_toggle.dart';
 import 'package:toddle_toddle/widgets/custom_text.dart';
+import 'package:toddle_toddle/utils/time.dart';
 
 class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
   AddOrUpdateGoalBottomSheet({super.key, required this.goal});
@@ -50,9 +51,9 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
                 initialDate: DateTime.now(),
                 firstDate: DateTime(2000),
                 lastDate: DateTime(2025),
+                initialEntryMode: DatePickerEntryMode.calendarOnly,
               );
               if (picked != null && picked != startDate) {
-                goal.startTime = picked;
                 ref.read(startDateProvider.notifier).state = picked;
               }
             },
@@ -101,10 +102,10 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
               final TimeOfDay? pickedTime = await showTimePicker(
                 context: context,
                 initialTime: TimeOfDay.now(),
+                initialEntryMode: TimePickerEntryMode.dialOnly,
               );
               if (pickedTime != null) {
-                final String formattedTime = pickedTime.toString();
-                goal.schedule.notificationTime = formattedTime;
+                final String formattedTime = timeOfDayToString(pickedTime);
                 ref.read(notificationTimeProvider.notifier).state =
                     formattedTime;
               }
@@ -123,6 +124,7 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
                 startDate: startDate,
                 isDaily: selectedMode == 'Daily',
               );
+              goal.schedule = schedule;
               await ref.read(goalsStateProvider.notifier).addOrUpdateGoal(goal);
               ref.read(goalsStateProvider.notifier).printAll();
               Navigator.pop(context);

@@ -5,6 +5,7 @@ import 'package:toddle_toddle/data/models/goal.dart';
 import 'package:toddle_toddle/widgets/custom_text.dart';
 import 'package:toddle_toddle/widgets/add_goal_bottom_sheet.dart';
 import 'package:toddle_toddle/widgets/goal_item_builder.dart';
+import 'package:toddle_toddle/widgets/home_calendar.dart';
 
 class CheckScreen extends ConsumerWidget {
   const CheckScreen({super.key});
@@ -24,6 +25,7 @@ class CheckScreen extends ConsumerWidget {
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           children: const <Widget>[
+            MyCalendar(),
             GoalItemListWidget(),
           ],
         ),

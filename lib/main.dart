@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -59,17 +60,26 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ThemeModeState currentTheme = ref.watch(themeProvider);
+    if (Platform.isAndroid) {
+      return MaterialApp(
+        /// Localization is not available for the title.
+        title: 'Toddle Toddle',
 
-    return MaterialApp(
-      /// Localization is not available for the title.
+        /// Theme stuff
+        theme: lightTheme,
+        darkTheme: darkTheme,
+        themeMode: currentTheme.themeMode,
+
+        /// Localization stuff
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
+        debugShowCheckedModeBanner: false,
+        home: const HomeScreen(),
+      );
+    }
+    return CupertinoApp(
       title: 'Toddle Toddle',
-
-      /// Theme stuff
-      theme: lightTheme,
-      darkTheme: darkTheme,
-      themeMode: currentTheme.themeMode,
-
-      /// Localization stuff
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,

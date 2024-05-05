@@ -5,6 +5,7 @@ import 'package:toddle_toddle/states/goals_state.dart';
 import 'package:toddle_toddle/widgets/custom_text.dart';
 import 'package:collection/collection.dart';
 import 'package:toddle_toddle/widgets/add_goal_bottom_sheet.dart';
+import 'package:toddle_toddle/widgets/home_calendar.dart';
 
 class GoalItemListWidget extends ConsumerWidget {
   const GoalItemListWidget({super.key});
@@ -12,7 +13,8 @@ class GoalItemListWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final goals = ref.watch(goalsStateProvider);
-    DateTime now = DateTime.now();
+    final focusDay = ref.watch(focusedDayProvider);
+    DateTime now = focusDay;
     DateTime targetTime = DateTime(now.year, now.month, now.day);
 
     return ListView.builder(

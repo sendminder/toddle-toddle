@@ -9,7 +9,7 @@ import 'package:toddle_toddle/widgets/add_goal_bottom_sheet.dart';
 import 'package:toddle_toddle/widgets/home_calendar.dart';
 
 class GoalItemListWidget extends ConsumerWidget {
-  const GoalItemListWidget({super.key});
+  const GoalItemListWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,7 +26,7 @@ class GoalItemListWidget extends ConsumerWidget {
     }
 
     if (goals.isEmpty || !hasContents) {
-      return const Center(
+      return Center(
         child: CustomText(
           text: 'no_goals',
           textSize: 16,
@@ -39,11 +39,11 @@ class GoalItemListWidget extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: goals.isEmpty ? 1 : goals.length,
+      itemCount: goals.length,
       itemBuilder: (context, index) {
         var currentGoal = goals[index];
 
-        if (hasThatTimeSchedule(targetTime, currentGoal) == false) {
+        if (!hasThatTimeSchedule(targetTime, currentGoal)) {
           return const SizedBox.shrink();
         }
 
@@ -51,41 +51,65 @@ class GoalItemListWidget extends ConsumerWidget {
             .where((element) => element.date == targetTime)
             .firstOrNull;
 
-        return ListTile(
-          title: Text(currentGoal.name),
-          subtitle: Text(
-            currentGoal.schedule.notificationTime,
-          ),
-          onTap: () {
-            showModalBottomSheet(
-              isScrollControlled: true,
-              context: context,
-              builder: (BuildContext context) {
-                return AddOrUpdateGoalBottomSheet(
-                  goal: currentGoal,
-                );
-              },
-            );
-          },
-          trailing: Wrap(
-            spacing: 12, // space between two icons
-            children: <Widget>[
-              Checkbox(
-                value: currentAchievement?.achieved ?? false,
-                onChanged: (bool? value) async {
-                  await ref
-                      .read(goalsStateProvider.notifier)
-                      .addOrUpdateAchievement(
-                          currentGoal.id, targetTime, value!);
-                },
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Row(
+            children: [
+              Expanded(
+                flex: 2,
+                child: Text(currentGoal.schedule.notificationTime),
               ),
-              IconButton(
-                icon: const Icon(FluentIcons.delete_24_regular),
-                onPressed: () async {
-                  await ref
-                      .read(goalsStateProvider.notifier)
-                      .removeGoal(currentGoal.id);
-                },
+              Expanded(
+                flex: 1,
+                child: Checkbox(
+                  value: currentAchievement?.achieved ?? false,
+                  onChanged: (bool? value) async {
+                    await ref
+                        .read(goalsStateProvider.notifier)
+                        .addOrUpdateAchievement(
+                            currentGoal.id, targetTime, value!);
+                  },
+                ),
+              ),
+              Expanded(
+                flex: 5,
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    alignment: Alignment.centerLeft, // 텍스트 왼쪽 정렬
+                  ),
+                  onPressed: () {
+                    showModalBottomSheet(
+                      isScrollControlled: true,
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AddOrUpdateGoalBottomSheet(
+                          goal: currentGoal,
+                        );
+                      },
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      currentGoal.name,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: IconButton(
+                  icon: const Icon(FluentIcons.delete_24_regular),
+                  onPressed: () async {
+                    await ref
+                        .read(goalsStateProvider.notifier)
+                        .removeGoal(currentGoal.id);
+                  },
+                ),
               ),
             ],
           ),

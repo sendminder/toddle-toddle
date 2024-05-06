@@ -24,10 +24,14 @@ if (flutterVersionName == null) {
 
 android {
     namespace "dev.feichtinger.flutter_production_boilerplate_riverpod"
-    compileSdkVersion flutter.compileSdkVersion
-    ndkVersion flutter.ndkVersion
+    compileSdkVersion 34
+    compileSdk 34
+    ndkVersion 21
 
     compileOptions {
+        // Flag to enable support for the new language APIs
+        coreLibraryDesugaringEnabled true
+
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -45,10 +49,12 @@ android {
         applicationId "dev.feichtinger.flutter_production_boilerplate_riverpod"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion 21 //flutter.minSdkVersion
-        targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+
+        multiDexEnabled true
+        targetSdkVersion 34 //flutter.targetSdkVersion
+        minSdkVersion 21 //flutter.minSdkVersion
     }
 
     buildTypes {
@@ -57,6 +63,10 @@ android {
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
         }
+    }
+
+    dependencies {
+        coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.2.2'
     }
 }
 

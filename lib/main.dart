@@ -19,11 +19,16 @@ import 'states/theme_mode_state.dart';
 import 'screens/home_screen.dart';
 import 'const/strings.dart';
 
+import 'package:toddle_toddle/service/local_push_service.dart';
+
 void main() async {
   /// Initialize packages
-  GetIt.I.registerSingleton<Logger>(Logger());
   WidgetsFlutterBinding.ensureInitialized();
+  GetIt.I.registerSingleton<Logger>(Logger());
+  GetIt.I.registerSingleton<LocalPushService>(LocalPushService());
+  await GetIt.I<LocalPushService>().init();
   await EasyLocalization.ensureInitialized();
+
   if (Platform.isAndroid) {
     await FlutterDisplayMode.setHighRefreshRate();
   }
@@ -60,31 +65,31 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ThemeModeState currentTheme = ref.watch(themeProvider);
-    if (Platform.isAndroid) {
-      return MaterialApp(
-        /// Localization is not available for the title.
-        title: 'Toddle Toddle',
-
-        /// Theme stuff
-        theme: lightTheme,
-        darkTheme: darkTheme,
-        themeMode: currentTheme.themeMode,
-
-        /// Localization stuff
-        localizationsDelegates: context.localizationDelegates,
-        supportedLocales: context.supportedLocales,
-        locale: context.locale,
-        debugShowCheckedModeBanner: false,
-        home: const HomeScreen(),
-      );
-    }
-    return CupertinoApp(
+    // if (Platform.isAndroid) {
+    return MaterialApp(
+      /// Localization is not available for the title.
       title: 'Toddle Toddle',
+
+      /// Theme stuff
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      themeMode: currentTheme.themeMode,
+
+      /// Localization stuff
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       debugShowCheckedModeBanner: false,
       home: const HomeScreen(),
     );
+    // }
+    // return CupertinoApp(
+    //   title: 'Toddle Toddle',
+    //   localizationsDelegates: context.localizationDelegates,
+    //   supportedLocales: context.supportedLocales,
+    //   locale: context.locale,
+    //   debugShowCheckedModeBanner: false,
+    //   home: const HomeScreen(),
+    // );
   }
 }

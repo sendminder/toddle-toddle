@@ -6,12 +6,15 @@ import 'package:toddle_toddle/widgets/custom_text.dart';
 import 'package:toddle_toddle/widgets/add_goal_bottom_sheet.dart';
 import 'package:toddle_toddle/widgets/goal_item_builder.dart';
 import 'package:toddle_toddle/widgets/home_calendar.dart';
+import 'package:get_it/get_it.dart';
+import 'package:toddle_toddle/service/local_push_service.dart';
 
 class CheckScreen extends ConsumerWidget {
   const CheckScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final localPushService = GetIt.I<LocalPushService>();
     return Scaffold(
       appBar: AppBar(
         title: const CustomText(
@@ -24,9 +27,20 @@ class CheckScreen extends ConsumerWidget {
         color: Theme.of(context).colorScheme.background,
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          children: const <Widget>[
+          children: <Widget>[
             MyCalendar(),
             GoalItemListWidget(),
+            TextButton(
+              child: Text('test'),
+              onPressed: () {
+                localPushService.showNotificationWithSubtitle(
+                    id: 1,
+                    title: '아장아장',
+                    subtitle: 'subtitle',
+                    body: 'body',
+                    payload: 'payload');
+              },
+            )
           ],
         ),
       ),

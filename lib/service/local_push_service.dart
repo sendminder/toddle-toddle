@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 class LocalPushService {
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
@@ -128,5 +129,61 @@ class LocalPushService {
       'custom sound notification body',
       notificationDetails,
     );
+  }
+
+  void scheduleNotification({
+    required int id,
+    required String title,
+    required String body,
+    required DateTime startDate,
+    required int hour,
+    required int minute,
+    required List<int> daysOfWeek,
+  }) {
+    final tz.TZDateTime scheduledDate = tz.TZDateTime(
+      tz.local,
+      startDate.year,
+      startDate.month,
+      startDate.day,
+      hour,
+      minute,
+    );
+
+    for (final int day in daysOfWeek) {
+      final tz.TZDateTime scheduledDateWithDay = scheduledDate.add(Duration(
+        // 스케쥴링할 요일까지의 차이를 계산해야함..
+        // 매일은 0,1,2,3,4,5,6
+        // 매주 월요일은 ..
+        days: day,
+      ));
+
+      final int notificationId = id + day;
+
+      _flutterLocalNotificationsPlugin.zonedSchedule(
+        notificationId,
+        title,
+        body,
+        scheduledDateWithDay,
+        const NotificationDetails(
+          android: AndroidNotificationDetails(
+            'your channel id',
+            'your channel name',
+            channelDescription: 'your channel description',
+            importance: Importance.max,
+            priority: Priority.high,
+            ticker: 'ticker',
+          ),
+        ),
+        androidScheduleMode: AndroidScheduleMode.exact,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime,
+        matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime,
+        payload: '$id',
+      );
+    }
+  }
+
+  void cancelNotification(int id) {
+    _flutterLocalNotificationsPlugin.cancel(id);
   }
 }

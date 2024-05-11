@@ -9,6 +9,8 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:toddle_toddle/utils/id_generator.dart';
 
 import 'package:toddle_toddle/data/models/goal.dart';
 import 'package:toddle_toddle/data/models/schedule.dart';
@@ -23,6 +25,7 @@ import 'package:toddle_toddle/service/local_push_service.dart';
 
 void main() async {
   /// Initialize packages
+  tz.initializeTimeZones();
   WidgetsFlutterBinding.ensureInitialized();
   GetIt.I.registerSingleton<Logger>(Logger());
   GetIt.I.registerSingleton<LocalPushService>(LocalPushService());
@@ -40,6 +43,7 @@ void main() async {
   Hive.registerAdapter(AchievementAdapter());
   Hive.registerAdapter(ScheduleAdapter());
 
+  GetIt.I.registerSingleton<IdGenerator>(IdGenerator());
   await Hive.openBox(HivePrefBox);
   await Hive.openBox<Goal>(HiveGoalBox);
 

@@ -6,6 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:toddle_toddle/const/strings.dart';
 import 'package:logger/logger.dart';
 import 'package:get_it/get_it.dart';
+import 'package:toddle_toddle/service/local_push_service.dart';
 
 final StateNotifierProvider<GoalsState, List<Goal>> goalsStateProvider =
     StateNotifierProvider<GoalsState, List<Goal>>((ref) {
@@ -19,6 +20,8 @@ final StateNotifierProvider<GoalsState, List<Goal>> goalsStateProvider =
 
 class GoalsState extends StateNotifier<List<Goal>> {
   final logger = GetIt.I<Logger>();
+  final localPushService = GetIt.I<LocalPushService>();
+  final int syncInterval = 0; //60 * 60 * 6;
 
   GoalsState() : super([]) {}
 
@@ -40,15 +43,23 @@ class GoalsState extends StateNotifier<List<Goal>> {
   Future<void> _initialize() async {
     final box = await Hive.openBox<Goal>(HiveGoalBox);
     state = box.values.toList();
+
+    final int scheduleSyncTime =
+        await Hive.box(HivePrefBox).get('scheduleSyncTime', defaultValue: 0);
+    int nowSecond = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    if (scheduleSyncTime == 0 || scheduleSyncTime + syncInterval < nowSecond) {
+      await syncSchedule();
+      await Hive.box(HivePrefBox).put('scheduleSyncTime', 0);
+    }
   }
 
-  bool isExist(String id) {
+  bool isExist(int id) {
     final box = Hive.box<Goal>(HiveGoalBox);
     return box.get(id) != null;
   }
 
   // Goal을 id 기준으로 조회하는 함수
-  Goal? getGoalById(String id) {
+  Goal? getGoalById(int id) {
     try {
       return state.firstWhere((goal) => goal.id == id);
     } catch (e) {
@@ -73,7 +84,7 @@ class GoalsState extends StateNotifier<List<Goal>> {
   }
 
   // 특정 Goal 삭제
-  Future<void> removeGoal(String id) async {
+  Future<void> removeGoal(int id) async {
     final box = Hive.box<Goal>(HiveGoalBox);
     await box.delete(id); // ID를 사용하여 삭제
     state = state.where((goal) => goal.id != id).toList(); // 상태 갱신
@@ -81,7 +92,7 @@ class GoalsState extends StateNotifier<List<Goal>> {
 
   // 특정 Goal id의 Achievement를 수정하거나 추가하는 함수
   Future<void> addOrUpdateAchievement(
-      String goalId, DateTime date, bool achieved) async {
+      int goalId, DateTime date, bool achieved) async {
     final box = Hive.box<Goal>(HiveGoalBox);
     Goal? goal = getGoalById(goalId);
     if (goal != null) {
@@ -103,7 +114,7 @@ class GoalsState extends StateNotifier<List<Goal>> {
   }
 
   // 특정 Goal id의 Schedule을 수정하는 함수
-  Future<void> updateSchedule(String goalId, List<int> daysOfWeek,
+  Future<void> updateSchedule(int goalId, List<int> daysOfWeek,
       String notificationTime, DateTime startDate, bool isDaily) async {
     final box = Hive.box<Goal>(HiveGoalBox);
     Goal? goal = getGoalById(goalId);
@@ -116,6 +127,30 @@ class GoalsState extends StateNotifier<List<Goal>> {
       await box.put(goalId, goal);
       // 상태 갱신
       state = List.from(state);
+    }
+  }
+
+  Future<void> syncSchedule() async {
+    for (int i = 0; i < state.length; i++) {
+      var goal = state[i];
+      var daysOfWeek = goal.schedule.daysOfWeek;
+      if (goal.schedule.isDaily) {
+        daysOfWeek = [0, 1, 2, 3, 4, 5, 6];
+      }
+      for (int j = 0; j < 7; j++) {
+        localPushService.cancelNotification(goal.id + j);
+        logger.d('cancelNotification: ${goal.id + j}');
+      }
+      localPushService.scheduleNotification(
+        id: goal.id,
+        title: '목표 알림',
+        body: goal.name,
+        startDate: goal.startTime ?? DateTime.now(),
+        hour: goal.schedule.notificationTimeHour(),
+        minute: goal.schedule.notificationTimeMinute(),
+        daysOfWeek: daysOfWeek,
+      );
+      logger.d('scheduleNotification: ${goal.id} $daysOfWeek');
     }
   }
 

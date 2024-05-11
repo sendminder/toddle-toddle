@@ -8,6 +8,7 @@ import 'package:toddle_toddle/utils/id_generator.dart';
 import 'package:toddle_toddle/widgets/week_days_toggle.dart';
 import 'package:toddle_toddle/widgets/custom_text.dart';
 import 'package:toddle_toddle/utils/time.dart';
+import 'package:get_it/get_it.dart';
 
 class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
   AddOrUpdateGoalBottomSheet({super.key, required this.goal}) {
@@ -26,6 +27,8 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
   late StateProvider<String> notificationTimeProvider;
   late StateProvider<DateTime?> startDateProvider;
   late StateProvider<List<int>> selectedDaysProvider;
+
+  final idGenerator = GetIt.I<IdGenerator>();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -123,8 +126,8 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
           const SizedBox(height: 50),
           ElevatedButton(
             onPressed: () async {
-              if (goal.id == '') {
-                goal.id = generateUniqueId();
+              if (goal.id == 0) {
+                goal.id = await idGenerator.generateUniqueId();
               }
               goal.name = goalName;
               goal.startTime = startDate;

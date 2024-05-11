@@ -8,7 +8,7 @@ part 'goal.g.dart';
 @HiveType(typeId: 0)
 class Goal extends HiveObject {
   @HiveField(0)
-  String id;
+  int id;
 
   @HiveField(1)
   String name;
@@ -44,7 +44,7 @@ class Goal extends HiveObject {
 
   static Goal newDefaultGoal() {
     return Goal(
-      id: '',
+      id: 0,
       name: '',
       startTime: null,
       schedule: Schedule.newDefaultSchedule(),

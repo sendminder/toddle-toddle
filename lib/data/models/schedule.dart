@@ -8,7 +8,7 @@ class Schedule extends HiveObject {
   List<int> daysOfWeek;
 
   @HiveField(1)
-  String notificationTime; // HH:MM
+  String notificationTime; // HH:MM AM
 
   @HiveField(2)
   DateTime? startDate;
@@ -63,5 +63,13 @@ class Schedule extends HiveObject {
   Future<void> updateIsDaily(bool newIsDaily) async {
     isDaily = newIsDaily;
     await save(); // Hive에 변경사항 저장
+  }
+
+  int notificationTimeHour() {
+    return int.parse(notificationTime.split(':')[0]);
+  }
+
+  int notificationTimeMinute() {
+    return int.parse(notificationTime.split(':')[1].split(' ')[0]);
   }
 }

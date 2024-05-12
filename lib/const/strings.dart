@@ -1,3 +1,3 @@
 // Hive
-const String HivePrefBox = 'prefs';
-const String HiveGoalBox = 'goals';
+const String hivePrefBox = 'prefs';
+const String hiveGoalBox = 'goals';

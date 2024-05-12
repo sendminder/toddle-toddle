@@ -19,7 +19,7 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
     notificationTimeProvider =
         StateProvider<String>((ref) => goal.schedule.notificationTime);
     selectedDaysProvider =
-        StateProvider<List<int>>((ref) => goal.schedule.daysOfWeek ?? []);
+        StateProvider<List<int>>((ref) => goal.schedule.daysOfWeek);
   }
   final Goal goal;
   late StateProvider<String> goalNameProvider;

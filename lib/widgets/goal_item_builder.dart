@@ -9,7 +9,7 @@ import 'package:toddle_toddle/widgets/add_goal_bottom_sheet.dart';
 import 'package:toddle_toddle/widgets/home_calendar.dart';
 
 class GoalItemListWidget extends ConsumerWidget {
-  const GoalItemListWidget({Key? key}) : super(key: key);
+  const GoalItemListWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,7 +26,7 @@ class GoalItemListWidget extends ConsumerWidget {
     }
 
     if (goals.isEmpty || !hasContents) {
-      return Center(
+      return const Center(
         child: CustomText(
           text: 'no_goals',
           textSize: 16,

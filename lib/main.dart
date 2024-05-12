@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -45,8 +44,8 @@ void main() async {
   Hive.registerAdapter(ScheduleAdapter());
 
   GetIt.I.registerSingleton<IdGenerator>(IdGenerator());
-  await Hive.openBox(HivePrefBox);
-  await Hive.openBox<Goal>(HiveGoalBox);
+  await Hive.openBox(hivePrefBox);
+  await Hive.openBox<Goal>(hiveGoalBox);
 
   runApp(
     ProviderScope(

@@ -10,7 +10,7 @@ final AutoDisposeStateNotifierProvider<BottomNavBarState, Object?>
 
 class BottomNavBarState extends StateNotifier<int> {
   BottomNavBarState(super.state) {
-    value = Hive.box(HivePrefBox).get('navIndex', defaultValue: state) as int;
+    value = Hive.box(hivePrefBox).get('navIndex', defaultValue: state) as int;
   }
 
   set value(int index) => state = index;
@@ -19,6 +19,6 @@ class BottomNavBarState extends StateNotifier<int> {
 
   void setAndPersistValue(int index) {
     value = index;
-    Hive.box(HivePrefBox).put('navIndex', index);
+    Hive.box(hivePrefBox).put('navIndex', index);
   }
 }

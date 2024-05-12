@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
 final focusedDayProvider = StateProvider<DateTime>((ref) => DateTime.now());
 
 class MyCalendar extends ConsumerWidget {
-  const MyCalendar({Key? key}) : super(key: key);
+  const MyCalendar({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -42,7 +41,7 @@ class MyCalendar extends ConsumerWidget {
 
   Container focusedContainer(DateTime day, bool isFocused) {
     return Container(
-      margin: EdgeInsets.all(4),
+      margin: const EdgeInsets.all(4),
       alignment: Alignment.center,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
@@ -55,10 +54,5 @@ class MyCalendar extends ConsumerWidget {
         ),
       ),
     );
-  }
-
-  bool _isToday(DateTime day) {
-    final now = DateTime.now();
-    return day.year == now.year && day.month == now.month && day.day == now.day;
   }
 }

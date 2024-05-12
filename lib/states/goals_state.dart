@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
@@ -15,7 +13,7 @@ final StateNotifierProvider<GoalsState, List<Goal>> goalsStateProvider =
     StateNotifierProvider<GoalsState, List<Goal>>((ref) {
   var state = GoalsState();
   // 비동기로 상태를 로드하고 설정
-  GoalsState.createSorted().then((initializedState) {
+  state.createSorted().then((initializedState) {
     ref.read(goalsStateProvider.notifier).state = initializedState.state;
   });
   return state;
@@ -28,7 +26,7 @@ class GoalsState extends StateNotifier<List<Goal>> {
 
   GoalsState() : super([]);
 
-  static Future<GoalsState> createSorted() async {
+  Future<GoalsState> createSorted() async {
     var state = GoalsState();
     await state._initialize();
     state.sort();
@@ -44,20 +42,20 @@ class GoalsState extends StateNotifier<List<Goal>> {
   }
 
   Future<void> _initialize() async {
-    final box = await Hive.openBox<Goal>(HiveGoalBox);
+    final box = await Hive.openBox<Goal>(hiveGoalBox);
     state = box.values.toList();
 
     final int scheduleSyncTime =
-        await Hive.box(HivePrefBox).get('scheduleSyncTime', defaultValue: 0);
+        await Hive.box(hivePrefBox).get('scheduleSyncTime', defaultValue: 0);
     int nowSecond = DateTime.now().millisecondsSinceEpoch ~/ 1000;
     if (scheduleSyncTime == 0 || scheduleSyncTime + syncInterval < nowSecond) {
       await syncSchedule();
-      await Hive.box(HivePrefBox).put('scheduleSyncTime', 0);
+      await Hive.box(hivePrefBox).put('scheduleSyncTime', 0);
     }
   }
 
   bool isExist(int id) {
-    final box = Hive.box<Goal>(HiveGoalBox);
+    final box = Hive.box<Goal>(hiveGoalBox);
     return box.get(id) != null;
   }
 
@@ -73,7 +71,7 @@ class GoalsState extends StateNotifier<List<Goal>> {
 
   // Goal 객체 추가 또는 업데이트
   Future<void> addOrUpdateGoal(Goal goal) async {
-    final box = Hive.box<Goal>(HiveGoalBox);
+    final box = Hive.box<Goal>(hiveGoalBox);
     if (isExist(goal.id)) {
       // Goal이 이미 존재하면 업데이트
       await box.put(goal.id, goal);
@@ -89,7 +87,7 @@ class GoalsState extends StateNotifier<List<Goal>> {
 
   // 특정 Goal 삭제
   Future<void> removeGoal(int id) async {
-    final box = Hive.box<Goal>(HiveGoalBox);
+    final box = Hive.box<Goal>(hiveGoalBox);
     await box.delete(id); // ID를 사용하여 삭제
     state = state.where((goal) => goal.id != id).toList(); // 상태 갱신
   }
@@ -97,7 +95,7 @@ class GoalsState extends StateNotifier<List<Goal>> {
   // 특정 Goal id의 Achievement를 수정하거나 추가하는 함수
   Future<void> addOrUpdateAchievement(
       int goalId, DateTime date, bool achieved) async {
-    final box = Hive.box<Goal>(HiveGoalBox);
+    final box = Hive.box<Goal>(hiveGoalBox);
     Goal? goal = getGoalById(goalId);
     if (goal != null) {
       final existingAchievement = goal.findAchievementByDate(date);
@@ -126,7 +124,7 @@ class GoalsState extends StateNotifier<List<Goal>> {
   // 특정 Goal id의 Schedule을 수정하는 함수
   Future<void> updateSchedule(int goalId, List<int> daysOfWeek,
       String notificationTime, DateTime startDate, bool isDaily) async {
-    final box = Hive.box<Goal>(HiveGoalBox);
+    final box = Hive.box<Goal>(hiveGoalBox);
     Goal? goal = getGoalById(goalId);
     if (goal != null) {
       await goal.schedule.updateDaysOfWeek(daysOfWeek);

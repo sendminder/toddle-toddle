@@ -9,7 +9,6 @@ class LocalPushService {
 
   // LocalPushService 인스턴스 생성을 위한 Singleton 패턴
   static final LocalPushService _instance = LocalPushService._internal();
-  bool _notificationsEnabled = false;
 
   factory LocalPushService() {
     return _instance;
@@ -22,13 +21,13 @@ class LocalPushService {
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
 
-    final DarwinInitializationSettings initializationSettingsDarwin =
+    const DarwinInitializationSettings initializationSettingsDarwin =
         DarwinInitializationSettings(
       requestAlertPermission: true,
       requestBadgePermission: true,
       requestSoundPermission: true,
     );
-    final InitializationSettings initializationSettings =
+    const InitializationSettings initializationSettings =
         InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsDarwin,
@@ -55,7 +54,6 @@ class LocalPushService {
 
       final bool? grantedNotificationPermission =
           await androidImplementation?.requestNotificationsPermission();
-      _notificationsEnabled = grantedNotificationPermission ?? false;
     }
   }
 

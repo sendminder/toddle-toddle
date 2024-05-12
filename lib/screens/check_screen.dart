@@ -28,10 +28,10 @@ class CheckScreen extends ConsumerWidget {
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           children: <Widget>[
-            MyCalendar(),
-            GoalItemListWidget(),
+            const MyCalendar(),
+            const GoalItemListWidget(),
             TextButton(
-              child: Text('test'),
+              child: const Text('test'),
               onPressed: () {
                 localPushService.showNotificationWithSubtitle(
                     id: 1,

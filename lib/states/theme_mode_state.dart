@@ -11,7 +11,7 @@ final AutoDisposeChangeNotifierProvider<ThemeModeState> themeProvider =
 
 class ThemeModeState extends ChangeNotifier {
   ThemeModeState() {
-    final String mode = Hive.box(HivePrefBox)
+    final String mode = Hive.box(hivePrefBox)
         .get('themeMode', defaultValue: ThemeMode.system.toString()) as String;
     switch (mode) {
       case 'ThemeMode.dark':
@@ -32,7 +32,7 @@ class ThemeModeState extends ChangeNotifier {
 
   void setThemeMode(ThemeMode mode) {
     themeMode = mode;
-    Hive.box(HivePrefBox).put('themeMode', themeMode.toString());
+    Hive.box(hivePrefBox).put('themeMode', themeMode.toString());
     notifyListeners();
   }
 }

@@ -48,7 +48,7 @@ class GoalsState extends StateNotifier<List<Goal>> {
         await Hive.box(HivePrefBox).get('scheduleSyncTime', defaultValue: 0);
     int nowSecond = DateTime.now().millisecondsSinceEpoch ~/ 1000;
     if (scheduleSyncTime == 0 || scheduleSyncTime + syncInterval < nowSecond) {
-      syncSchedule();
+      await syncSchedule();
       await Hive.box(HivePrefBox).put('scheduleSyncTime', 0);
     }
   }
@@ -80,7 +80,7 @@ class GoalsState extends StateNotifier<List<Goal>> {
       await box.put(goal.id, goal);
       state = [...state, goal];
     }
-    updatePushSchedule(goal.id);
+    await updatePushSchedule(goal.id);
     sort();
   }
 
@@ -137,27 +137,27 @@ class GoalsState extends StateNotifier<List<Goal>> {
     }
   }
 
-  void syncSchedule() async {
-    localPushService.cancelAll();
+  Future<void> syncSchedule() async {
+    await localPushService.cancelAll();
     for (int i = 0; i < state.length; i++) {
       var goal = state[i];
-      _updatePushSchedule(goal, false);
+      await _updatePushSchedule(goal, false);
     }
   }
 
-  void updatePushSchedule(int goalId) {
+  Future<void> updatePushSchedule(int goalId) async {
     var goal = getGoalById(goalId);
-    if (goal != null) _updatePushSchedule(goal, true);
+    if (goal != null) await _updatePushSchedule(goal, true);
   }
 
-  void _updatePushSchedule(Goal goal, bool needCancle) {
+  Future<void> _updatePushSchedule(Goal goal, bool needCancle) async {
     var daysOfWeek = goal.schedule.daysOfWeek;
     if (goal.schedule.isDaily) {
       daysOfWeek = [0, 1, 2, 3, 4, 5, 6];
     }
     if (needCancle) {
       for (int j = 0; j < 7; j++) {
-        localPushService.cancelNotification(goal.id + j);
+        await localPushService.cancelNotification(goal.id + j);
         logger.d('cancelNotification: ${goal.id + j}');
       }
     }
@@ -170,7 +170,7 @@ class GoalsState extends StateNotifier<List<Goal>> {
       scheduleStartDate = goal.startTime!;
     }
 
-    localPushService.scheduleNotification(
+    await localPushService.scheduleNotification(
       id: goal.id,
       title: '목표 알림',
       body: goal.name,
@@ -179,8 +179,8 @@ class GoalsState extends StateNotifier<List<Goal>> {
       minute: goal.schedule.notificationTimeMinute(),
       daysOfWeek: daysOfWeek,
     );
-    logger.d('scheduleNotification: ${goal.id} $daysOfWeek' +
-        ' ${goal.schedule.notificationTimeHour()}:${goal.schedule.notificationTimeMinute()}');
+    logger.d('scheduleNotification: ${goal.id} $daysOfWeek $scheduleStartDate ' +
+        '${goal.schedule.notificationTimeHour()}:${goal.schedule.notificationTimeMinute()}');
   }
 
   void sort() {

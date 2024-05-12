@@ -9,8 +9,8 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
-import 'package:timezone/data/latest.dart' as tz;
 import 'package:toddle_toddle/utils/id_generator.dart';
+import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 
 import 'package:toddle_toddle/data/models/goal.dart';
 import 'package:toddle_toddle/data/models/schedule.dart';
@@ -22,10 +22,11 @@ import 'screens/home_screen.dart';
 import 'const/strings.dart';
 
 import 'package:toddle_toddle/service/local_push_service.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 void main() async {
-  /// Initialize packages
-  tz.initializeTimeZones();
+  await setupTimeZone();
   WidgetsFlutterBinding.ensureInitialized();
   GetIt.I.registerSingleton<Logger>(Logger());
   GetIt.I.registerSingleton<LocalPushService>(LocalPushService());
@@ -96,4 +97,10 @@ class MyApp extends ConsumerWidget {
     //   home: const HomeScreen(),
     // );
   }
+}
+
+Future<void> setupTimeZone() async {
+  tz.initializeTimeZones();
+  String timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
+  tz.setLocalLocation(tz.getLocation(timeZoneName));
 }

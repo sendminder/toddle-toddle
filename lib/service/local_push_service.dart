@@ -131,7 +131,7 @@ class LocalPushService {
     );
   }
 
-  void scheduleNotification({
+  Future<void> scheduleNotification({
     required int id,
     required String title,
     required String body,
@@ -139,7 +139,7 @@ class LocalPushService {
     required int hour,
     required int minute,
     required List<int> daysOfWeek,
-  }) {
+  }) async {
     final tz.TZDateTime scheduledDate = tz.TZDateTime(
       tz.local,
       startDate.year,
@@ -164,7 +164,7 @@ class LocalPushService {
 
       final int notificationId = id + day;
 
-      _flutterLocalNotificationsPlugin.zonedSchedule(
+      await _flutterLocalNotificationsPlugin.zonedSchedule(
         notificationId,
         title,
         body,
@@ -182,17 +182,17 @@ class LocalPushService {
         androidScheduleMode: AndroidScheduleMode.exact,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,
-        matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime,
+        matchDateTimeComponents: DateTimeComponents.time,
         payload: '$id',
       );
     }
   }
 
-  void cancelNotification(int id) {
-    _flutterLocalNotificationsPlugin.cancel(id);
+  Future<void> cancelNotification(int id) async {
+    await _flutterLocalNotificationsPlugin.cancel(id);
   }
 
-  void cancelAll() {
-    _flutterLocalNotificationsPlugin.cancelAll();
+  Future<void> cancelAll() async {
+    await _flutterLocalNotificationsPlugin.cancelAll();
   }
 }

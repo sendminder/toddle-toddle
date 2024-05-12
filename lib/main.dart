@@ -26,12 +26,12 @@ import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
 void main() async {
-  await setupTimeZone();
   WidgetsFlutterBinding.ensureInitialized();
   GetIt.I.registerSingleton<Logger>(Logger());
   GetIt.I.registerSingleton<LocalPushService>(LocalPushService());
   await GetIt.I<LocalPushService>().init();
   await EasyLocalization.ensureInitialized();
+  await setupTimeZone();
 
   if (Platform.isAndroid) {
     await FlutterDisplayMode.setHighRefreshRate();

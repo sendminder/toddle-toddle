@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
 import 'package:toddle_toddle/data/models/goal.dart';
@@ -23,7 +26,7 @@ class GoalsState extends StateNotifier<List<Goal>> {
   final localPushService = GetIt.I<LocalPushService>();
   final int syncInterval = 0; //60 * 60 * 6;
 
-  GoalsState() : super([]) {}
+  GoalsState() : super([]);
 
   static Future<GoalsState> createSorted() async {
     var state = GoalsState();
@@ -170,21 +173,31 @@ class GoalsState extends StateNotifier<List<Goal>> {
       scheduleStartDate = goal.startTime!;
     }
 
+    final hour = goal.schedule.notificationTimeHour();
+    final minute = goal.schedule.notificationTimeMinute();
+    final ampm = goal.schedule.notificationTime.split(' ')[1];
+
     await localPushService.scheduleNotification(
       id: goal.id,
-      title: '목표 알림',
-      body: goal.name,
+      title: '아장 아장',
+      subtitle: goal.name,
+      body:
+          '${timeToStr(hour)}:${timeToStr(minute)} $ampm ${'lets_achieve_goal'.tr()}',
       startDate: scheduleStartDate,
-      hour: goal.schedule.notificationTimeHour(),
-      minute: goal.schedule.notificationTimeMinute(),
+      hour: hour,
+      minute: minute,
       daysOfWeek: daysOfWeek,
     );
-    logger.d('scheduleNotification: ${goal.id} $daysOfWeek $scheduleStartDate ' +
-        '${goal.schedule.notificationTimeHour()}:${goal.schedule.notificationTimeMinute()}');
+    logger.d(
+        'scheduleNotification: ${goal.id} $daysOfWeek $scheduleStartDate $hour:$minute');
   }
 
   void sort() {
     state.sort((a, b) =>
         a.schedule.notificationTime.compareTo(b.schedule.notificationTime));
+  }
+
+  String timeToStr(int time) {
+    return time.toString().padLeft(2, '0');
   }
 }

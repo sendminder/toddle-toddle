@@ -72,4 +72,8 @@ class Schedule extends HiveObject {
   int notificationTimeMinute() {
     return int.parse(notificationTime.split(':')[1].split(' ')[0]);
   }
+
+  String notificationTimeAmPm() {
+    return notificationTime.split(' ')[1];
+  }
 }

@@ -119,7 +119,7 @@ class LocalPushService {
         DarwinNotificationDetails(
       sound: 'slow_spring_board.aiff',
     );
-    final NotificationDetails notificationDetails = NotificationDetails(
+    const NotificationDetails notificationDetails = NotificationDetails(
       android: androidNotificationDetails,
       iOS: darwinNotificationDetails,
     );
@@ -134,6 +134,7 @@ class LocalPushService {
   Future<void> scheduleNotification({
     required int id,
     required String title,
+    required String subtitle,
     required String body,
     required DateTime startDate,
     required int hour,
@@ -151,7 +152,6 @@ class LocalPushService {
     DateTime now = DateTime.now();
     // DateTime에서 요일은 1(월요일)부터 7(일요일)까지
     int currentWeekday = now.weekday;
-
     for (final int day in daysOfWeek) {
       int difference = day - currentWeekday;
       if (difference < 0) {
@@ -164,25 +164,32 @@ class LocalPushService {
 
       final int notificationId = id + day;
 
+      DarwinNotificationDetails darwinNotificationDetails =
+          DarwinNotificationDetails(
+        subtitle: subtitle,
+      );
+      NotificationDetails notificationDetails = NotificationDetails(
+        android: AndroidNotificationDetails(
+          id.toString(),
+          id.toString(),
+          channelDescription: title,
+          importance: Importance.max,
+          priority: Priority.high,
+          ticker: 'ticker',
+        ),
+        iOS: darwinNotificationDetails,
+      );
+
       await _flutterLocalNotificationsPlugin.zonedSchedule(
         notificationId,
         title,
         body,
         scheduledDateWithDay,
-        const NotificationDetails(
-          android: AndroidNotificationDetails(
-            'your channel id',
-            'your channel name',
-            channelDescription: 'your channel description',
-            importance: Importance.max,
-            priority: Priority.high,
-            ticker: 'ticker',
-          ),
-        ),
+        notificationDetails,
         androidScheduleMode: AndroidScheduleMode.exact,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,
-        matchDateTimeComponents: DateTimeComponents.time,
+        matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime,
         payload: '$id',
       );
     }

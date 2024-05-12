@@ -48,7 +48,7 @@ class GoalsState extends StateNotifier<List<Goal>> {
         await Hive.box(HivePrefBox).get('scheduleSyncTime', defaultValue: 0);
     int nowSecond = DateTime.now().millisecondsSinceEpoch ~/ 1000;
     if (scheduleSyncTime == 0 || scheduleSyncTime + syncInterval < nowSecond) {
-      await syncSchedule();
+      syncSchedule();
       await Hive.box(HivePrefBox).put('scheduleSyncTime', 0);
     }
   }
@@ -80,6 +80,7 @@ class GoalsState extends StateNotifier<List<Goal>> {
       await box.put(goal.id, goal);
       state = [...state, goal];
     }
+    updatePushSchedule(goal.id);
     sort();
   }
 
@@ -99,12 +100,18 @@ class GoalsState extends StateNotifier<List<Goal>> {
       final existingAchievement = goal.findAchievementByDate(date);
       if (existingAchievement != null) {
         // 해당 날짜의 Achievement가 존재하면, achieved 값을 업데이트
-        existingAchievement.updateAchieved(achieved);
+        if (achieved) {
+          existingAchievement.updateAchieved(achieved);
+        } else {
+          goal.deleteAchievement(date);
+        }
       } else {
         // 해당 날짜의 Achievement가 존재하지 않으면, 새로운 Achievement를 추가
-        Achievement newAchievement =
-            Achievement(date: date, achieved: achieved);
-        await goal.addAchievement(newAchievement);
+        if (achieved) {
+          Achievement newAchievement =
+              Achievement(date: date, achieved: achieved);
+          await goal.addAchievement(newAchievement);
+        }
       }
       // 변경 사항을 저장
       await box.put(goalId, goal);
@@ -130,28 +137,50 @@ class GoalsState extends StateNotifier<List<Goal>> {
     }
   }
 
-  Future<void> syncSchedule() async {
+  void syncSchedule() async {
+    localPushService.cancelAll();
     for (int i = 0; i < state.length; i++) {
       var goal = state[i];
-      var daysOfWeek = goal.schedule.daysOfWeek;
-      if (goal.schedule.isDaily) {
-        daysOfWeek = [0, 1, 2, 3, 4, 5, 6];
-      }
+      _updatePushSchedule(goal, false);
+    }
+  }
+
+  void updatePushSchedule(int goalId) {
+    var goal = getGoalById(goalId);
+    if (goal != null) _updatePushSchedule(goal, true);
+  }
+
+  void _updatePushSchedule(Goal goal, bool needCancle) {
+    var daysOfWeek = goal.schedule.daysOfWeek;
+    if (goal.schedule.isDaily) {
+      daysOfWeek = [0, 1, 2, 3, 4, 5, 6];
+    }
+    if (needCancle) {
       for (int j = 0; j < 7; j++) {
         localPushService.cancelNotification(goal.id + j);
         logger.d('cancelNotification: ${goal.id + j}');
       }
-      localPushService.scheduleNotification(
-        id: goal.id,
-        title: '목표 알림',
-        body: goal.name,
-        startDate: goal.startTime ?? DateTime.now(),
-        hour: goal.schedule.notificationTimeHour(),
-        minute: goal.schedule.notificationTimeMinute(),
-        daysOfWeek: daysOfWeek,
-      );
-      logger.d('scheduleNotification: ${goal.id} $daysOfWeek');
     }
+
+    // 시작 시간이
+    // null 이거나 현재보다 이전이면 현재날로 설정
+    // 현재보다 미래이면 시작 시간으로 설정
+    var scheduleStartDate = DateTime.now();
+    if (goal.startTime != null && scheduleStartDate.isBefore(goal.startTime!)) {
+      scheduleStartDate = goal.startTime!;
+    }
+
+    localPushService.scheduleNotification(
+      id: goal.id,
+      title: '목표 알림',
+      body: goal.name,
+      startDate: scheduleStartDate,
+      hour: goal.schedule.notificationTimeHour(),
+      minute: goal.schedule.notificationTimeMinute(),
+      daysOfWeek: daysOfWeek,
+    );
+    logger.d('scheduleNotification: ${goal.id} $daysOfWeek' +
+        ' ${goal.schedule.notificationTimeHour()}:${goal.schedule.notificationTimeMinute()}');
   }
 
   void sort() {

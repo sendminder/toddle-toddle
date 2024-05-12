@@ -24,9 +24,9 @@ class LocalPushService {
 
     final DarwinInitializationSettings initializationSettingsDarwin =
         DarwinInitializationSettings(
-      requestAlertPermission: false,
-      requestBadgePermission: false,
-      requestSoundPermission: false,
+      requestAlertPermission: true,
+      requestBadgePermission: true,
+      requestSoundPermission: true,
     );
     final InitializationSettings initializationSettings =
         InitializationSettings(
@@ -148,13 +148,18 @@ class LocalPushService {
       hour,
       minute,
     );
+    DateTime now = DateTime.now();
+    // DateTime에서 요일은 1(월요일)부터 7(일요일)까지
+    int currentWeekday = now.weekday;
 
     for (final int day in daysOfWeek) {
+      int difference = day - currentWeekday;
+      if (difference < 0) {
+        // 현재 요일 이후에 해당 요일이 오려면 다음 주로 넘기기
+        difference += 7;
+      }
       final tz.TZDateTime scheduledDateWithDay = scheduledDate.add(Duration(
-        // 스케쥴링할 요일까지의 차이를 계산해야함..
-        // 매일은 0,1,2,3,4,5,6
-        // 매주 월요일은 ..
-        days: day,
+        days: difference,
       ));
 
       final int notificationId = id + day;
@@ -185,5 +190,9 @@ class LocalPushService {
 
   void cancelNotification(int id) {
     _flutterLocalNotificationsPlugin.cancel(id);
+  }
+
+  void cancelAll() {
+    _flutterLocalNotificationsPlugin.cancelAll();
   }
 }

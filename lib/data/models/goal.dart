@@ -61,4 +61,8 @@ class Goal extends HiveObject {
   Future<void> addAchievement(Achievement achievement) async {
     achievements.add(achievement);
   }
+
+  void deleteAchievement(DateTime date) async {
+    achievements.removeWhere((achievement) => achievement.date == date);
+  }
 }

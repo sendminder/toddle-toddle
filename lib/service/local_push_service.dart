@@ -52,8 +52,7 @@ class LocalPushService {
               .resolvePlatformSpecificImplementation<
                   AndroidFlutterLocalNotificationsPlugin>();
 
-      final bool? grantedNotificationPermission =
-          await androidImplementation?.requestNotificationsPermission();
+      await androidImplementation?.requestNotificationsPermission();
     }
   }
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:toddle_toddle/data/models/goal.dart';
 import 'package:toddle_toddle/states/goals_state.dart';
 import 'package:toddle_toddle/widgets/custom_text.dart';
@@ -98,17 +97,6 @@ class GoalItemListWidget extends ConsumerWidget {
                       ),
                     ),
                   ),
-                ),
-              ),
-              Expanded(
-                flex: 1,
-                child: IconButton(
-                  icon: const Icon(FluentIcons.delete_24_regular),
-                  onPressed: () async {
-                    await ref
-                        .read(goalsStateProvider.notifier)
-                        .removeGoal(currentGoal.id);
-                  },
                 ),
               ),
             ],

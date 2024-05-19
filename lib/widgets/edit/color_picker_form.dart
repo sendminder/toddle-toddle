@@ -5,25 +5,25 @@ import 'package:get_it/get_it.dart';
 
 class ColorPickerFormWidget extends ConsumerWidget {
   // 18개의 색상을 정의
-  final List<Color> colors = [
-    Colors.red,
-    Colors.pink,
-    Colors.purple,
-    Colors.deepPurple,
-    Colors.indigo,
-    Colors.blue,
-    Colors.lightBlue,
-    Colors.cyan,
-    Colors.teal,
-    Colors.green,
-    Colors.lightGreen,
-    Colors.lime,
-    Colors.yellow,
-    Colors.amber,
-    Colors.orange,
-    Colors.deepOrange,
-    Colors.brown,
-    Colors.grey,
+  List<Color> colors = const [
+    Color(0xFFE74C3C),
+    Color(0xFFFF7878),
+    Color(0xFFF06292),
+    Color(0xFFBA68C8),
+    Color(0xFF9575CD),
+    Color(0xFF7986CB),
+    Color(0xFF3498DB),
+    Color(0xFF64B5F6),
+    Color(0xFF4FC3F7),
+    Color(0xFF4DD0E1),
+    Color(0xFF4DB6AC),
+    Color(0xFF81C784),
+    Color(0xFFA0C36C),
+    Color(0xFFFFC107),
+    Color(0xFFFFB74D),
+    Color(0xFFA1887F),
+    Color(0xFF909090),
+    Color(0xFF90A4AE),
   ];
 
   ColorPickerFormWidget({

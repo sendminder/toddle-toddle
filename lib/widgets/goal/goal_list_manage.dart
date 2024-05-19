@@ -25,7 +25,6 @@ class GoalListManageWidget extends ConsumerWidget {
     }
 
     return ListView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: goals.length,
@@ -33,92 +32,115 @@ class GoalListManageWidget extends ConsumerWidget {
         var currentGoal = goals[index];
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
-          child: Row(
-            children: [
-              Expanded(
-                flex: 2,
-                child: Text(currentGoal.schedule.notificationTime),
-              ),
-              Expanded(
-                flex: 5,
-                child: Text(
-                  currentGoal.name,
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Theme.of(context).colorScheme.primary,
+          child: Container(
+            decoration: BoxDecoration(
+              color: currentGoal.color.withAlpha(150),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Text(
+                    currentGoal.schedule.notificationTime,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: Colors.white70,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-              ),
-              Expanded(
-                flex: 1,
-                child: IconButton(
-                  icon: const Icon(FluentIcons.chart_multiple_24_regular),
-                  onPressed: () {
-                    showModalBottomSheet<void>(
-                      isScrollControlled: true,
-                      context: context,
-                      builder: (BuildContext context) {
-                        return GoalChartWidget(goal: currentGoal);
-                      },
-                    );
-                  },
+                Expanded(
+                  flex: 5,
+                  child: Text(
+                    currentGoal.name,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
-              ),
-              Expanded(
-                flex: 1,
-                child: IconButton(
-                  icon: const Icon(FluentIcons.edit_settings_24_regular),
-                  onPressed: () {
-                    showModalBottomSheet(
-                      isScrollControlled: true,
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AddOrUpdateGoalBottomSheet(
-                          goal: currentGoal,
-                          init: false,
-                        );
-                      },
-                    );
-                  },
+                Expanded(
+                  flex: 1,
+                  child: IconButton(
+                    icon: Icon(
+                      FluentIcons.chart_multiple_24_regular,
+                      color: currentGoal.color,
+                    ),
+                    onPressed: () {
+                      showModalBottomSheet<void>(
+                        isScrollControlled: true,
+                        context: context,
+                        builder: (BuildContext context) {
+                          return GoalChartWidget(goal: currentGoal);
+                        },
+                      );
+                    },
+                  ),
                 ),
-              ),
-              Expanded(
-                flex: 1,
-                child: IconButton(
-                  icon: const Icon(FluentIcons.delete_24_regular),
-                  onPressed: () async {
-                    bool? result = await showDialog<bool>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text(currentGoal.name),
-                          content: Text('delete_goal'.tr()),
-                          actions: <Widget>[
-                            TextButton(
-                              child: Text('button_negative'.tr()),
-                              onPressed: () {
-                                Navigator.of(context).pop(false);
-                              },
-                            ),
-                            TextButton(
-                              child: Text('button_positive'.tr()),
-                              onPressed: () {
-                                Navigator.of(context).pop(true);
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                    if (result == true) {
-                      await ref
-                          .read(goalsStateProvider.notifier)
-                          .removeGoal(currentGoal.id);
-                    }
-                  },
+                Expanded(
+                  flex: 1,
+                  child: IconButton(
+                    icon: Icon(
+                      FluentIcons.edit_settings_24_regular,
+                      color: currentGoal.color,
+                    ),
+                    onPressed: () {
+                      showModalBottomSheet(
+                        isScrollControlled: true,
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AddOrUpdateGoalBottomSheet(
+                            goal: currentGoal,
+                            init: false,
+                          );
+                        },
+                      );
+                    },
+                  ),
                 ),
-              ),
-            ],
+                Expanded(
+                  flex: 1,
+                  child: IconButton(
+                    icon: Icon(
+                      FluentIcons.delete_24_regular,
+                      color: currentGoal.color,
+                    ),
+                    onPressed: () async {
+                      bool? result = await showDialog<bool>(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text(currentGoal.name),
+                            content: Text('delete_goal'.tr()),
+                            actions: <Widget>[
+                              TextButton(
+                                child: Text('button_negative'.tr()),
+                                onPressed: () {
+                                  Navigator.of(context).pop(false);
+                                },
+                              ),
+                              TextButton(
+                                child: Text('button_positive'.tr()),
+                                onPressed: () {
+                                  Navigator.of(context).pop(true);
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                      if (result == true) {
+                        await ref
+                            .read(goalsStateProvider.notifier)
+                            .removeGoal(currentGoal.id);
+                      }
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },

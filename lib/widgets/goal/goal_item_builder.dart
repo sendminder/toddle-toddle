@@ -64,7 +64,8 @@ class GoalItemListWidget extends ConsumerWidget {
                     currentGoal.schedule.notificationTime,
                     style: const TextStyle(
                       fontSize: 12,
-                      color: Colors.white,
+                      color: Colors.white70,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),

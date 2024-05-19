@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:toddle_toddle/data/models/goal.dart';
 import 'package:toddle_toddle/utils/id_generator.dart';
 import 'package:toddle_toddle/widgets/week_days_toggle.dart';
-import 'package:toddle_toddle/widgets/custom_text.dart';
 import 'package:toddle_toddle/utils/time.dart';
 import 'package:get_it/get_it.dart';
 import 'package:toddle_toddle/widgets/edit/name_text_form.dart';
@@ -45,16 +44,26 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
     final goalName = ref.watch(goalNameProvider);
     final goalColor = ref.watch(colorProvider);
 
+    const header = TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
+    var textButtonStyle = TextButton.styleFrom(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      foregroundColor: goalColor,
+      backgroundColor: goalColor.withAlpha(40),
+      minimumSize: const Size(340, 48),
+    );
+
     return Container(
       padding: const EdgeInsets.all(16.0),
-      height: 800,
+      height: 860,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
             'goal_name'.tr(),
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: header,
             textAlign: TextAlign.left,
           ),
           NameTextForm(
@@ -65,22 +74,19 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
           const SizedBox(height: 20),
           Text(
             'colors'.tr(),
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: header,
             textAlign: TextAlign.left,
           ),
           ColorPickerFormWidget(colorProvider: colorProvider),
           Text(
             'start_date'.tr(),
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: header,
             textAlign: TextAlign.left,
           ),
+          const SizedBox(height: 5),
           Center(
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                foregroundColor: goalColor,
-                backgroundColor: goalColor.withAlpha(40),
-                minimumSize: const Size(380, 48),
-              ),
+            child: TextButton(
+              style: textButtonStyle,
               onPressed: () async {
                 final DateTime? picked = await showDatePicker(
                   context: context,
@@ -88,6 +94,15 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
                   firstDate: DateTime(2000),
                   lastDate: DateTime(2025),
                   initialEntryMode: DatePickerEntryMode.calendarOnly,
+                  builder: (BuildContext context, Widget? child) {
+                    return Theme(
+                      data: ThemeData.light().copyWith(
+                        primaryColor: goalColor, // 달력의 주요 색상
+                        colorScheme: ColorScheme.light(primary: goalColor),
+                      ),
+                      child: child!,
+                    );
+                  },
                 );
                 if (picked != null && picked != startDate) {
                   ref.read(startDateProvider.notifier).state = picked;
@@ -107,15 +122,18 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
           const SizedBox(height: 20),
           Text(
             'schedule'.tr(),
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: header,
             textAlign: TextAlign.left,
           ),
+          const SizedBox(height: 5),
           Center(
             child: Column(
               children: [
                 ToggleButtons(
+                  constraints:
+                      const BoxConstraints(minWidth: 170, minHeight: 48),
                   borderRadius: BorderRadius.circular(16),
-                  fillColor: goalColor.withAlpha(60),
+                  fillColor: goalColor.withAlpha(40),
                   isSelected: [
                     selectedMode == 'Daily',
                     selectedMode == 'Weekly',
@@ -138,7 +156,7 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Text(
                         'weekly'.tr(),
                         style: TextStyle(
@@ -163,21 +181,27 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
           const SizedBox(height: 20),
           Text(
             'notification_time'.tr(),
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: header,
             textAlign: TextAlign.left,
           ),
+          const SizedBox(height: 5),
           Center(
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                foregroundColor: goalColor,
-                backgroundColor: goalColor.withAlpha(40),
-                minimumSize: const Size(380, 48),
-              ),
+            child: TextButton(
+              style: textButtonStyle,
               onPressed: () async {
                 final TimeOfDay? pickedTime = await showTimePicker(
                   context: context,
                   initialTime: TimeOfDay.now(),
                   initialEntryMode: TimePickerEntryMode.dialOnly,
+                  builder: (BuildContext context, Widget? child) {
+                    return Theme(
+                      data: ThemeData.light().copyWith(
+                        primaryColor: goalColor,
+                        colorScheme: ColorScheme.light(primary: goalColor),
+                      ),
+                      child: child!,
+                    );
+                  },
                 );
                 if (pickedTime != null) {
                   final String formattedTime = timeOfDayToString(pickedTime);

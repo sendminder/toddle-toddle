@@ -49,5 +49,8 @@
   "weekly": "Every week",
   "add_goal": "Add a goal",
   "goal_name": "Goal name",
-  "lets_achieve_goal": "Let's achieve your goal!"
+  "lets_achieve_goal": "Let's achieve your goal!",
+  "button_positive": "Confirm",
+  "button_negative": "Cancel",
+  "delete_goal": "Do you want to delete the goal?"
 }

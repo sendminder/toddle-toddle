@@ -49,5 +49,8 @@
     "weekly": "매주",
     "add_goal": "추가하기",
     "goal_name": "목표 이름",
-    "lets_achieve_goal": "목표를 달성해보세요!"
+    "lets_achieve_goal": "목표를 달성해보세요!",
+    "button_positive": "확인",
+    "button_negative": "취소",
+    "delete_goal": "이 목표를 삭제하시겠어요?"
 }

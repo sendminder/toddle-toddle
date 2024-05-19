@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -76,9 +77,34 @@ class GoalListManageWidget extends ConsumerWidget {
                 child: IconButton(
                   icon: const Icon(FluentIcons.delete_24_regular),
                   onPressed: () async {
-                    await ref
-                        .read(goalsStateProvider.notifier)
-                        .removeGoal(currentGoal.id);
+                    bool? result = await showDialog<bool>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text(currentGoal.name),
+                          content: Text('delete_goal'.tr()),
+                          actions: <Widget>[
+                            TextButton(
+                              child: Text('button_negative'.tr()),
+                              onPressed: () {
+                                Navigator.of(context).pop(false);
+                              },
+                            ),
+                            TextButton(
+                              child: Text('button_positive'.tr()),
+                              onPressed: () {
+                                Navigator.of(context).pop(true);
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                    if (result == true) {
+                      await ref
+                          .read(goalsStateProvider.notifier)
+                          .removeGoal(currentGoal.id);
+                    }
                   },
                 ),
               ),

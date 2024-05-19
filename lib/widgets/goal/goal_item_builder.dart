@@ -34,7 +34,6 @@ class GoalItemListWidget extends ConsumerWidget {
     }
 
     return ListView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: goals.length,
@@ -49,47 +48,69 @@ class GoalItemListWidget extends ConsumerWidget {
             .where((element) => element.date == targetTime)
             .firstOrNull;
 
-        return Row(
-          children: [
-            Expanded(
-              flex: 2,
-              child: Text(
-                currentGoal.schedule.notificationTime,
-                style: const TextStyle(fontSize: 11),
-              ),
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 3),
+          child: Container(
+            decoration: BoxDecoration(
+              color: currentGoal.color.withAlpha(170),
+              borderRadius: BorderRadius.circular(16),
             ),
-            Expanded(
-              flex: 5,
-              child: GestureDetector(
-                onTap: () async {
-                  bool newValue = !(currentAchievement?.achieved ?? false);
-                  await ref
-                      .read(goalsStateProvider.notifier)
-                      .addOrUpdateAchievement(
-                          currentGoal.id, targetTime, newValue);
-                },
-                child: Text(
-                  currentGoal.name,
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Theme.of(context).colorScheme.primary,
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Text(
+                    currentGoal.schedule.notificationTime,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
-              ),
+                Expanded(
+                  flex: 5,
+                  child: GestureDetector(
+                    onTap: () async {
+                      bool newValue = !(currentAchievement?.achieved ?? false);
+                      await ref
+                          .read(goalsStateProvider.notifier)
+                          .addOrUpdateAchievement(
+                              currentGoal.id, targetTime, newValue);
+                    },
+                    child: Text(
+                      currentGoal.name,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Transform.scale(
+                    scale: 1.2,
+                    child: Checkbox(
+                      fillColor: MaterialStateProperty.all(
+                          currentGoal.color.withAlpha(170)),
+                      checkColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      value: currentAchievement?.achieved ?? false,
+                      onChanged: (bool? value) async {
+                        await ref
+                            .read(goalsStateProvider.notifier)
+                            .addOrUpdateAchievement(
+                                currentGoal.id, targetTime, value!);
+                      },
+                    ),
+                  ),
+                ),
+              ],
             ),
-            Expanded(
-              flex: 1,
-              child: Checkbox(
-                value: currentAchievement?.achieved ?? false,
-                onChanged: (bool? value) async {
-                  await ref
-                      .read(goalsStateProvider.notifier)
-                      .addOrUpdateAchievement(
-                          currentGoal.id, targetTime, value!);
-                },
-              ),
-            ),
-          ],
+          ),
         );
       },
     );

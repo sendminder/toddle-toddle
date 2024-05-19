@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logger/logger.dart';
+import 'package:get_it/get_it.dart';
 
 class ColorPickerFormWidget extends ConsumerWidget {
   // 18개의 색상을 정의
@@ -30,6 +32,7 @@ class ColorPickerFormWidget extends ConsumerWidget {
   });
 
   final StateProvider<Color> colorProvider;
+  final logger = GetIt.I<Logger>();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -54,8 +57,9 @@ class ColorPickerFormWidget extends ConsumerWidget {
               color: color,
               shape: BoxShape.circle,
               border: Border.all(
-                color:
-                    selectedColor == color ? Colors.black : Colors.transparent,
+                color: selectedColor.value == color.value
+                    ? Colors.black
+                    : Colors.transparent,
                 width: 3,
               ),
             ),

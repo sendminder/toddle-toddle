@@ -15,6 +15,8 @@ class GoalAchievementPercentWidget extends StatelessWidget {
       if (goal.achievements.isNotEmpty) {
         startDate = goal.achievements.first.date;
       }
+    } else {
+      startDate = goal.startTime!;
     }
 
     int totalAchievements = goal.achievements.where((a) => a.achieved).length;
@@ -57,7 +59,7 @@ class GoalAchievementPercentWidget extends StatelessWidget {
                 width: (achievementPercentage / 100) *
                     MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                  color: Colors.blue,
+                  color: goal.color,
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),

@@ -11,7 +11,8 @@ import 'package:toddle_toddle/utils/time.dart';
 import 'package:get_it/get_it.dart';
 
 class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
-  AddOrUpdateGoalBottomSheet({super.key, required this.goal}) {
+  AddOrUpdateGoalBottomSheet(
+      {super.key, required this.goal, required this.init}) {
     goalNameProvider = StateProvider<String>((ref) => goal.name);
     selectedModeProvider = StateProvider<String>(
         (ref) => goal.schedule.isDaily == true ? 'Daily' : 'Weekly');
@@ -21,6 +22,7 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
     selectedDaysProvider =
         StateProvider<List<int>>((ref) => goal.schedule.daysOfWeek);
   }
+  final bool init;
   final Goal goal;
   late StateProvider<String> goalNameProvider;
   late StateProvider<String> selectedModeProvider;
@@ -125,25 +127,28 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
           ),
           const SizedBox(height: 50),
           ElevatedButton(
-            onPressed: () async {
-              if (goal.id == 0) {
-                goal.id = await idGenerator.generateUniqueId();
-              }
-              goal.name = goalName;
-              goal.startTime = startDate;
-              Schedule schedule = Schedule(
-                daysOfWeek: selectedDays,
-                notificationTime: notificationTime,
-                startDate: startDate,
-                isDaily: selectedMode == 'Daily',
-              );
-              goal.schedule = schedule;
-              await ref.read(goalsStateProvider.notifier).addOrUpdateGoal(goal);
-              ref.read(goalsStateProvider.notifier).printAll();
-              Navigator.pop(context);
-            },
-            child: const CustomText(text: 'add_goal', textSize: 15.0),
-          ),
+              onPressed: () async {
+                if (goal.id == 0) {
+                  goal.id = await idGenerator.generateUniqueId();
+                }
+                goal.name = goalName;
+                goal.startTime = startDate;
+                Schedule schedule = Schedule(
+                  daysOfWeek: selectedDays,
+                  notificationTime: notificationTime,
+                  startDate: startDate,
+                  isDaily: selectedMode == 'Daily',
+                );
+                goal.schedule = schedule;
+                await ref
+                    .read(goalsStateProvider.notifier)
+                    .addOrUpdateGoal(goal);
+                ref.read(goalsStateProvider.notifier).printAll();
+                Navigator.pop(context);
+              },
+              child: init
+                  ? const CustomText(text: 'add', textSize: 15.0)
+                  : const CustomText(text: 'update', textSize: 15.0)),
         ],
       ),
     );

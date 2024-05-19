@@ -1,8 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-
 import 'package:toddle_toddle/widgets/custom_text.dart';
-import 'package:toddle_toddle/widgets/goal_list_manage.dart';
+import 'package:toddle_toddle/widgets/goal/goal_list_manage.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:toddle_toddle/data/models/goal.dart';
+import 'package:toddle_toddle/widgets/goal/add_goal_bottom_sheet.dart';
 
 class StatisticsScreen extends ConsumerWidget {
   const StatisticsScreen({super.key});
@@ -25,6 +28,22 @@ class StatisticsScreen extends ConsumerWidget {
             GoalListManageWidget(),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showModalBottomSheet<void>(
+            isScrollControlled: true,
+            context: context,
+            builder: (BuildContext context) {
+              return AddOrUpdateGoalBottomSheet(
+                goal: Goal.newDefaultGoal(),
+                init: true,
+              );
+            },
+          );
+        },
+        tooltip: 'add_goal'.tr(),
+        child: const Icon(FluentIcons.add_24_regular),
       ),
     );
   }

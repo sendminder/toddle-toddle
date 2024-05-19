@@ -4,7 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:toddle_toddle/states/goals_state.dart';
 import 'package:toddle_toddle/widgets/custom_text.dart';
-import 'package:toddle_toddle/widgets/add_goal_bottom_sheet.dart';
+import 'package:toddle_toddle/widgets/goal/add_goal_bottom_sheet.dart';
+import 'package:toddle_toddle/widgets/chart/goal_chart.dart';
 
 class GoalListManageWidget extends ConsumerWidget {
   const GoalListManageWidget({super.key});
@@ -52,7 +53,15 @@ class GoalListManageWidget extends ConsumerWidget {
                 flex: 1,
                 child: IconButton(
                   icon: const Icon(FluentIcons.chart_multiple_24_regular),
-                  onPressed: () {},
+                  onPressed: () {
+                    showModalBottomSheet<void>(
+                      isScrollControlled: true,
+                      context: context,
+                      builder: (BuildContext context) {
+                        return GoalChartWidget(goal: currentGoal);
+                      },
+                    );
+                  },
                 ),
               ),
               Expanded(
@@ -66,6 +75,7 @@ class GoalListManageWidget extends ConsumerWidget {
                       builder: (BuildContext context) {
                         return AddOrUpdateGoalBottomSheet(
                           goal: currentGoal,
+                          init: false,
                         );
                       },
                     );

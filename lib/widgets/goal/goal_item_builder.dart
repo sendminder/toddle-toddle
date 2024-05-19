@@ -4,7 +4,6 @@ import 'package:toddle_toddle/data/models/goal.dart';
 import 'package:toddle_toddle/states/goals_state.dart';
 import 'package:toddle_toddle/widgets/custom_text.dart';
 import 'package:collection/collection.dart';
-import 'package:toddle_toddle/widgets/add_goal_bottom_sheet.dart';
 import 'package:toddle_toddle/widgets/home_calendar.dart';
 
 class GoalItemListWidget extends ConsumerWidget {
@@ -50,57 +49,47 @@ class GoalItemListWidget extends ConsumerWidget {
             .where((element) => element.date == targetTime)
             .firstOrNull;
 
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          child: Row(
-            children: [
-              Expanded(
-                flex: 2,
-                child: Text(currentGoal.schedule.notificationTime),
+        return Row(
+          children: [
+            Expanded(
+              flex: 2,
+              child: Text(
+                currentGoal.schedule.notificationTime,
+                style: const TextStyle(fontSize: 11),
               ),
-              Expanded(
-                flex: 1,
-                child: Checkbox(
-                  value: currentAchievement?.achieved ?? false,
-                  onChanged: (bool? value) async {
-                    await ref
-                        .read(goalsStateProvider.notifier)
-                        .addOrUpdateAchievement(
-                            currentGoal.id, targetTime, value!);
-                  },
-                ),
-              ),
-              Expanded(
-                flex: 5,
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                    alignment: Alignment.centerLeft, // 텍스트 왼쪽 정렬
-                  ),
-                  onPressed: () {
-                    showModalBottomSheet(
-                      isScrollControlled: true,
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AddOrUpdateGoalBottomSheet(
-                          goal: currentGoal,
-                        );
-                      },
-                    );
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      currentGoal.name,
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    ),
+            ),
+            Expanded(
+              flex: 5,
+              child: GestureDetector(
+                onTap: () async {
+                  bool newValue = !(currentAchievement?.achieved ?? false);
+                  await ref
+                      .read(goalsStateProvider.notifier)
+                      .addOrUpdateAchievement(
+                          currentGoal.id, targetTime, newValue);
+                },
+                child: Text(
+                  currentGoal.name,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Checkbox(
+                value: currentAchievement?.achieved ?? false,
+                onChanged: (bool? value) async {
+                  await ref
+                      .read(goalsStateProvider.notifier)
+                      .addOrUpdateAchievement(
+                          currentGoal.id, targetTime, value!);
+                },
+              ),
+            ),
+          ],
         );
       },
     );

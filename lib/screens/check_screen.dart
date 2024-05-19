@@ -3,8 +3,8 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:toddle_toddle/data/models/goal.dart';
 import 'package:toddle_toddle/widgets/custom_text.dart';
-import 'package:toddle_toddle/widgets/add_goal_bottom_sheet.dart';
-import 'package:toddle_toddle/widgets/goal_item_builder.dart';
+import 'package:toddle_toddle/widgets/goal/add_goal_bottom_sheet.dart';
+import 'package:toddle_toddle/widgets/goal/goal_item_builder.dart';
 import 'package:toddle_toddle/widgets/home_calendar.dart';
 
 class CheckScreen extends ConsumerWidget {
@@ -38,6 +38,7 @@ class CheckScreen extends ConsumerWidget {
             builder: (BuildContext context) {
               return AddOrUpdateGoalBottomSheet(
                 goal: Goal.newDefaultGoal(),
+                init: true,
               );
             },
           );

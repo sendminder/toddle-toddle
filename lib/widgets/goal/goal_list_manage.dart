@@ -31,7 +31,7 @@ class GoalListManageWidget extends ConsumerWidget {
       itemBuilder: (context, index) {
         var currentGoal = goals[index];
         return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8),
+          padding: const EdgeInsets.symmetric(vertical: 3),
           child: Container(
             decoration: BoxDecoration(
               color: currentGoal.color.withAlpha(150),

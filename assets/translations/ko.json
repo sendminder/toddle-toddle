@@ -54,5 +54,11 @@
     "lets_achieve_goal": "목표를 달성해보세요!",
     "button_positive": "확인",
     "button_negative": "취소",
-    "delete_goal": "이 목표를 삭제하시겠어요?"
+    "delete_goal": "이 목표를 삭제하시겠어요?",
+    "notification_time": "알림 시간",
+    "start_date": "시작 날짜",
+    "schedule": "일정",
+    "colors": "대표 색상",
+    "set_start_date": "시작 날짜 설정",
+    "set_alarm_time": "알람 시간 설정"
 }

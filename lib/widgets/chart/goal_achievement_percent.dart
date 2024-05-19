@@ -26,7 +26,7 @@ class GoalAchievementPercentWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
-        color: Colors.blueAccent.withOpacity(0.1),
+        color: goal.color.withAlpha(80),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -59,7 +59,7 @@ class GoalAchievementPercentWidget extends StatelessWidget {
                 width: (achievementPercentage / 100) *
                     MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                  color: goal.color,
+                  color: goal.color.withAlpha(220),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),

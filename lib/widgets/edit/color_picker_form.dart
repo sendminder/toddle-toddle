@@ -38,34 +38,39 @@ class ColorPickerFormWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedColor = ref.watch(colorProvider);
 
-    return GridView.builder(
-      shrinkWrap: true,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 6,
-        crossAxisSpacing: 8,
-        mainAxisSpacing: 8,
-      ),
-      itemCount: colors.length,
-      itemBuilder: (context, index) {
-        final color = colors[index];
-        return GestureDetector(
-          onTap: () {
-            ref.read(colorProvider.notifier).state = color;
-          },
-          child: Container(
-            decoration: BoxDecoration(
-              color: color,
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: selectedColor.value == color.value
-                    ? Colors.black
-                    : Colors.transparent,
-                width: 3,
+    return Container(
+      padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+      child: GridView.builder(
+        shrinkWrap: true,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 6,
+          crossAxisSpacing: 22,
+          mainAxisSpacing: 12,
+        ),
+        itemCount: colors.length,
+        itemBuilder: (context, index) {
+          final color = colors[index];
+          return GestureDetector(
+            onTap: () {
+              ref.read(colorProvider.notifier).state = color;
+            },
+            child: Container(
+              width: 50,
+              height: 50,
+              decoration: BoxDecoration(
+                color: color,
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: selectedColor.value == color.value
+                      ? Colors.black38
+                      : Colors.transparent,
+                  width: 3.2,
+                ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

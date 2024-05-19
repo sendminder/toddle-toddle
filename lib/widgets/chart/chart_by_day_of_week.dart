@@ -35,7 +35,7 @@ class ChartByDayOfWeekWidget extends StatelessWidget {
         barRods: [
           BarChartRodData(
             toY: entry.value.toDouble(),
-            color: goal.color,
+            color: goal.color.withAlpha(220),
             width: 16,
             borderRadius: BorderRadius.circular(4),
           ),

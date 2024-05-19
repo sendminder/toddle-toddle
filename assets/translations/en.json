@@ -47,12 +47,18 @@
   "sunday": "Sun",
   "daily": "Every day",
   "weekly": "Every week",
-  "add": "Add the item",
-  "update": "Update the item",
+  "add": "Add",
+  "update": "Update",
   "add_goal": "Add a goal",
   "goal_name": "Goal name",
   "lets_achieve_goal": "Let's achieve your goal!",
   "button_positive": "Confirm",
   "button_negative": "Cancel",
-  "delete_goal": "Do you want to delete the goal?"
+  "delete_goal": "Do you want to delete the goal?",
+  "notification_time": "Notification time",
+  "start_date": "Start date",
+  "schedule": "Schedule",
+  "colors": "Colors",
+  "set_start_date": "Set start date",
+  "set_alarm_time": "Set alarm time"
 }

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:toddle_toddle/data/models/schedule.dart';
 import 'package:toddle_toddle/states/goals_state.dart';
@@ -49,84 +50,158 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
       height: 800,
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          Text(
+            'goal_name'.tr(),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.left,
+          ),
           NameTextForm(
+            colorProvider: colorProvider,
             stringProvider: goalNameProvider,
             initText: goal.name,
           ),
+          const SizedBox(height: 20),
+          Text(
+            'colors'.tr(),
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.left,
+          ),
           ColorPickerFormWidget(colorProvider: colorProvider),
-          ElevatedButton(
-            onPressed: () async {
-              final DateTime? picked = await showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime(2000),
-                lastDate: DateTime(2025),
-                initialEntryMode: DatePickerEntryMode.calendarOnly,
-              );
-              if (picked != null && picked != startDate) {
-                ref.read(startDateProvider.notifier).state = picked;
-              }
-            },
-            child: Text(startDate == null ? '시작 날짜 설정' : startDate.toString()),
+          Text(
+            'start_date'.tr(),
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.left,
           ),
-          Column(
-            children: [
-              ToggleButtons(
-                isSelected: [
-                  selectedMode == 'Daily',
-                  selectedMode == 'Weekly',
-                ],
-                onPressed: (int index) {
-                  // 선택된 모드 업데이트
-                  goal.schedule.isDaily = index == 0;
-                  ref.read(selectedModeProvider.notifier).state =
-                      index == 0 ? 'Daily' : 'Weekly';
-                },
-                children: const <Widget>[
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: CustomText(
-                      text: 'daily',
-                      textSize: 12,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    child: CustomText(
-                      text: 'weekly',
-                      textSize: 12,
-                    ),
-                  ),
-                ],
+          Center(
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                foregroundColor: goalColor,
+                backgroundColor: goalColor.withAlpha(40),
+                minimumSize: const Size(380, 48),
               ),
-              if (selectedMode == 'Weekly') ...[
-                // Weekly 선택 시 나타나는 요일 토글 버튼
-                const SizedBox(height: 20),
-                WeekDaysToggle(
-                  selectedDaysProvider: selectedDaysProvider,
+              onPressed: () async {
+                final DateTime? picked = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(2000),
+                  lastDate: DateTime(2025),
+                  initialEntryMode: DatePickerEntryMode.calendarOnly,
+                );
+                if (picked != null && picked != startDate) {
+                  ref.read(startDateProvider.notifier).state = picked;
+                }
+              },
+              child: Text(
+                startDate == null
+                    ? 'set_start_date'.tr()
+                    : timeToYearMonthDay(startDate),
+                style: TextStyle(
+                  fontSize: 16,
+                  color: goalColor,
                 ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
+          Text(
+            'schedule'.tr(),
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.left,
+          ),
+          Center(
+            child: Column(
+              children: [
+                ToggleButtons(
+                  borderRadius: BorderRadius.circular(16),
+                  fillColor: goalColor.withAlpha(60),
+                  isSelected: [
+                    selectedMode == 'Daily',
+                    selectedMode == 'Weekly',
+                  ],
+                  onPressed: (int index) {
+                    // 선택된 모드 업데이트
+                    goal.schedule.isDaily = index == 0;
+                    ref.read(selectedModeProvider.notifier).state =
+                        index == 0 ? 'Daily' : 'Weekly';
+                  },
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Text(
+                        'daily'.tr(),
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: goalColor,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: Text(
+                        'weekly'.tr(),
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: goalColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                if (selectedMode == 'Weekly') ...[
+                  // Weekly 선택 시 나타나는 요일 토글 버튼
+                  const SizedBox(height: 20),
+                  WeekDaysToggle(
+                    selectedDaysProvider: selectedDaysProvider,
+                    colorProvider: colorProvider,
+                  ),
+                ],
               ],
-            ],
+            ),
           ),
-          // 시간 설정 버튼 추가
-          ElevatedButton(
-            onPressed: () async {
-              final TimeOfDay? pickedTime = await showTimePicker(
-                context: context,
-                initialTime: TimeOfDay.now(),
-                initialEntryMode: TimePickerEntryMode.dialOnly,
-              );
-              if (pickedTime != null) {
-                final String formattedTime = timeOfDayToString(pickedTime);
-                ref.read(notificationTimeProvider.notifier).state =
-                    formattedTime;
-              }
-            },
-            child: Text('알림 시간 설정: $notificationTime'),
+          const SizedBox(height: 20),
+          Text(
+            'notification_time'.tr(),
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.left,
           ),
-          const SizedBox(height: 50),
-          ElevatedButton(
+          Center(
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                foregroundColor: goalColor,
+                backgroundColor: goalColor.withAlpha(40),
+                minimumSize: const Size(380, 48),
+              ),
+              onPressed: () async {
+                final TimeOfDay? pickedTime = await showTimePicker(
+                  context: context,
+                  initialTime: TimeOfDay.now(),
+                  initialEntryMode: TimePickerEntryMode.dialOnly,
+                );
+                if (pickedTime != null) {
+                  final String formattedTime = timeOfDayToString(pickedTime);
+                  ref.read(notificationTimeProvider.notifier).state =
+                      formattedTime;
+                }
+              },
+              child: Text(
+                notificationTime,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: goalColor,
+                ),
+              ),
+            ),
+          ),
+          const Spacer(),
+          Center(
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                foregroundColor: goalColor.withAlpha(40),
+                backgroundColor: goalColor,
+                minimumSize: const Size(200, 48),
+              ),
               onPressed: () async {
                 if (goal.id == 0) {
                   goal.id = await idGenerator.generateUniqueId();
@@ -148,8 +223,25 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
                 Navigator.pop(context);
               },
               child: init
-                  ? const CustomText(text: 'add', textSize: 15.0)
-                  : const CustomText(text: 'update', textSize: 15.0)),
+                  ? Text(
+                      'add'.tr(),
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    )
+                  : Text(
+                      'update'.tr(),
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+            ),
+          ),
+          const SizedBox(height: 30),
         ],
       ),
     );

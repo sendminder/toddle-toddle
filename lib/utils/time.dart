@@ -14,3 +14,16 @@ String timeOfDayToString(TimeOfDay timeOfDay) {
   }
   return '$hour:$minute PM';
 }
+
+String timeToYearMonthDay(DateTime time) {
+  var year = time.year.toString();
+  var month = time.month.toString();
+  var day = time.day.toString();
+  if (time.month < 10) {
+    month = '0$month';
+  }
+  if (time.day < 10) {
+    day = '0$day';
+  }
+  return '$year-$month-$day';
+}

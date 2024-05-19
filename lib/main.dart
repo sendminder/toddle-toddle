@@ -15,10 +15,10 @@ import 'package:toddle_toddle/data/models/goal.dart';
 import 'package:toddle_toddle/data/models/schedule.dart';
 import 'package:toddle_toddle/data/models/achievement.dart';
 
+import 'package:toddle_toddle/const/strings.dart';
 import 'config/theme.dart';
 import 'states/theme_mode_state.dart';
 import 'screens/home_screen.dart';
-import 'const/strings.dart';
 
 import 'package:toddle_toddle/service/local_push_service.dart';
 import 'package:timezone/data/latest.dart' as tz;
@@ -39,12 +39,14 @@ void main() async {
   final Directory appDocDir = await getApplicationDocumentsDirectory();
   await Hive.initFlutter(appDocDir.path);
 
+  Hive.registerAdapter(ColorAdapter());
   Hive.registerAdapter(GoalAdapter());
   Hive.registerAdapter(AchievementAdapter());
   Hive.registerAdapter(ScheduleAdapter());
 
   GetIt.I.registerSingleton<IdGenerator>(IdGenerator());
   await Hive.openBox(hivePrefBox);
+  // await Hive.deleteBoxFromDisk(hiveGoalBox);
   await Hive.openBox<Goal>(hiveGoalBox);
 
   runApp(

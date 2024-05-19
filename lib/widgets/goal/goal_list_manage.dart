@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:toddle_toddle/states/goals_state.dart';
 import 'package:toddle_toddle/widgets/custom_text.dart';
-import 'package:toddle_toddle/widgets/goal/add_goal_bottom_sheet.dart';
+import 'package:toddle_toddle/widgets/goal/add_or_update_goal.dart';
 import 'package:toddle_toddle/widgets/chart/goal_chart.dart';
 
 class GoalListManageWidget extends ConsumerWidget {

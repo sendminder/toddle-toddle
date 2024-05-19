@@ -2,6 +2,7 @@ import 'package:hive/hive.dart';
 import 'package:toddle_toddle/data/models/schedule.dart';
 import 'package:toddle_toddle/data/models/achievement.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
 
 part 'goal.g.dart';
 
@@ -22,11 +23,15 @@ class Goal extends HiveObject {
   @HiveField(4)
   List<Achievement> achievements;
 
+  @HiveField(5)
+  Color color;
+
   Goal({
     required this.id,
     required this.name,
     required this.startTime,
     required this.schedule,
+    required this.color,
     List<Achievement>? achievements,
   }) : achievements = achievements ?? [];
 
@@ -39,6 +44,7 @@ class Goal extends HiveObject {
       'achievements': achievements
           .map((a) => a.toJson())
           .toList(), // Achievement 클래스에도 toJson() 구현 필요
+      'color': color.value,
     };
   }
 
@@ -48,6 +54,7 @@ class Goal extends HiveObject {
       name: '',
       startTime: null,
       schedule: Schedule.newDefaultSchedule(),
+      color: Colors.blue,
     );
   }
 

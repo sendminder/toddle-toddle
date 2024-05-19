@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:toddle_toddle/data/models/schedule.dart';
 import 'package:toddle_toddle/states/goals_state.dart';
@@ -9,6 +8,8 @@ import 'package:toddle_toddle/widgets/week_days_toggle.dart';
 import 'package:toddle_toddle/widgets/custom_text.dart';
 import 'package:toddle_toddle/utils/time.dart';
 import 'package:get_it/get_it.dart';
+import 'package:toddle_toddle/widgets/edit/name_text_form.dart';
+import 'package:toddle_toddle/widgets/edit/color_picker_form.dart';
 
 class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
   AddOrUpdateGoalBottomSheet(
@@ -21,6 +22,7 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
         StateProvider<String>((ref) => goal.schedule.notificationTime);
     selectedDaysProvider =
         StateProvider<List<int>>((ref) => goal.schedule.daysOfWeek);
+    colorProvider = StateProvider<Color>((ref) => goal.color);
   }
   final bool init;
   final Goal goal;
@@ -29,16 +31,18 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
   late StateProvider<String> notificationTimeProvider;
   late StateProvider<DateTime?> startDateProvider;
   late StateProvider<List<int>> selectedDaysProvider;
+  late StateProvider<Color> colorProvider;
 
   final idGenerator = GetIt.I<IdGenerator>();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final goalName = ref.watch(goalNameProvider);
     final selectedMode = ref.watch(selectedModeProvider);
     final startDate = ref.watch(startDateProvider);
     final notificationTime = ref.watch(notificationTimeProvider);
     final selectedDays = ref.watch(selectedDaysProvider);
+    final goalName = ref.watch(goalNameProvider);
+    final goalColor = ref.watch(colorProvider);
 
     return Container(
       padding: const EdgeInsets.all(16.0),
@@ -46,15 +50,11 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          TextFormField(
-            initialValue: goal.name,
-            decoration: InputDecoration(
-              labelText: 'goal_name'.tr(),
-            ),
-            onChanged: (value) {
-              ref.read(goalNameProvider.notifier).state = value;
-            },
+          NameTextForm(
+            stringProvider: goalNameProvider,
+            initText: goal.name,
           ),
+          ColorPickerFormWidget(colorProvider: colorProvider),
           ElevatedButton(
             onPressed: () async {
               final DateTime? picked = await showDatePicker(
@@ -133,6 +133,7 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
                 }
                 goal.name = goalName;
                 goal.startTime = startDate;
+                goal.color = goalColor;
                 Schedule schedule = Schedule(
                   daysOfWeek: selectedDays,
                   notificationTime: notificationTime,

@@ -26,6 +26,7 @@ class CheckScreen extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           children: const <Widget>[
             MyCalendar(),
+            SizedBox(height: 16),
             GoalItemListWidget(),
           ],
         ),

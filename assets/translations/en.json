@@ -60,5 +60,6 @@
   "schedule": "Schedule",
   "colors": "Colors",
   "set_start_date": "Set start date",
-  "set_alarm_time": "Set alarm time"
+  "set_alarm_time": "Set alarm time",
+  "done_goal": "Do you finish the goal?"
 }

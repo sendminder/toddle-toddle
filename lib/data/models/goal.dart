@@ -26,12 +26,16 @@ class Goal extends HiveObject {
   @HiveField(5)
   Color color;
 
+  @HiveField(6)
+  bool? isEnd;
+
   Goal({
     required this.id,
     required this.name,
     required this.startTime,
     required this.schedule,
     required this.color,
+    this.isEnd = false,
     List<Achievement>? achievements,
   }) : achievements = achievements ?? [];
 
@@ -45,6 +49,7 @@ class Goal extends HiveObject {
           .map((a) => a.toJson())
           .toList(), // Achievement 클래스에도 toJson() 구현 필요
       'color': color.value,
+      'isEnd': isEnd,
     };
   }
 

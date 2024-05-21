@@ -13,10 +13,10 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final int? navIndex = ref.watch(bottomNavProvider) as int?;
-    const List<Widget> pageNavigation = <Widget>[
-      CheckScreen(),
+    List<Widget> pageNavigation = <Widget>[
+      const CheckScreen(),
       StatisticsScreen(),
-      SettingsScreen(),
+      const SettingsScreen(),
     ];
 
     return Scaffold(

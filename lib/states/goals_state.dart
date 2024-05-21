@@ -92,6 +92,17 @@ class GoalsState extends StateNotifier<List<Goal>> {
     state = state.where((goal) => goal.id != id).toList(); // 상태 갱신
   }
 
+  // 특정 Goal done 상태 업데이트
+  Future<void> doneGoal(int id) async {
+    final box = Hive.box<Goal>(hiveGoalBox);
+    Goal? goal = getGoalById(id);
+    if (goal != null) {
+      goal.isEnd = true;
+      await box.put(id, goal);
+      state = List.from(state);
+    }
+  }
+
   // 특정 Goal id의 Achievement를 수정하거나 추가하는 함수
   Future<void> addOrUpdateAchievement(
       int goalId, DateTime date, bool achieved) async {

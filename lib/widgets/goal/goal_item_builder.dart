@@ -48,18 +48,21 @@ class GoalItemListWidget extends ConsumerWidget {
             .where((element) => element.date == targetTime)
             .firstOrNull;
 
+        var done = currentAchievement?.achieved ?? false;
+        var alpha = done ? 255 : 170;
+
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 3),
           child: Container(
             decoration: BoxDecoration(
-              color: currentGoal.color.withAlpha(170),
+              color: currentGoal.color.withAlpha(alpha),
               borderRadius: BorderRadius.circular(16),
             ),
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
             child: Row(
               children: [
                 Expanded(
-                  flex: 2,
+                  flex: 3,
                   child: Text(
                     currentGoal.schedule.notificationTime,
                     style: const TextStyle(
@@ -70,7 +73,7 @@ class GoalItemListWidget extends ConsumerWidget {
                   ),
                 ),
                 Expanded(
-                  flex: 5,
+                  flex: 8,
                   child: GestureDetector(
                     onTap: () async {
                       bool newValue = !(currentAchievement?.achieved ?? false);
@@ -84,12 +87,13 @@ class GoalItemListWidget extends ConsumerWidget {
                       style: const TextStyle(
                         fontSize: 18,
                         color: Colors.white,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
                 ),
                 Expanded(
-                  flex: 1,
+                  flex: 2,
                   child: Transform.scale(
                     scale: 1.2,
                     child: Checkbox(

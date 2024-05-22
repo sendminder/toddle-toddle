@@ -1,29 +1,26 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:toddle_toddle/states/goal_filter_state.dart';
 import 'package:toddle_toddle/states/goals_state.dart';
 import 'package:toddle_toddle/widgets/custom_text.dart';
 import 'package:toddle_toddle/widgets/goal/add_or_update_goal.dart';
 import 'package:toddle_toddle/widgets/chart/goal_chart.dart';
 
 class GoalListManageWidget extends ConsumerWidget {
-  GoalListManageWidget({super.key, required this.isEndProvider});
-  late StateProvider<bool> isEndProvider;
+  const GoalListManageWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var goals = ref.watch(goalsStateProvider);
-    var isEnd = ref.watch(isEndProvider);
+    var isEnd = ref.watch(goalFilterProvider);
 
     // filter if the goal is end or not
     if (isEnd) {
       goals = goals.where((element) => element.isEnd == true).toList();
     } else {
-      goals = goals
-          .where((element) => element.isEnd == false || element.isEnd == null)
-          .toList();
+      goals = goals.where((element) => element.isEnd == false).toList();
     }
 
     if (goals.isEmpty) {
@@ -116,14 +113,39 @@ class GoalListManageWidget extends ConsumerWidget {
                 Expanded(
                   flex: 1,
                   child: IconButton(
-                    icon: const Icon(
-                      FluentIcons.checkmark_24_filled,
-                      color: Colors.white70,
-                    ),
+                    icon: currentGoal.isEnd
+                        ? const Icon(
+                            FluentIcons.arrow_undo_24_filled,
+                            color: Colors.white70,
+                          )
+                        : const Icon(
+                            FluentIcons.checkmark_24_filled,
+                            color: Colors.white70,
+                          ),
                     onPressed: () async {
                       bool? result = await showDialog<bool>(
                         context: context,
                         builder: (BuildContext context) {
+                          if (currentGoal.isEnd) {
+                            return AlertDialog(
+                              title: Text(currentGoal.name),
+                              content: Text('recover_goal'.tr()),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: Text('button_negative'.tr()),
+                                  onPressed: () {
+                                    Navigator.of(context).pop(false);
+                                  },
+                                ),
+                                TextButton(
+                                  child: Text('button_positive'.tr()),
+                                  onPressed: () {
+                                    Navigator.of(context).pop(true);
+                                  },
+                                ),
+                              ],
+                            );
+                          }
                           return AlertDialog(
                             title: Text(currentGoal.name),
                             content: Text('done_goal'.tr()),
@@ -145,9 +167,15 @@ class GoalListManageWidget extends ConsumerWidget {
                         },
                       );
                       if (result == true) {
-                        await ref
-                            .read(goalsStateProvider.notifier)
-                            .doneGoal(currentGoal.id);
+                        if (currentGoal.isEnd) {
+                          await ref
+                              .read(goalsStateProvider.notifier)
+                              .recoverGoal(currentGoal.id);
+                        } else {
+                          await ref
+                              .read(goalsStateProvider.notifier)
+                              .doneGoal(currentGoal.id);
+                        }
                       }
                     },
                   ),

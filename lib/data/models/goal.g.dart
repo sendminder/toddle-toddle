@@ -22,7 +22,7 @@ class GoalAdapter extends TypeAdapter<Goal> {
       startTime: fields[2] as DateTime?,
       schedule: fields[3] as Schedule,
       color: fields[5] as Color,
-      isEnd: fields[6] as bool?,
+      isEnd: fields[6] as bool,
       achievements: (fields[4] as List?)?.cast<Achievement>(),
     );
   }

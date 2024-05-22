@@ -50,7 +50,7 @@ class GoalsState extends StateNotifier<List<Goal>> {
     int nowSecond = DateTime.now().millisecondsSinceEpoch ~/ 1000;
     if (scheduleSyncTime == 0 || scheduleSyncTime + syncInterval < nowSecond) {
       await syncSchedule();
-      await Hive.box(hivePrefBox).put('scheduleSyncTime', 0);
+      await Hive.box(hivePrefBox).put('scheduleSyncTime', nowSecond);
     }
   }
 
@@ -98,6 +98,17 @@ class GoalsState extends StateNotifier<List<Goal>> {
     Goal? goal = getGoalById(id);
     if (goal != null) {
       goal.isEnd = true;
+      await box.put(id, goal);
+      state = List.from(state);
+    }
+  }
+
+  // 특정 Goal done 상태 업데이트
+  Future<void> recoverGoal(int id) async {
+    final box = Hive.box<Goal>(hiveGoalBox);
+    Goal? goal = getGoalById(id);
+    if (goal != null) {
+      goal.isEnd = false;
       await box.put(id, goal);
       state = List.from(state);
     }

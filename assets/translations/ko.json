@@ -61,5 +61,6 @@
     "colors": "대표 색상",
     "set_start_date": "시작 날짜 설정",
     "set_alarm_time": "알람 시간 설정",
-    "done_goal": "목표를 달성했나요?"
+    "done_goal": "목표를 달성했나요?",
+    "recover_goal": "목표를 계속 진행하시겠어요?"
 }

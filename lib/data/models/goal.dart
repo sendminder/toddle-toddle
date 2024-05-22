@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:hive/hive.dart';
 import 'package:toddle_toddle/data/models/schedule.dart';
 import 'package:toddle_toddle/data/models/achievement.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:toddle_toddle/utils/color_palette.dart';
 
 part 'goal.g.dart';
 
@@ -27,7 +30,7 @@ class Goal extends HiveObject {
   Color color;
 
   @HiveField(6)
-  bool? isEnd;
+  bool isEnd;
 
   Goal({
     required this.id,
@@ -54,12 +57,13 @@ class Goal extends HiveObject {
   }
 
   static Goal newDefaultGoal() {
+    final randome = Random().nextInt(palette.length - 1);
     return Goal(
       id: 0,
       name: '',
       startTime: null,
       schedule: Schedule.newDefaultSchedule(),
-      color: Colors.blue,
+      color: palette[randome],
     );
   }
 

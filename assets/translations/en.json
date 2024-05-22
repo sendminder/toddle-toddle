@@ -61,5 +61,6 @@
   "colors": "Colors",
   "set_start_date": "Set start date",
   "set_alarm_time": "Set alarm time",
-  "done_goal": "Do you finish the goal?"
+  "done_goal": "Did you complete the goal?",
+  "recover_goal": "Do you want to continue the goal?"
 }

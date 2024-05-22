@@ -15,7 +15,7 @@ class HomeScreen extends ConsumerWidget {
     final int? navIndex = ref.watch(bottomNavProvider) as int?;
     List<Widget> pageNavigation = <Widget>[
       const CheckScreen(),
-      StatisticsScreen(),
+      const StatisticsScreen(),
       const SettingsScreen(),
     ];
 

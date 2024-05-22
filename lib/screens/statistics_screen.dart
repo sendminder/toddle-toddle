@@ -1,4 +1,3 @@
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
@@ -10,11 +9,7 @@ import 'package:toddle_toddle/widgets/goal/add_or_update_goal.dart';
 import 'package:toddle_toddle/widgets/goal/goal_done_filter.dart';
 
 class StatisticsScreen extends ConsumerWidget {
-  StatisticsScreen({super.key}) {
-    isEndProvider = StateProvider<bool>((ref) => false);
-  }
-  late StateProvider<bool> isEndProvider;
-
+  const StatisticsScreen({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
@@ -29,9 +24,9 @@ class StatisticsScreen extends ConsumerWidget {
         color: Theme.of(context).colorScheme.background,
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          children: <Widget>[
-            GoalDoneFilterWidget(isEndProvider: isEndProvider),
-            GoalListManageWidget(isEndProvider: isEndProvider),
+          children: const <Widget>[
+            GoalDoneFilterWidget(),
+            GoalListManageWidget(),
           ],
         ),
       ),

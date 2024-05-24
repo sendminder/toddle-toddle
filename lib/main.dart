@@ -23,6 +23,7 @@ import 'screens/home_screen.dart';
 import 'package:toddle_toddle/service/local_push_service.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+import 'package:package_info_plus/package_info_plus.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,6 +49,7 @@ void main() async {
   await Hive.openBox(hivePrefBox);
   // await Hive.deleteBoxFromDisk(hiveGoalBox);
   await Hive.openBox<Goal>(hiveGoalBox);
+  await setupVersion();
 
   runApp(
     ProviderScope(
@@ -104,4 +106,9 @@ Future<void> setupTimeZone() async {
   tz.initializeTimeZones();
   String timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
   tz.setLocalLocation(tz.getLocation(timeZoneName));
+}
+
+Future<void> setupVersion() async {
+  final packageInfo = await PackageInfo.fromPlatform();
+  Hive.box(hivePrefBox).put('version', packageInfo.version);
 }

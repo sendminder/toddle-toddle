@@ -2,32 +2,39 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:toddle_toddle/states/theme_mode_state.dart';
-
+import 'package:toddle_toddle/states/push_notification_state.dart';
 import 'package:toddle_toddle/widgets/custom_text.dart';
+import 'package:toddle_toddle/states/goals_state.dart';
+import 'package:hive/hive.dart';
+import 'package:toddle_toddle/const/strings.dart';
 
 class SettingsScreen extends ConsumerWidget {
-  const SettingsScreen({super.key});
+  SettingsScreen({super.key}) {
+    version = Hive.box(hivePrefBox).get('version', defaultValue: '') as String;
+  }
+  late String version;
 
   void _showLanguagePicker(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return SimpleDialog(
-          title: const Text('언어 선택'),
+          backgroundColor: Theme.of(context).colorScheme.background,
+          title: Text('select_language'.tr()),
           children: <Widget>[
             SimpleDialogOption(
               onPressed: () {
                 context.setLocale(const Locale('en'));
                 Navigator.pop(context);
               },
-              child: const Text('English'),
+              child: Text('english'.tr()),
             ),
             SimpleDialogOption(
               onPressed: () {
                 context.setLocale(const Locale('ko'));
                 Navigator.pop(context);
               },
-              child: const Text('한국어'),
+              child: Text('korean'.tr()),
             ),
           ],
         );
@@ -37,6 +44,22 @@ class SettingsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    PushNotificationState pushEnable = ref.watch(pushNotificationProvider);
+    ThemeModeState themeMode = ref.watch(themeProvider);
+    const divider = Divider(
+      height: 3,
+      thickness: 0.3,
+      color: Colors.grey,
+    );
+    var selectedLanguageName = context.locale.toString();
+    const normalStyle = TextStyle(fontSize: 16);
+    const smalStyle = TextStyle(fontSize: 14);
+    const boldStyle = TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
+    var primaryColorStyle = TextStyle(
+      fontSize: 15,
+      color: Theme.of(context).colorScheme.primary,
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: const CustomText(
@@ -48,58 +71,96 @@ class SettingsScreen extends ConsumerWidget {
       body: Material(
         color: Theme.of(context).colorScheme.background,
         child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.only(left: 8, right: 8, bottom: 10),
           children: <Widget>[
+            ListTile(
+              title: Text(
+                'notifications'.tr(),
+                style: boldStyle,
+              ),
+            ),
             SwitchListTile(
-              title: const CustomText(
-                text: 'dark_mode_title',
-                textSize: 16,
+              title: Text(
+                'push_setting_title'.tr(),
+                style: normalStyle,
               ),
-              subtitle: const CustomText(
-                text: 'dark_mode_content',
-                textSize: 14,
+              subtitle: Text(
+                'push_setting_subtitle'.tr(),
+                style: smalStyle,
               ),
-              value: ref.read(themeProvider.notifier).currentThemeMode ==
-                  ThemeMode.dark,
+              value: pushEnable.pushNotificationEnable!,
+              onChanged: (bool value) async {
+                pushEnable.setPushNotificationEnable(value);
+                if (value) {
+                  await ref.read(goalsStateProvider.notifier).syncSchedule();
+                } else {
+                  await ref
+                      .read(goalsStateProvider.notifier)
+                      .cancelAllSchedule();
+                }
+              },
+            ),
+            divider,
+            ListTile(
+              title: Text(
+                'appearance'.tr(),
+                style: boldStyle,
+              ),
+            ),
+            SwitchListTile(
+              title: Text(
+                'dark_mode_title'.tr(),
+                style: normalStyle,
+              ),
+              subtitle: Text(
+                'dark_mode_content'.tr(),
+                style: smalStyle,
+              ),
+              value: themeMode.currentThemeMode == ThemeMode.dark,
               onChanged: (bool value) {
                 if (value) {
-                  ref.read(themeProvider.notifier).setThemeMode(ThemeMode.dark);
+                  themeMode.setThemeMode(ThemeMode.dark);
                 } else {
-                  ref
-                      .read(themeProvider.notifier)
-                      .setThemeMode(ThemeMode.light);
+                  themeMode.setThemeMode(ThemeMode.light);
                 }
               },
             ),
             ListTile(
-              title: const CustomText(
-                text: 'language_title',
-                textSize: 16,
+              trailing: Text(
+                '${selectedLanguageName.tr()} ',
+                style: primaryColorStyle,
+                textAlign: TextAlign.start,
               ),
-              subtitle: const CustomText(
-                text: 'language_content',
-                textSize: 14,
+              title: Text(
+                'language_title'.tr(),
+                style: normalStyle,
+              ),
+              subtitle: Text(
+                'language_content'.tr(),
+                style: smalStyle,
               ),
               onTap: () {
                 _showLanguagePicker(context);
               },
             ),
-            // SwitchListTile(
-            //   title: const Text('푸시 설정'),
-            //   subtitle: const Text('푸시 알림을 받을지 여부 설정'),
-            //   value: ref.watch(pushNotificationProvider),
-            //   onChanged: (bool value) {
-            //     ref.read(pushNotificationProvider.notifier).state = value;
-            //   },
-            // ),
-            // SwitchListTile(
-            //   title: const Text('알림 설정'),
-            //   subtitle: const Text('알림을 받을지 여부 설정'),
-            //   value: ref.watch(notificationProvider),
-            //   onChanged: (bool value) {
-            //     ref.read(notificationProvider.notifier).state = value;
-            //   },
-            // ),
+            divider,
+            ListTile(
+              title: Text(
+                'info'.tr(),
+                style: boldStyle,
+              ),
+            ),
+            ListTile(
+              trailing: Text(
+                '$version  ',
+                style: primaryColorStyle,
+                textAlign: TextAlign.start,
+              ),
+              title: Text(
+                'version'.tr(),
+                style: normalStyle,
+              ),
+            ),
           ],
         ),
       ),

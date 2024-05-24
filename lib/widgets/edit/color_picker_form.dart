@@ -20,6 +20,7 @@ class ColorPickerFormWidget extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
       child: GridView.builder(
+        physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 6,

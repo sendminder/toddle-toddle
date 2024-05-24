@@ -19,6 +19,9 @@ class BottomNavBarState extends StateNotifier<int> {
 
   void setAndPersistValue(int index) {
     value = index;
-    Hive.box(hivePrefBox).put('navIndex', index);
+    if (index != 2) {
+      // 설정탭은 저장안함
+      Hive.box(hivePrefBox).put('navIndex', index);
+    }
   }
 }

@@ -168,6 +168,11 @@ class GoalsState extends StateNotifier<List<Goal>> {
     }
   }
 
+  Future<void> cancelAllSchedule() async {
+    await localPushService.cancelAll();
+    logger.d('cancelAllSchedule');
+  }
+
   Future<void> updatePushSchedule(int goalId) async {
     var goal = getGoalById(goalId);
     if (goal != null) await _updatePushSchedule(goal, true);

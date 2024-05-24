@@ -16,7 +16,7 @@ class HomeScreen extends ConsumerWidget {
     List<Widget> pageNavigation = <Widget>[
       const CheckScreen(),
       const StatisticsScreen(),
-      const SettingsScreen(),
+      SettingsScreen(),
     ];
 
     return Scaffold(

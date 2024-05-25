@@ -25,6 +25,7 @@ class StatisticsScreen extends ConsumerWidget {
           children: const <Widget>[
             GoalDoneFilterWidget(),
             GoalListManageWidget(),
+            SizedBox(height: 80),
           ],
         ),
       ),

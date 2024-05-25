@@ -28,6 +28,7 @@ class CheckScreen extends ConsumerWidget {
             MyCalendar(),
             SizedBox(height: 16),
             GoalItemListWidget(),
+            SizedBox(height: 80),
           ],
         ),
       ),

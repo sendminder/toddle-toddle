@@ -29,7 +29,7 @@ class GoalsState extends StateNotifier<List<Goal>> {
   Future<GoalsState> createSorted() async {
     var state = GoalsState();
     await state._initialize();
-    state.sort();
+    await state.sort();
     state.printAll();
     return state;
   }
@@ -76,12 +76,12 @@ class GoalsState extends StateNotifier<List<Goal>> {
       // Goal이 이미 존재하면 업데이트
       await box.put(goal.id, goal);
       state = state.map((g) => g.id == goal.id ? goal : g).toList();
-      sort();
+      await sort();
     } else {
       // Goal이 존재하지 않으면 추가
       await box.put(goal.id, goal);
       state = [...state, goal];
-      sort();
+      await sort();
     }
     await updatePushSchedule(goal.id);
   }
@@ -243,7 +243,7 @@ class GoalsState extends StateNotifier<List<Goal>> {
         'scheduleNotification: ${goal.id} $daysOfWeek $scheduleStartDate $hour:$minute');
   }
 
-  void sort() {
+  Future<void> sort() async {
     state.sort((a, b) =>
         a.schedule.notificationTime.compareTo(b.schedule.notificationTime));
   }

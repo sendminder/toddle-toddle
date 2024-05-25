@@ -42,9 +42,10 @@
   "push_setting_title": "Push notification",
   "push_setting_subtitle": "Set the time to receive push notifications.",
   "select_language": "Select language",
-  "english": "English",
-  "korean": "Korean",
   "version": "Version",
-  "ko": "Korean ",
-  "en": "English "
+  "ko": "Korean",
+  "en": "English",
+  "all": "All",
+  "active": "Active",
+  "completed": "Completed"
 }

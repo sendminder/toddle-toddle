@@ -14,13 +14,17 @@ class GoalListManageWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var goals = ref.watch(goalsStateProvider);
-    var isEnd = ref.watch(goalFilterProvider);
+    var filterTypeState = ref.watch(goalFilterProvider);
 
-    // filter if the goal is end or not
-    if (isEnd) {
-      goals = goals.where((element) => element.isEnd == true).toList();
-    } else {
-      goals = goals.where((element) => element.isEnd == false).toList();
+    switch (filterTypeState.type) {
+      case FilterType.all:
+        break;
+      case FilterType.active:
+        goals = goals.where((element) => element.isEnd == false).toList();
+        break;
+      case FilterType.completed:
+        goals = goals.where((element) => element.isEnd == true).toList();
+        break;
     }
 
     if (goals.isEmpty) {
@@ -43,7 +47,9 @@ class GoalListManageWidget extends ConsumerWidget {
           padding: const EdgeInsets.symmetric(vertical: 3),
           child: Container(
             decoration: BoxDecoration(
-              color: currentGoal.color,
+              color: currentGoal.isEnd
+                  ? currentGoal.color
+                  : currentGoal.color.withAlpha(200),
               borderRadius: BorderRadius.circular(16),
             ),
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
@@ -123,49 +129,11 @@ class GoalListManageWidget extends ConsumerWidget {
                             color: Colors.white70,
                           ),
                     onPressed: () async {
-                      bool? result = await showDialog<bool>(
-                        context: context,
-                        builder: (BuildContext context) {
-                          if (currentGoal.isEnd) {
-                            return AlertDialog(
-                              title: Text(currentGoal.name),
-                              content: Text('recover_goal'.tr()),
-                              actions: <Widget>[
-                                TextButton(
-                                  child: Text('button_negative'.tr()),
-                                  onPressed: () {
-                                    Navigator.of(context).pop(false);
-                                  },
-                                ),
-                                TextButton(
-                                  child: Text('button_positive'.tr()),
-                                  onPressed: () {
-                                    Navigator.of(context).pop(true);
-                                  },
-                                ),
-                              ],
-                            );
-                          }
-                          return AlertDialog(
-                            title: Text(currentGoal.name),
-                            content: Text('done_goal'.tr()),
-                            actions: <Widget>[
-                              TextButton(
-                                child: Text('button_negative'.tr()),
-                                onPressed: () {
-                                  Navigator.of(context).pop(false);
-                                },
-                              ),
-                              TextButton(
-                                child: Text('button_positive'.tr()),
-                                onPressed: () {
-                                  Navigator.of(context).pop(true);
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      );
+                      bool? result = currentGoal.isEnd
+                          ? await showDeleteConfirmationDialog(
+                              context, currentGoal.name, 'recover_goal')
+                          : await showDeleteConfirmationDialog(
+                              context, currentGoal.name, 'done_goal');
                       if (result == true) {
                         if (currentGoal.isEnd) {
                           await ref
@@ -188,29 +156,8 @@ class GoalListManageWidget extends ConsumerWidget {
                       color: Colors.white70,
                     ),
                     onPressed: () async {
-                      bool? result = await showDialog<bool>(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text(currentGoal.name),
-                            content: Text('delete_goal'.tr()),
-                            actions: <Widget>[
-                              TextButton(
-                                child: Text('button_negative'.tr()),
-                                onPressed: () {
-                                  Navigator.of(context).pop(false);
-                                },
-                              ),
-                              TextButton(
-                                child: Text('button_positive'.tr()),
-                                onPressed: () {
-                                  Navigator.of(context).pop(true);
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      );
+                      bool? result = await showDeleteConfirmationDialog(
+                          context, currentGoal.name, 'delete_goal');
                       if (result == true) {
                         await ref
                             .read(goalsStateProvider.notifier)
@@ -222,6 +169,34 @@ class GoalListManageWidget extends ConsumerWidget {
               ],
             ),
           ),
+        );
+      },
+    );
+  }
+
+  Future<bool?> showDeleteConfirmationDialog(
+      BuildContext context, String goalName, String contentNameKey) {
+    return showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Theme.of(context).colorScheme.background,
+          title: Text(goalName),
+          content: Text(contentNameKey.tr()),
+          actions: <Widget>[
+            TextButton(
+              child: Text('button_negative'.tr()),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+            ),
+            TextButton(
+              child: Text('button_positive'.tr()),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
         );
       },
     );

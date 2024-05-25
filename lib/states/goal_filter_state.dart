@@ -1,17 +1,33 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:toddle_toddle/const/strings.dart';
 
-final goalFilterProvider = StateNotifierProvider<GoalFilterState, bool>((ref) {
+final AutoDisposeChangeNotifierProvider<GoalFilterState> goalFilterProvider =
+    ChangeNotifierProvider.autoDispose(
+        (AutoDisposeChangeNotifierProviderRef<GoalFilterState> ref) {
   return GoalFilterState();
 });
 
-class GoalFilterState extends StateNotifier<bool> {
-  GoalFilterState() : super(false);
-
-  void toggle() {
-    state = !state;
+class GoalFilterState extends ChangeNotifier {
+  GoalFilterState() {
+    filterType = Hive.box(hivePrefBox)
+        .get('goalFilterType', defaultValue: FilterType.all);
   }
 
-  void set(bool value) {
-    state = value;
+  FilterType? filterType;
+
+  get type => filterType;
+
+  void setFilterType(FilterType type) {
+    filterType = type;
+    Hive.box(hivePrefBox).put('goalFilterType', type);
+    notifyListeners();
   }
+}
+
+enum FilterType {
+  all,
+  active,
+  completed,
 }

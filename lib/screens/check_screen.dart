@@ -23,7 +23,7 @@ class CheckScreen extends ConsumerWidget {
       body: Material(
         color: Theme.of(context).colorScheme.background,
         child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 8),
           children: const <Widget>[
             MyCalendar(),
             SizedBox(height: 16),

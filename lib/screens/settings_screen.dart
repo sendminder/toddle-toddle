@@ -27,14 +27,14 @@ class SettingsScreen extends ConsumerWidget {
                 context.setLocale(const Locale('en'));
                 Navigator.pop(context);
               },
-              child: Text('english'.tr()),
+              child: Text('en'.tr()),
             ),
             SimpleDialogOption(
               onPressed: () {
                 context.setLocale(const Locale('ko'));
                 Navigator.pop(context);
               },
-              child: Text('korean'.tr()),
+              child: Text('ko'.tr()),
             ),
           ],
         );

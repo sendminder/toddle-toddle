@@ -24,6 +24,7 @@ import 'package:toddle_toddle/service/local_push_service.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:toddle_toddle/data/models/filter_type_adapter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,6 +45,7 @@ void main() async {
   Hive.registerAdapter(GoalAdapter());
   Hive.registerAdapter(AchievementAdapter());
   Hive.registerAdapter(ScheduleAdapter());
+  Hive.registerAdapter(FilterTypeAdapter());
 
   GetIt.I.registerSingleton<IdGenerator>(IdGenerator());
   await Hive.openBox(hivePrefBox);

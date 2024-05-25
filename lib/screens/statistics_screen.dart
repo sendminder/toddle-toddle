@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:toddle_toddle/widgets/custom_text.dart';
 import 'package:toddle_toddle/widgets/goal/goal_list_manage.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:toddle_toddle/data/models/goal.dart';
@@ -14,16 +13,15 @@ class StatisticsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
-        title: const CustomText(
-          text: 'title_second',
-          textSize: 20,
-          style: TextStyle(fontWeight: FontWeight.bold),
+        title: Text(
+          'title_second'.tr(),
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
       body: Material(
         color: Theme.of(context).colorScheme.background,
         child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 8),
           children: const <Widget>[
             GoalDoneFilterWidget(),
             GoalListManageWidget(),

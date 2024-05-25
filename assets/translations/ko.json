@@ -42,9 +42,10 @@
     "push_setting_title": "푸시 설정",
     "push_setting_subtitle": "푸시 알림을 받을지 여부 설정",
     "select_language": "언어 선택",
-    "english": "영어",
-    "korean": "한국어",
     "version": "버전",
-    "ko": "한국어 ",
-    "en": "영어 "
+    "ko": "한국어",
+    "en": "영어",
+    "all": "전체",
+    "active": "진행 중",
+    "completed": "완료"
 }

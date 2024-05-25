@@ -8,8 +8,8 @@ import 'package:toddle_toddle/utils/id_generator.dart';
 import 'package:toddle_toddle/widgets/week_days_toggle.dart';
 import 'package:toddle_toddle/utils/time.dart';
 import 'package:get_it/get_it.dart';
-import 'package:toddle_toddle/widgets/edit/name_text_form.dart';
-import 'package:toddle_toddle/widgets/edit/color_picker_form.dart';
+import 'package:toddle_toddle/widgets/editable/name_text_form.dart';
+import 'package:toddle_toddle/widgets/editable/color_picker_form.dart';
 
 class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
   AddOrUpdateGoalBottomSheet(

@@ -5,6 +5,7 @@ import 'package:toddle_toddle/states/goals_state.dart';
 import 'package:toddle_toddle/widgets/custom_text.dart';
 import 'package:collection/collection.dart';
 import 'package:toddle_toddle/widgets/home_calendar.dart';
+import 'package:toddle_toddle/states/theme_mode_state.dart';
 
 class GoalItemListWidget extends ConsumerWidget {
   const GoalItemListWidget({super.key});
@@ -33,6 +34,9 @@ class GoalItemListWidget extends ConsumerWidget {
       );
     }
 
+    final themeMode = ref.read(themeProvider);
+    var activeAlpha = themeMode.themeMode == ThemeMode.dark ? 160 : 190;
+
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -49,7 +53,7 @@ class GoalItemListWidget extends ConsumerWidget {
             .firstOrNull;
 
         var done = currentAchievement?.achieved ?? false;
-        var alpha = done ? 255 : 170;
+        var alpha = done ? 255 : activeAlpha;
 
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 3),

@@ -20,17 +20,17 @@ class GoalAdapter extends TypeAdapter<Goal> {
       id: fields[0] as int,
       name: fields[1] as String,
       startTime: fields[2] as DateTime?,
-      schedule: fields[3] as Schedule,
-      color: fields[5] as Color,
-      isEnd: fields[6] as bool,
-      achievements: (fields[4] as List?)?.cast<Achievement>(),
-    );
+      schedule: fields[4] as Schedule,
+      color: fields[6] as Color,
+      isEnd: fields[7] as bool,
+      achievements: (fields[5] as List?)?.cast<Achievement>(),
+    )..endTime = fields[3] as DateTime?;
   }
 
   @override
   void write(BinaryWriter writer, Goal obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -38,12 +38,14 @@ class GoalAdapter extends TypeAdapter<Goal> {
       ..writeByte(2)
       ..write(obj.startTime)
       ..writeByte(3)
-      ..write(obj.schedule)
+      ..write(obj.endTime)
       ..writeByte(4)
-      ..write(obj.achievements)
+      ..write(obj.schedule)
       ..writeByte(5)
-      ..write(obj.color)
+      ..write(obj.achievements)
       ..writeByte(6)
+      ..write(obj.color)
+      ..writeByte(7)
       ..write(obj.isEnd);
   }
 

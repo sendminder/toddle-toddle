@@ -7,6 +7,7 @@ import 'package:toddle_toddle/states/goals_state.dart';
 import 'package:toddle_toddle/widgets/custom_text.dart';
 import 'package:toddle_toddle/widgets/goal/add_or_update_goal.dart';
 import 'package:toddle_toddle/widgets/chart/goal_chart.dart';
+import 'package:toddle_toddle/states/theme_mode_state.dart';
 
 class GoalListManageWidget extends ConsumerWidget {
   const GoalListManageWidget({super.key});
@@ -26,6 +27,9 @@ class GoalListManageWidget extends ConsumerWidget {
         goals = goals.where((element) => element.isEnd == true).toList();
         break;
     }
+
+    final themeMode = ref.read(themeProvider);
+    var alpha = themeMode.themeMode == ThemeMode.dark ? 160 : 190;
 
     if (goals.isEmpty) {
       return const Center(
@@ -49,7 +53,7 @@ class GoalListManageWidget extends ConsumerWidget {
             decoration: BoxDecoration(
               color: currentGoal.isEnd
                   ? currentGoal.color
-                  : currentGoal.color.withAlpha(200),
+                  : currentGoal.color.withAlpha(alpha),
               borderRadius: BorderRadius.circular(16),
             ),
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),

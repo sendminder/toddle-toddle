@@ -21,15 +21,18 @@ class Goal extends HiveObject {
   DateTime? startTime;
 
   @HiveField(3)
-  Schedule schedule;
+  DateTime? endTime;
 
   @HiveField(4)
-  List<Achievement> achievements;
+  Schedule schedule;
 
   @HiveField(5)
-  Color color;
+  List<Achievement> achievements;
 
   @HiveField(6)
+  Color color;
+
+  @HiveField(7)
   bool isEnd;
 
   Goal({
@@ -47,6 +50,7 @@ class Goal extends HiveObject {
       'id': id,
       'name': name,
       'startTime': startTime?.toIso8601String(),
+      'endTime': endTime?.toIso8601String(),
       'schedule': schedule.toJson(), // Schedule 클래스에도 toJson() 구현 필요
       'achievements': achievements
           .map((a) => a.toJson())

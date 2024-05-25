@@ -76,19 +76,24 @@ class GoalsState extends StateNotifier<List<Goal>> {
       // Goal이 이미 존재하면 업데이트
       await box.put(goal.id, goal);
       state = state.map((g) => g.id == goal.id ? goal : g).toList();
+      sort();
     } else {
       // Goal이 존재하지 않으면 추가
       await box.put(goal.id, goal);
       state = [...state, goal];
+      sort();
     }
     await updatePushSchedule(goal.id);
-    sort();
   }
 
   // 특정 Goal 삭제
   Future<void> removeGoal(int id) async {
     final box = Hive.box<Goal>(hiveGoalBox);
-    await box.delete(id); // ID를 사용하여 삭제
+    Goal? goal = getGoalById(id);
+    if (goal != null) {
+      await cancelSchedule(goal.id);
+      await box.delete(id); // ID를 사용하여 삭제
+    }
     state = state.where((goal) => goal.id != id).toList(); // 상태 갱신
   }
 
@@ -97,8 +102,11 @@ class GoalsState extends StateNotifier<List<Goal>> {
     final box = Hive.box<Goal>(hiveGoalBox);
     Goal? goal = getGoalById(id);
     if (goal != null) {
+      var now = DateTime.now();
       goal.isEnd = true;
+      goal.endTime = DateTime(now.year, now.month, now.day);
       await box.put(id, goal);
+      await cancelSchedule(goal.id);
       state = List.from(state);
     }
   }
@@ -109,7 +117,9 @@ class GoalsState extends StateNotifier<List<Goal>> {
     Goal? goal = getGoalById(id);
     if (goal != null) {
       goal.isEnd = false;
+      goal.endTime = null;
       await box.put(id, goal);
+      await updatePushSchedule(goal.id);
       state = List.from(state);
     }
   }
@@ -168,6 +178,16 @@ class GoalsState extends StateNotifier<List<Goal>> {
     }
   }
 
+  Future<void> cancelSchedule(int goalId) async {
+    var goal = getGoalById(goalId);
+    if (goal != null) {
+      for (int j = 0; j < 7; j++) {
+        await localPushService.cancelNotification(goal.id + j);
+        logger.d('cancelNotification: ${goal.id + j}');
+      }
+    }
+  }
+
   Future<void> cancelAllSchedule() async {
     await localPushService.cancelAll();
     logger.d('cancelAllSchedule');
@@ -188,6 +208,12 @@ class GoalsState extends StateNotifier<List<Goal>> {
         await localPushService.cancelNotification(goal.id + j);
         logger.d('cancelNotification: ${goal.id + j}');
       }
+    }
+
+    // 목표가 종료된 경우 알림을 설정하지 않음
+    if (goal.isEnd) {
+      logger.d('${goal.name} is end');
+      return;
     }
 
     // 시작 시간이

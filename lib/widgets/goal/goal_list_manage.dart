@@ -29,7 +29,7 @@ class GoalListManageWidget extends ConsumerWidget {
     }
 
     final themeMode = ref.read(themeProvider);
-    var alpha = themeMode.themeMode == ThemeMode.dark ? 145 : 190;
+    var alpha = themeMode.themeMode == ThemeMode.dark ? 145 : 180;
 
     if (goals.isEmpty) {
       return const Center(
@@ -74,23 +74,8 @@ class GoalListManageWidget extends ConsumerWidget {
                 ),
                 Expanded(
                   flex: 7,
-                  child: Text(
-                    currentGoal.name,
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: goalNameColor,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: IconButton(
-                    icon: const Icon(
-                      FluentIcons.chart_multiple_24_regular,
-                      color: Colors.white70,
-                    ),
-                    onPressed: () {
+                  child: GestureDetector(
+                    onTap: () async {
                       showModalBottomSheet<void>(
                         isScrollControlled: true,
                         context: context,
@@ -99,6 +84,14 @@ class GoalListManageWidget extends ConsumerWidget {
                         },
                       );
                     },
+                    child: Text(
+                      currentGoal.name,
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: goalNameColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
                 Expanded(
@@ -122,6 +115,26 @@ class GoalListManageWidget extends ConsumerWidget {
                     },
                   ),
                 ),
+                const SizedBox(width: 3),
+                Expanded(
+                  flex: 1,
+                  child: IconButton(
+                    icon: const Icon(
+                      FluentIcons.chart_multiple_24_regular,
+                      color: Colors.white70,
+                    ),
+                    onPressed: () {
+                      showModalBottomSheet<void>(
+                        isScrollControlled: true,
+                        context: context,
+                        builder: (BuildContext context) {
+                          return GoalChartWidget(goal: currentGoal);
+                        },
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(width: 3),
                 Expanded(
                   flex: 1,
                   child: IconButton(
@@ -154,6 +167,7 @@ class GoalListManageWidget extends ConsumerWidget {
                     },
                   ),
                 ),
+                const SizedBox(width: 3),
                 Expanded(
                   flex: 1,
                   child: IconButton(

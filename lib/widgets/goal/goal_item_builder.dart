@@ -36,7 +36,7 @@ class GoalItemListWidget extends ConsumerWidget {
     }
 
     final themeMode = ref.read(themeProvider);
-    var activeAlpha = themeMode.themeMode == ThemeMode.dark ? 145 : 190;
+    var activeAlpha = themeMode.themeMode == ThemeMode.dark ? 145 : 180;
 
     return ListView.builder(
       shrinkWrap: true,

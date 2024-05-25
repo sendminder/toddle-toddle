@@ -17,6 +17,7 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
     goalNameProvider = StateProvider<String>((ref) => goal.name);
     selectedModeProvider = StateProvider<String>(
         (ref) => goal.schedule.isDaily == true ? 'Daily' : 'Weekly');
+    needPushProvider = StateProvider<bool>((ref) => goal.needPush);
     startDateProvider = StateProvider<DateTime?>((ref) => goal.startTime);
     notificationTimeProvider =
         StateProvider<String>((ref) => goal.schedule.notificationTime);
@@ -32,6 +33,7 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
   late StateProvider<DateTime?> startDateProvider;
   late StateProvider<List<int>> selectedDaysProvider;
   late StateProvider<Color> colorProvider;
+  late StateProvider<bool> needPushProvider;
 
   final idGenerator = GetIt.I<IdGenerator>();
 
@@ -43,6 +45,7 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
     final selectedDays = ref.watch(selectedDaysProvider);
     final goalName = ref.watch(goalNameProvider);
     final goalColor = ref.watch(colorProvider);
+    final needPush = ref.watch(needPushProvider);
 
     const header = TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
     var textButtonStyle = TextButton.styleFrom(
@@ -178,13 +181,7 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
               ],
             ),
           ),
-          const SizedBox(height: 20),
-          Text(
-            'notification_time'.tr(),
-            style: header,
-            textAlign: TextAlign.left,
-          ),
-          const SizedBox(height: 5),
+          const SizedBox(height: 15),
           Center(
             child: TextButton(
               style: textButtonStyle,
@@ -218,6 +215,56 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
               ),
             ),
           ),
+          const SizedBox(height: 20),
+          Text(
+            'notifications'.tr(),
+            style: header,
+            textAlign: TextAlign.left,
+          ),
+          Center(
+            child: Column(
+              children: [
+                ToggleButtons(
+                  constraints:
+                      const BoxConstraints(minWidth: 170, minHeight: 48),
+                  borderRadius: BorderRadius.circular(16),
+                  fillColor: goalColor.withAlpha(40),
+                  isSelected: [
+                    needPush == true,
+                    needPush == false,
+                  ],
+                  onPressed: (int index) {
+                    goal.schedule.isDaily = index == 0;
+                    ref.read(needPushProvider.notifier).state =
+                        index == 0 ? true : false;
+                  },
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Text(
+                        'enable'.tr(),
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: goalColor,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Text(
+                        'disable'.tr(),
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: goalColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 5),
           const Spacer(),
           Center(
             child: ElevatedButton(
@@ -233,6 +280,7 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
                 goal.name = goalName;
                 goal.startTime = startDate;
                 goal.color = goalColor;
+                goal.needPush = needPush;
                 Schedule schedule = Schedule(
                   daysOfWeek: selectedDays,
                   notificationTime: notificationTime,

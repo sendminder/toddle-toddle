@@ -29,7 +29,7 @@ class GoalListManageWidget extends ConsumerWidget {
     }
 
     final themeMode = ref.read(themeProvider);
-    var alpha = themeMode.themeMode == ThemeMode.dark ? 160 : 190;
+    var alpha = themeMode.themeMode == ThemeMode.dark ? 145 : 190;
 
     if (goals.isEmpty) {
       return const Center(
@@ -47,6 +47,8 @@ class GoalListManageWidget extends ConsumerWidget {
       itemCount: goals.length,
       itemBuilder: (context, index) {
         var currentGoal = goals[index];
+        var goalNameColor = currentGoal.isEnd ? Colors.white : Colors.white70;
+
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 3),
           child: Container(
@@ -74,9 +76,9 @@ class GoalListManageWidget extends ConsumerWidget {
                   flex: 7,
                   child: Text(
                     currentGoal.name,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 18,
-                      color: Colors.white,
+                      color: goalNameColor,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

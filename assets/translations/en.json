@@ -47,5 +47,7 @@
   "en": "English",
   "all": "All",
   "active": "Active",
-  "completed": "Completed"
+  "completed": "Completed",
+  "enable": "Enable",
+  "disable": "Disable"
 }

@@ -47,5 +47,7 @@
     "en": "영어",
     "all": "전체",
     "active": "진행 중",
-    "completed": "완료"
+    "completed": "완료",
+    "enable": "받기",
+    "disable": "받지 않기"
 }

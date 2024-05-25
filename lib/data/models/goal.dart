@@ -35,6 +35,9 @@ class Goal extends HiveObject {
   @HiveField(7)
   bool isEnd;
 
+  @HiveField(8)
+  bool needPush;
+
   Goal({
     required this.id,
     required this.name,
@@ -42,6 +45,7 @@ class Goal extends HiveObject {
     required this.schedule,
     required this.color,
     this.isEnd = false,
+    this.needPush = true,
     List<Achievement>? achievements,
   }) : achievements = achievements ?? [];
 
@@ -57,6 +61,7 @@ class Goal extends HiveObject {
           .toList(), // Achievement 클래스에도 toJson() 구현 필요
       'color': color.value,
       'isEnd': isEnd,
+      'needPush': needPush,
     };
   }
 

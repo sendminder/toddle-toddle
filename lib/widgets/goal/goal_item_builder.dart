@@ -6,6 +6,7 @@ import 'package:toddle_toddle/widgets/custom_text.dart';
 import 'package:collection/collection.dart';
 import 'package:toddle_toddle/widgets/home_calendar.dart';
 import 'package:toddle_toddle/states/theme_mode_state.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 class GoalItemListWidget extends ConsumerWidget {
   const GoalItemListWidget({super.key});
@@ -35,7 +36,7 @@ class GoalItemListWidget extends ConsumerWidget {
     }
 
     final themeMode = ref.read(themeProvider);
-    var activeAlpha = themeMode.themeMode == ThemeMode.dark ? 160 : 190;
+    var activeAlpha = themeMode.themeMode == ThemeMode.dark ? 145 : 190;
 
     return ListView.builder(
       shrinkWrap: true,
@@ -54,6 +55,7 @@ class GoalItemListWidget extends ConsumerWidget {
 
         var done = currentAchievement?.achieved ?? false;
         var alpha = done ? 255 : activeAlpha;
+        var goalNameColor = done ? Colors.white : Colors.white70;
 
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 3),
@@ -88,16 +90,34 @@ class GoalItemListWidget extends ConsumerWidget {
                     },
                     child: Text(
                       currentGoal.name,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 18,
-                        color: Colors.white,
+                        color: goalNameColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
                 ),
                 Expanded(
-                  flex: 2,
+                  flex: 1,
+                  child: IconButton(
+                    icon: currentGoal.needPush
+                        ? const Icon(
+                            FluentIcons.alert_24_filled,
+                            color: Colors.white70,
+                          )
+                        : const Icon(FluentIcons.alert_off_24_filled,
+                            color: Colors.white70),
+                    onPressed: () async {
+                      await ref
+                          .read(goalsStateProvider.notifier)
+                          .toggleNeedPush(currentGoal.id);
+                    },
+                  ),
+                ),
+                const SizedBox(width: 5),
+                Expanded(
+                  flex: 1,
                   child: Transform.scale(
                     scale: 1.2,
                     child: Checkbox(

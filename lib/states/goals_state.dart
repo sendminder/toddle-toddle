@@ -124,6 +124,17 @@ class GoalsState extends StateNotifier<List<Goal>> {
     }
   }
 
+  Future<void> toggleNeedPush(int id) async {
+    final box = Hive.box<Goal>(hiveGoalBox);
+    Goal? goal = getGoalById(id);
+    if (goal != null) {
+      goal.needPush = !goal.needPush;
+      await box.put(id, goal);
+      await updatePushSchedule(goal.id);
+      state = List.from(state);
+    }
+  }
+
   // 특정 Goal id의 Achievement를 수정하거나 추가하는 함수
   Future<void> addOrUpdateAchievement(
       int goalId, DateTime date, bool achieved) async {
@@ -210,8 +221,8 @@ class GoalsState extends StateNotifier<List<Goal>> {
       }
     }
 
-    // 목표가 종료된 경우 알림을 설정하지 않음
-    if (goal.isEnd) {
+    // 목표가 종료됐거나 알림 off인 경우 알림을 설정하지 않음
+    if (goal.isEnd || !goal.needPush) {
       logger.d('${goal.name} is end');
       return;
     }

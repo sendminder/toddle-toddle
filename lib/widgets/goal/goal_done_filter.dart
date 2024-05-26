@@ -11,6 +11,7 @@ class GoalDoneFilterWidget extends ConsumerWidget {
     final filterTypeState = ref.watch(goalFilterProvider);
     final primary = Theme.of(context).colorScheme.primary;
     final background = Theme.of(context).colorScheme.background;
+    const minSize = Size(40, 35);
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -23,6 +24,7 @@ class GoalDoneFilterWidget extends ConsumerWidget {
                 filterTypeState.type == FilterType.all ? primary : background,
             foregroundColor:
                 filterTypeState.type == FilterType.all ? background : primary,
+            minimumSize: minSize,
           ),
           child: Text('all'.tr()),
         ),
@@ -40,6 +42,7 @@ class GoalDoneFilterWidget extends ConsumerWidget {
             foregroundColor: filterTypeState.type == FilterType.active
                 ? background
                 : primary,
+            minimumSize: minSize,
           ),
           child: Text('active'.tr()),
         ),
@@ -57,6 +60,7 @@ class GoalDoneFilterWidget extends ConsumerWidget {
             foregroundColor: filterTypeState.type == FilterType.completed
                 ? background
                 : primary,
+            minimumSize: minSize,
           ),
           child: Text('completed'.tr()),
         ),

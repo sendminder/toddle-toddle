@@ -12,21 +12,25 @@ class StatisticsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'title_second'.tr(),
-          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-      ),
-      body: Material(
-        color: Theme.of(context).colorScheme.background,
-        child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          children: const <Widget>[
-            GoalDoneFilterWidget(),
-            GoalListManageWidget(),
-            SizedBox(height: 80),
-          ],
+      backgroundColor: Theme.of(context).colorScheme.background,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: Column(
+            children: <Widget>[
+              const SizedBox(height: 15),
+              const GoalDoneFilterWidget(),
+              const SizedBox(height: 15),
+              Expanded(
+                child: ListView(
+                  children: const <Widget>[
+                    GoalListManageWidget(),
+                    SizedBox(height: 80),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(

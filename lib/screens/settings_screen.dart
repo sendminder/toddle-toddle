@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:toddle_toddle/states/theme_mode_state.dart';
 import 'package:toddle_toddle/states/push_notification_state.dart';
-import 'package:toddle_toddle/widgets/custom_text.dart';
 import 'package:toddle_toddle/states/goals_state.dart';
 import 'package:hive/hive.dart';
 import 'package:toddle_toddle/const/strings.dart';
@@ -61,18 +60,12 @@ class SettingsScreen extends ConsumerWidget {
     );
 
     return Scaffold(
-      appBar: AppBar(
-        title: const CustomText(
-          text: 'title_third',
-          textSize: 20,
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-      ),
-      body: Material(
-        color: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.background,
+      body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.only(left: 8, right: 8, bottom: 10),
           children: <Widget>[
+            const SizedBox(height: 15),
             ListTile(
               title: Text(
                 'notifications'.tr(),

@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:toddle_toddle/data/models/goal.dart';
-import 'package:toddle_toddle/widgets/custom_text.dart';
 import 'package:toddle_toddle/widgets/goal/add_or_update_goal.dart';
 import 'package:toddle_toddle/widgets/goal/goal_item_builder.dart';
 import 'package:toddle_toddle/widgets/home_calendar.dart';
@@ -13,23 +12,26 @@ class CheckScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(
-        title: const CustomText(
-          text: 'title_first',
-          textSize: 20,
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-      ),
-      body: Material(
-        color: Theme.of(context).colorScheme.background,
-        child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          children: const <Widget>[
-            MyCalendar(),
-            SizedBox(height: 16),
-            GoalItemListWidget(),
-            SizedBox(height: 80),
-          ],
+      backgroundColor: Theme.of(context).colorScheme.background,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: Column(
+            children: [
+              const SizedBox(height: 15),
+              const MyCalendar(),
+              const SizedBox(height: 15),
+              Expanded(
+                child: ListView(
+                  padding: const EdgeInsets.all(0),
+                  children: const <Widget>[
+                    GoalItemListWidget(),
+                    SizedBox(height: 80),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(

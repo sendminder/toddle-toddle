@@ -9,7 +9,11 @@ class GoalAchievementPercentWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int totalAchievements = goal.achievements.where((a) => a.achieved).length;
-    int totalDays = DateTime.now().difference(goal.startDate).inDays + 1;
+    var lastDay = DateTime.now();
+    if (goal.endTime != null) {
+      lastDay = goal.endTime!;
+    }
+    int totalDays = lastDay.difference(goal.startDate).inDays + 1;
     double achievementPercentage = (totalAchievements / totalDays) * 100;
 
     return Container(

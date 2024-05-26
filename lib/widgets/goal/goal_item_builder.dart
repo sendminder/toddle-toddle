@@ -44,7 +44,8 @@ class GoalItemListWidget extends ConsumerWidget {
       itemBuilder: (context, index) {
         var currentGoal = goals[index];
 
-        if (!hasThatTimeSchedule(targetTime, currentGoal)) {
+        if (!hasThatTimeSchedule(targetTime, currentGoal) ||
+            currentGoal.isEnd) {
           return const SizedBox.shrink();
         }
 

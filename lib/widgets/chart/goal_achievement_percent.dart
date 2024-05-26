@@ -8,19 +8,8 @@ class GoalAchievementPercentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // start date가 없으면 첫번째 achievement의 날짜로 설정
-    // 첫번째 achievement가 없으면 이번달 1일로 설정
-    DateTime startDate = DateTime(DateTime.now().year, DateTime.now().month, 1);
-    if (goal.startTime == null) {
-      if (goal.achievements.isNotEmpty) {
-        startDate = goal.achievements.first.date;
-      }
-    } else {
-      startDate = goal.startTime!;
-    }
-
     int totalAchievements = goal.achievements.where((a) => a.achieved).length;
-    int totalDays = DateTime.now().difference(startDate).inDays + 1;
+    int totalDays = DateTime.now().difference(goal.startDate).inDays + 1;
     double achievementPercentage = (totalAchievements / totalDays) * 100;
 
     return Container(

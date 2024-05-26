@@ -18,7 +18,7 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
     selectedModeProvider = StateProvider<String>(
         (ref) => goal.schedule.isDaily == true ? 'Daily' : 'Weekly');
     needPushProvider = StateProvider<bool>((ref) => goal.needPush);
-    startDateProvider = StateProvider<DateTime?>((ref) => goal.startTime);
+    startDateProvider = StateProvider<DateTime>((ref) => goal.startDate);
     notificationTimeProvider =
         StateProvider<String>((ref) => goal.schedule.notificationTime);
     selectedDaysProvider =
@@ -30,7 +30,7 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
   late StateProvider<String> goalNameProvider;
   late StateProvider<String> selectedModeProvider;
   late StateProvider<String> notificationTimeProvider;
-  late StateProvider<DateTime?> startDateProvider;
+  late StateProvider<DateTime> startDateProvider;
   late StateProvider<List<int>> selectedDaysProvider;
   late StateProvider<Color> colorProvider;
   late StateProvider<bool> needPushProvider;
@@ -285,13 +285,12 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
                   goal.id = await idGenerator.generateUniqueId();
                 }
                 goal.name = goalName;
-                goal.startTime = startDate;
+                goal.startDate = startDate;
                 goal.color = goalColor;
                 goal.needPush = needPush;
                 Schedule schedule = Schedule(
                   daysOfWeek: selectedDays,
                   notificationTime: notificationTime,
-                  startDate: startDate,
                   isDaily: selectedMode == 'Daily',
                 );
                 goal.schedule = schedule;
@@ -299,10 +298,6 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
                 if (context.mounted) {
                   if (goal.name.isEmpty) {
                     showAlertDialog(context, 'goal_name_empty'.tr());
-                    return;
-                  }
-                  if (goal.startTime == null) {
-                    showAlertDialog(context, 'select_start_time'.tr());
                     return;
                   }
                   if (!goal.schedule.isDaily &&

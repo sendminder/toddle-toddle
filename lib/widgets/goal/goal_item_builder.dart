@@ -148,17 +148,14 @@ class GoalItemListWidget extends ConsumerWidget {
   // 또는 주간 목표인 경우, 오늘 요일이 설정되어 있지 않은 경우 스킵
   bool hasThatTimeSchedule(DateTime targetTime, Goal goal) {
     if (goal.schedule.isDaily) {
-      if (goal.startTime == null) {
-        return true;
-      }
-      if (goal.startTime!.isBefore(targetTime) ||
-          goal.startTime!.isAtSameMomentAs(targetTime)) {
+      if (goal.startDate.isBefore(targetTime) ||
+          goal.startDate.isAtSameMomentAs(targetTime)) {
         return true;
       }
     }
 
-    if (goal.schedule.isDaily == false && goal.startTime != null) {
-      if (goal.startTime!.isAfter(targetTime)) {
+    if (goal.schedule.isDaily == false) {
+      if (goal.startDate.isAfter(targetTime)) {
         return false;
       }
     }

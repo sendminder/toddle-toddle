@@ -164,23 +164,6 @@ class GoalsState extends StateNotifier<List<Goal>> {
     }
   }
 
-  // 특정 Goal id의 Schedule을 수정하는 함수
-  Future<void> updateSchedule(int goalId, List<int> daysOfWeek,
-      String notificationTime, DateTime startDate, bool isDaily) async {
-    final box = Hive.box<Goal>(hiveGoalBox);
-    Goal? goal = getGoalById(goalId);
-    if (goal != null) {
-      await goal.schedule.updateDaysOfWeek(daysOfWeek);
-      await goal.schedule.updateNotificationTime(notificationTime);
-      await goal.schedule.updateStartDate(startDate);
-      await goal.schedule.updateIsDaily(isDaily);
-      // 변경 사항을 저장
-      await box.put(goalId, goal);
-      // 상태 갱신
-      state = List.from(state);
-    }
-  }
-
   Future<void> syncSchedule() async {
     await localPushService.cancelAll();
     for (int i = 0; i < state.length; i++) {
@@ -231,8 +214,8 @@ class GoalsState extends StateNotifier<List<Goal>> {
     // null 이거나 현재보다 이전이면 현재날로 설정
     // 현재보다 미래이면 시작 시간으로 설정
     var scheduleStartDate = DateTime.now();
-    if (goal.startTime != null && scheduleStartDate.isBefore(goal.startTime!)) {
-      scheduleStartDate = goal.startTime!;
+    if (scheduleStartDate.isBefore(goal.startDate)) {
+      scheduleStartDate = goal.startDate;
     }
 
     final hour = goal.schedule.notificationTimeHour();

@@ -19,7 +19,7 @@ class GoalAdapter extends TypeAdapter<Goal> {
     return Goal(
       id: fields[0] as int,
       name: fields[1] as String,
-      startTime: fields[2] as DateTime?,
+      startDate: fields[2] as DateTime,
       schedule: fields[4] as Schedule,
       color: fields[6] as Color,
       isEnd: fields[7] as bool,
@@ -37,7 +37,7 @@ class GoalAdapter extends TypeAdapter<Goal> {
       ..writeByte(1)
       ..write(obj.name)
       ..writeByte(2)
-      ..write(obj.startTime)
+      ..write(obj.startDate)
       ..writeByte(3)
       ..write(obj.endTime)
       ..writeByte(4)

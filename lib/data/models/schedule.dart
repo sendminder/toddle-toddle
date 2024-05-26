@@ -11,15 +11,11 @@ class Schedule extends HiveObject {
   String notificationTime; // HH:MM AM
 
   @HiveField(2)
-  DateTime? startDate;
-
-  @HiveField(3)
   bool isDaily;
 
   Schedule({
     required this.daysOfWeek,
     required this.notificationTime,
-    required this.startDate,
     required this.isDaily,
   });
 
@@ -27,7 +23,6 @@ class Schedule extends HiveObject {
     return {
       'daysOfWeek': daysOfWeek,
       'notificationTime': notificationTime,
-      'startDate': startDate?.toIso8601String(),
       'isDaily': isDaily,
     };
   }
@@ -36,7 +31,6 @@ class Schedule extends HiveObject {
     return Schedule(
       daysOfWeek: [],
       notificationTime: '09:30 AM',
-      startDate: null,
       isDaily: true,
     );
   }
@@ -50,12 +44,6 @@ class Schedule extends HiveObject {
   // notificationTime 수정 함수
   Future<void> updateNotificationTime(String newNotificationTime) async {
     notificationTime = newNotificationTime;
-    await save(); // Hive에 변경사항 저장
-  }
-
-  // startDate 수정 함수
-  Future<void> updateStartDate(DateTime newStartDate) async {
-    startDate = newStartDate;
     await save(); // Hive에 변경사항 저장
   }
 

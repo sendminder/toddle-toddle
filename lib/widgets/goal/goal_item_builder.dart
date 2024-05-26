@@ -4,7 +4,7 @@ import 'package:toddle_toddle/data/models/goal.dart';
 import 'package:toddle_toddle/states/goals_state.dart';
 import 'package:toddle_toddle/widgets/custom_text.dart';
 import 'package:collection/collection.dart';
-import 'package:toddle_toddle/widgets/home_calendar.dart';
+import 'package:toddle_toddle/widgets/my_calendar.dart';
 import 'package:toddle_toddle/states/theme_mode_state.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 

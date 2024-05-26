@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:toddle_toddle/data/models/goal.dart';
 import 'package:toddle_toddle/widgets/goal/add_or_update_goal.dart';
 import 'package:toddle_toddle/widgets/goal/goal_item_builder.dart';
-import 'package:toddle_toddle/widgets/home_calendar.dart';
+import 'package:toddle_toddle/widgets/my_calendar.dart';
 
 class CheckScreen extends ConsumerWidget {
   const CheckScreen({super.key});

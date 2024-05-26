@@ -60,6 +60,62 @@ final ColorScheme darkColorScheme = ColorScheme.dark(
   shadow: textSwatch.shade900.withOpacity(.2),
 );
 
+// const int _primaryColor = 0xFFF3B74B;
+// const MaterialColor primarySwatch = MaterialColor(_primaryColor, <int, Color>{
+//   50: Color(0xFFFFF8E7), // 밝은 색상
+//   100: Color(0xFFFFECB3), // 연한 색상
+//   200: Color(0xFFFFE08F), // 연한 색상
+//   300: Color(0xFFFFD26B), // 중간 색상
+//   400: Color(0xFFFFC657), // 중간 색상
+//   500: Color(_primaryColor), // 기본 색상
+//   600: Color(0xFFE0A745), // 어두운 색상
+//   700: Color(0xFFC28F3E), // 어두운 색상
+//   800: Color(0xFFA57837), // 어두운 색상
+//   900: Color(0xFF885E30), // 매우 어두운 색상
+// });
+
+// const int _textColor = 0xFF6D4C41; // 갈색 계열 색상으로 변경
+// const MaterialColor textSwatch = MaterialColor(_textColor, <int, Color>{
+//   50: Color(0xFFF0EDEC), // 연한 베이지
+//   100: Color(0xFFF0EDEC), // 연한 베이지
+//   200: Color(0xFFE1DBD9), // home background
+//   300: Color(0xFF8A6F66), // 주황색
+//   400: Color(0xff7b5d54), // 주황색
+//   500: Color(_textColor), // 기본 색상
+//   600: Color(0xFF62443A), // 중간 브라운
+//   700: Color(0xFF4C352D), // 중간 브라운
+//   800: Color(0xFF362620), // 어두운 브라운
+//   900: Color(0xFF2B1E1A), // 매우 어두운 브라운
+// });
+
+// const Color errorColor = Color(0xFFDC2626); // red-600
+
+// final ColorScheme lightColorScheme = ColorScheme.light(
+//   primary: primarySwatch.shade500,
+//   secondary: primarySwatch.shade500,
+//   onSecondary: Colors.white,
+//   error: errorColor,
+//   background: textSwatch.shade200,
+//   onBackground: textSwatch.shade500,
+//   onSurface: textSwatch.shade500,
+//   surface: textSwatch.shade50,
+//   surfaceVariant: Colors.white,
+//   shadow: textSwatch.shade900.withOpacity(.1),
+// );
+
+// final ColorScheme darkColorScheme = ColorScheme.dark(
+//   primary: primarySwatch.shade500,
+//   secondary: primarySwatch.shade500,
+//   onSecondary: Colors.white,
+//   error: errorColor,
+//   background: textSwatch.shade900,
+//   onBackground: textSwatch.shade400,
+//   onSurface: textSwatch.shade300,
+//   surface: const Color(0xFF262630),
+//   surfaceVariant: const Color(0xFF282832),
+//   shadow: textSwatch.shade900.withOpacity(.2),
+// );
+
 class CustomThemeData {
   CustomThemeData({required this.font}) {
     updateThemeData(font);

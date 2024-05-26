@@ -12,7 +12,8 @@ class MyCalendar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final locale = Localizations.localeOf(context).toString();
     final focusedDay = ref.watch(focusedDayProvider);
-    final now = DateTime.now();
+    var now = DateTime.now();
+    now = DateTime(now.year, now.month, now.day);
     var lastDay = now.add(const Duration(days: 7));
     var firstDay = now.add(const Duration(days: -365));
     var backTodayColor = Theme.of(context).colorScheme.primary;
@@ -32,8 +33,7 @@ class MyCalendar extends ConsumerWidget {
             rightChevronVisible: false, // 오른쪽 화살표 숨김
           ),
           onDaySelected: (selectedDay, focusedDay) {
-            var now = DateTime.now();
-            if (selectedDay.isAfter(now)) {
+            if (!isSameDay(selectedDay, now) && selectedDay.isAfter(now)) {
               return;
             }
             ref.read(focusedDayProvider.notifier).state = selectedDay;
@@ -70,18 +70,6 @@ class MyCalendar extends ConsumerWidget {
 
   Container focusedContainer(
       BuildContext context, DateTime now, DateTime day, bool isFocused) {
-    if (day.isAfter(now)) {
-      return Container(
-        margin: const EdgeInsets.all(4),
-        alignment: Alignment.center,
-        child: Text(
-          '${day.day}',
-          style: const TextStyle(
-            color: Colors.grey,
-          ),
-        ),
-      );
-    }
     if (isSameDay(now, day)) {
       return Container(
         margin: const EdgeInsets.all(4),
@@ -96,6 +84,18 @@ class MyCalendar extends ConsumerWidget {
           '${day.day}',
           style: TextStyle(
             color: isFocused ? Colors.white : null,
+          ),
+        ),
+      );
+    }
+    if (day.isAfter(now)) {
+      return Container(
+        margin: const EdgeInsets.all(4),
+        alignment: Alignment.center,
+        child: Text(
+          '${day.day}',
+          style: const TextStyle(
+            color: Colors.grey,
           ),
         ),
       );

@@ -67,10 +67,11 @@ class Goal extends HiveObject {
 
   static Goal newDefaultGoal() {
     final randome = Random().nextInt(palette.length - 1);
+    final now = DateTime.now();
     return Goal(
       id: 0,
       name: '',
-      startTime: null,
+      startTime: DateTime(now.year, now.month, now.day),
       schedule: Schedule.newDefaultSchedule(),
       color: palette[randome],
     );

@@ -51,8 +51,12 @@
   "completed": "Completed",
   "enable": "Enable",
   "disable": "Disable",
-  "system": "Hello, I'm \"System\" Font.",
-  "suite": "Hello, I'm \"Suite\" Font.",
-  "cookierun": "Hello, I'm \"CookieRun\" Font.",
-  "nunito": "Hello, I'm \"Nunito\" Font."
+  "system_example": "Hello, I'm \"System\" Font.",
+  "suite_example": "Hello, I'm \"Suite\" Font.",
+  "cookierun_example": "Hello, I'm \"CookieRun\" Font.",
+  "nunito_example": "Hello, I'm \"Nunito\" Font.",
+  "select_days_of_week": "Please select days of week.",
+  "goal_name_empty": "Goal name cannot be empty.",
+  "alert": "Alert",
+  "select_start_time": "Please select start time."
 }

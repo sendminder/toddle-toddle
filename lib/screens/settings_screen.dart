@@ -56,7 +56,7 @@ class SettingsScreen extends ConsumerWidget {
                 Navigator.pop(context);
               },
               child: Text(
-                'system'.tr(),
+                'system_example'.tr(),
                 style: const TextStyle(
                   fontFamily: '',
                   fontSize: 16,
@@ -70,7 +70,7 @@ class SettingsScreen extends ConsumerWidget {
                 Navigator.pop(context);
               },
               child: Text(
-                'suite'.tr(),
+                'suite_example'.tr(),
                 style: const TextStyle(
                   fontFamily: 'SUITE',
                   fontSize: 16,
@@ -84,7 +84,7 @@ class SettingsScreen extends ConsumerWidget {
                 Navigator.pop(context);
               },
               child: Text(
-                'nunito'.tr(),
+                'nunito_example'.tr(),
                 style: const TextStyle(
                   fontFamily: 'Nunito',
                   fontSize: 16,
@@ -98,7 +98,7 @@ class SettingsScreen extends ConsumerWidget {
                 Navigator.pop(context);
               },
               child: Text(
-                'cookierun'.tr(),
+                'cookierun_example'.tr(),
                 style: const TextStyle(
                   fontFamily: 'CoockieRun',
                   fontSize: 15,

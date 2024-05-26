@@ -57,6 +57,11 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
       minimumSize: const Size(340, 48),
     );
 
+    var now = DateTime.now();
+    now = DateTime(now.year, now.month, now.day);
+    var lastDay = now.add(const Duration(days: 90));
+    var firstDay = now.add(const Duration(days: -365));
+
     return Container(
       padding: const EdgeInsets.all(16.0),
       height: 860,
@@ -93,14 +98,14 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
               onPressed: () async {
                 final DateTime? picked = await showDatePicker(
                   context: context,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime(2000),
-                  lastDate: DateTime(2025),
+                  initialDate: startDate,
+                  firstDate: firstDay,
+                  lastDate: lastDay,
                   initialEntryMode: DatePickerEntryMode.calendarOnly,
                   builder: (BuildContext context, Widget? child) {
                     return Theme(
                       data: ThemeData.light().copyWith(
-                        primaryColor: goalColor, // 달력의 주요 색상
+                        primaryColor: goalColor,
                         colorScheme: ColorScheme.light(primary: goalColor),
                       ),
                       child: child!,
@@ -108,7 +113,9 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
                   },
                 );
                 if (picked != null && picked != startDate) {
-                  ref.read(startDateProvider.notifier).state = picked;
+                  var selected =
+                      DateTime(picked.year, picked.month, picked.day);
+                  ref.read(startDateProvider.notifier).state = selected;
                 }
               },
               child: Text(
@@ -288,11 +295,27 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
                   isDaily: selectedMode == 'Daily',
                 );
                 goal.schedule = schedule;
-                await ref
-                    .read(goalsStateProvider.notifier)
-                    .addOrUpdateGoal(goal);
-                ref.read(goalsStateProvider.notifier).printAll();
-                Navigator.pop(context);
+
+                if (context.mounted) {
+                  if (goal.name.isEmpty) {
+                    showAlertDialog(context, 'goal_name_empty'.tr());
+                    return;
+                  }
+                  if (goal.startTime == null) {
+                    showAlertDialog(context, 'select_start_time'.tr());
+                    return;
+                  }
+                  if (!goal.schedule.isDaily &&
+                      goal.schedule.daysOfWeek.isEmpty) {
+                    showAlertDialog(context, 'select_days_of_week'.tr());
+                    return;
+                  }
+                  await ref
+                      .read(goalsStateProvider.notifier)
+                      .addOrUpdateGoal(goal);
+                  ref.read(goalsStateProvider.notifier).printAll();
+                  Navigator.pop(context);
+                }
               },
               child: init
                   ? Text(
@@ -316,6 +339,27 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
           const SizedBox(height: 30),
         ],
       ),
+    );
+  }
+
+  void showAlertDialog(BuildContext context, String message) {
+    showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Theme.of(context).colorScheme.background,
+          title: Text('alert'.tr()),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('button_positive'.tr()),
+            ),
+          ],
+        );
+      },
     );
   }
 }

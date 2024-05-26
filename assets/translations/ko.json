@@ -51,8 +51,12 @@
     "completed": "완료",
     "enable": "활성화",
     "disable": "비활성화",
-    "system": "안녕하세요! 저는 \"System\" 폰트에요.",
-    "suite": "안녕하세요! 저는 \"SUITE\" 폰트에요.",
-    "cookierun": "안녕하세요! 저는 \"Cookie Run\" 폰트에요.",
-    "nunito": "안녕하세요! 저는 \"Nunito\" 폰트에요."
+    "system_example": "안녕하세요! 저는 \"시스템\" 폰트에요.",
+    "suite_example": "안녕하세요! 저는 \"SUITE\" 폰트에요.",
+    "nunito_example": "안녕하세요! 저는 \"Nunito\" 폰트에요.",
+    "cookierun_example": "안녕하세요! 저는 \"쿠키런\" 폰트에요.",
+    "select_days_of_week": "일정 요일을 선택해 주세요.",
+    "goal_name_empty": "목표 이름을 입력해 주세요.",
+    "alert": "경고",
+    "select_start_time": "시작 날짜를 선택해 주세요."
 }

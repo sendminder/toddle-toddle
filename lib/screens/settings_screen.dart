@@ -118,23 +118,26 @@ class SettingsScreen extends ConsumerWidget {
                 }
               },
             ),
-            ListTile(
-              trailing: Text(
-                '${selectedLanguageName.tr()} ',
-                style: primaryColorStyle,
-                textAlign: TextAlign.start,
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: ListTile(
+                trailing: Text(
+                  selectedLanguageName.tr(),
+                  style: primaryColorStyle,
+                  textAlign: TextAlign.end,
+                ),
+                title: Text(
+                  'language_title'.tr(),
+                  style: normalStyle,
+                ),
+                subtitle: Text(
+                  'language_content'.tr(),
+                  style: smalStyle,
+                ),
+                onTap: () {
+                  _showLanguagePicker(context);
+                },
               ),
-              title: Text(
-                'language_title'.tr(),
-                style: normalStyle,
-              ),
-              subtitle: Text(
-                'language_content'.tr(),
-                style: smalStyle,
-              ),
-              onTap: () {
-                _showLanguagePicker(context);
-              },
             ),
             divider,
             ListTile(
@@ -143,15 +146,18 @@ class SettingsScreen extends ConsumerWidget {
                 style: boldStyle,
               ),
             ),
-            ListTile(
-              trailing: Text(
-                '$version  ',
-                style: primaryColorStyle,
-                textAlign: TextAlign.start,
-              ),
-              title: Text(
-                'version'.tr(),
-                style: normalStyle,
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: ListTile(
+                trailing: Text(
+                  version,
+                  style: primaryColorStyle,
+                  textAlign: TextAlign.end,
+                ),
+                title: Text(
+                  'version'.tr(),
+                  style: normalStyle,
+                ),
               ),
             ),
           ],

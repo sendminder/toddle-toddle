@@ -1,12 +1,13 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:toddle_toddle/data/models/goal.dart';
 import 'package:toddle_toddle/states/goals_state.dart';
-import 'package:toddle_toddle/widgets/custom_text.dart';
 import 'package:collection/collection.dart';
 import 'package:toddle_toddle/widgets/my_calendar.dart';
 import 'package:toddle_toddle/states/theme_mode_state.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class GoalItemListWidget extends ConsumerWidget {
   const GoalItemListWidget({super.key});
@@ -26,11 +27,10 @@ class GoalItemListWidget extends ConsumerWidget {
     }
 
     if (goals.isEmpty || !hasContents) {
-      return const Center(
-        child: CustomText(
-          text: 'no_goals',
-          textSize: 16,
-          style: TextStyle(fontWeight: FontWeight.bold),
+      return Center(
+        child: Text(
+          'no_goals'.tr(),
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
       );
     }

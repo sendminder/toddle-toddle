@@ -41,11 +41,11 @@ class MyCalendar extends ConsumerWidget {
           calendarBuilders: CalendarBuilders(
             todayBuilder: (context, day, focusedDay) {
               final isFocused = isSameDay(day, focusedDay);
-              return focusedContainer(context, day, isFocused);
+              return focusedContainer(context, now, day, isFocused);
             },
             defaultBuilder: (context, date, _) {
               final isFocused = isSameDay(date, focusedDay);
-              return focusedContainer(context, date, isFocused);
+              return focusedContainer(context, now, date, isFocused);
             },
           ),
         ),
@@ -69,8 +69,7 @@ class MyCalendar extends ConsumerWidget {
   }
 
   Container focusedContainer(
-      BuildContext context, DateTime day, bool isFocused) {
-    var now = DateTime.now();
+      BuildContext context, DateTime now, DateTime day, bool isFocused) {
     if (day.isAfter(now)) {
       return Container(
         margin: const EdgeInsets.all(4),
@@ -83,7 +82,7 @@ class MyCalendar extends ConsumerWidget {
         ),
       );
     }
-    if (day.year == now.year && day.month == now.month && day.day == now.day) {
+    if (isSameDay(now, day)) {
       return Container(
         margin: const EdgeInsets.all(4),
         alignment: Alignment.center,

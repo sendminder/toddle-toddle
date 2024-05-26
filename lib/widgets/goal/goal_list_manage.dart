@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:toddle_toddle/states/goal_filter_state.dart';
 import 'package:toddle_toddle/states/goals_state.dart';
-import 'package:toddle_toddle/widgets/custom_text.dart';
 import 'package:toddle_toddle/widgets/goal/add_or_update_goal.dart';
 import 'package:toddle_toddle/widgets/chart/goal_chart.dart';
 import 'package:toddle_toddle/states/theme_mode_state.dart';
@@ -32,11 +31,18 @@ class GoalListManageWidget extends ConsumerWidget {
     var alpha = themeMode.themeMode == ThemeMode.dark ? 145 : 180;
 
     if (goals.isEmpty) {
-      return const Center(
-        child: CustomText(
-          text: 'no_goals',
-          textSize: 16,
-          style: TextStyle(fontWeight: FontWeight.bold),
+      if (filterTypeState.type == FilterType.completed) {
+        return Center(
+          child: Text(
+            'no_completed_goals'.tr(),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+        );
+      }
+      return Center(
+        child: Text(
+          'no_goals'.tr(),
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
       );
     }

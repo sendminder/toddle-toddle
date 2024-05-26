@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +48,7 @@ class CheckScreen extends ConsumerWidget {
             },
           );
         },
-        tooltip: '항목 추가',
+        tooltip: 'add_goal'.tr(),
         child: const Icon(FluentIcons.add_24_regular),
       ),
     );

@@ -7,6 +7,10 @@
   "dark_mode_content": "Supports dark mode and light mode.",
   "language_title": "Language",
   "language_content": "Supports Korean and English.",
+  "select_language": "Select Language",
+  "font_title": "Font",
+  "font_subtitle": "Supports 4 types of fonts.",
+  "select_font": "Select Font.",
   "no_goals": "No goals available. Please add a goal.",
   "no_completed_goals": "No goals completed. Try complete a goal.",
   "monday": "Mon",
@@ -39,7 +43,6 @@
   "info": "Info",
   "push_setting_title": "Push Notifications",
   "push_setting_subtitle": "Set the time for push notifications.",
-  "select_language": "Select Language",
   "version": "Version",
   "ko": "Korean",
   "en": "English",
@@ -47,5 +50,9 @@
   "active": "Active",
   "completed": "Completed",
   "enable": "Enable",
-  "disable": "Disable"
+  "disable": "Disable",
+  "system": "Hello, I'm \"System\" Font.",
+  "suite": "Hello, I'm \"Suite\" Font.",
+  "cookierun": "Hello, I'm \"CookieRun\" Font.",
+  "nunito": "Hello, I'm \"Nunito\" Font."
 }

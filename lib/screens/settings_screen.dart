@@ -6,6 +6,7 @@ import 'package:toddle_toddle/states/push_notification_state.dart';
 import 'package:toddle_toddle/states/goals_state.dart';
 import 'package:hive/hive.dart';
 import 'package:toddle_toddle/const/strings.dart';
+import 'package:toddle_toddle/states/font_state.dart';
 
 class SettingsScreen extends ConsumerWidget {
   SettingsScreen({super.key}) {
@@ -41,6 +42,76 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
+  void _showFontPicker(BuildContext context, WidgetRef ref) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          backgroundColor: Theme.of(context).colorScheme.background,
+          title: Text('select_font'.tr()),
+          children: <Widget>[
+            SimpleDialogOption(
+              onPressed: () {
+                ref.read(fontProvider.notifier).setFont('System');
+                Navigator.pop(context);
+              },
+              child: Text(
+                'system'.tr(),
+                style: const TextStyle(
+                  fontFamily: '',
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ),
+            SimpleDialogOption(
+              onPressed: () {
+                ref.read(fontProvider.notifier).setFont('SUITE');
+                Navigator.pop(context);
+              },
+              child: Text(
+                'suite'.tr(),
+                style: const TextStyle(
+                  fontFamily: 'SUITE',
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ),
+            SimpleDialogOption(
+              onPressed: () {
+                ref.read(fontProvider.notifier).setFont('Nunito');
+                Navigator.pop(context);
+              },
+              child: Text(
+                'nunito'.tr(),
+                style: const TextStyle(
+                  fontFamily: 'Nunito',
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ),
+            SimpleDialogOption(
+              onPressed: () {
+                ref.read(fontProvider.notifier).setFont('CoockieRun');
+                Navigator.pop(context);
+              },
+              child: Text(
+                'cookierun'.tr(),
+                style: const TextStyle(
+                  fontFamily: 'CoockieRun',
+                  fontSize: 15,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     PushNotificationState pushEnable = ref.watch(pushNotificationProvider);
@@ -58,6 +129,7 @@ class SettingsScreen extends ConsumerWidget {
       fontSize: 15,
       color: Theme.of(context).colorScheme.primary,
     );
+    final font = ref.watch(fontProvider);
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
@@ -136,6 +208,27 @@ class SettingsScreen extends ConsumerWidget {
                 ),
                 onTap: () {
                   _showLanguagePicker(context);
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: ListTile(
+                trailing: Text(
+                  font.font,
+                  style: primaryColorStyle,
+                  textAlign: TextAlign.end,
+                ),
+                title: Text(
+                  'font_title'.tr(),
+                  style: normalStyle,
+                ),
+                subtitle: Text(
+                  'font_subtitle'.tr(),
+                  style: smalStyle,
+                ),
+                onTap: () {
+                  _showFontPicker(context, ref);
                 },
               ),
             ),

@@ -17,6 +17,7 @@ import 'package:toddle_toddle/data/models/achievement.dart';
 
 import 'package:toddle_toddle/const/strings.dart';
 import 'config/theme.dart';
+import 'package:toddle_toddle/states/font_state.dart';
 import 'states/theme_mode_state.dart';
 import 'screens/home_screen.dart';
 
@@ -75,14 +76,16 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ThemeModeState currentTheme = ref.watch(themeProvider);
+    final FontState currentFont = ref.watch(fontProvider);
+    final CustomThemeData customTheme = CustomThemeData(font: currentFont.font);
     // if (Platform.isAndroid) {
     return MaterialApp(
       /// Localization is not available for the title.
       title: 'Toddle Toddle',
 
       /// Theme stuff
-      theme: lightTheme,
-      darkTheme: darkTheme,
+      theme: customTheme.lightTheme,
+      darkTheme: customTheme.darkTheme,
       themeMode: currentTheme.themeMode,
 
       /// Localization stuff

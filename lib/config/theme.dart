@@ -60,227 +60,241 @@ final ColorScheme darkColorScheme = ColorScheme.dark(
   shadow: textSwatch.shade900.withOpacity(.2),
 );
 
-final ThemeData lightTheme = ThemeData(
-  colorScheme: lightColorScheme,
-  fontFamily: 'SUITE',
-  textTheme: TextTheme(
-    displayLarge: TextStyle(
-      color: textSwatch.shade700,
-      fontFamily: 'SUITE',
-    ),
-    displayMedium: TextStyle(
-      color: textSwatch.shade600,
-      fontFamily: 'SUITE',
-    ),
-    displaySmall: TextStyle(
-      color: textSwatch.shade500,
-      fontFamily: 'SUITE',
-    ),
-    headlineLarge: TextStyle(
-      color: textSwatch.shade700,
-      fontFamily: 'SUITE',
-    ),
-    headlineMedium: TextStyle(
-      color: textSwatch.shade600,
-      fontFamily: 'SUITE',
-    ),
-    headlineSmall: TextStyle(
-      color: textSwatch.shade500,
-      fontFamily: 'SUITE',
-    ),
-    titleLarge: TextStyle(
-      color: textSwatch.shade700,
-      fontFamily: 'SUITE',
-    ),
-    titleMedium: TextStyle(
-      color: textSwatch.shade600,
-      fontFamily: 'SUITE',
-    ),
-    titleSmall: TextStyle(
-      color: textSwatch.shade500,
-      fontFamily: 'SUITE',
-    ),
-    bodyLarge: TextStyle(
-      color: textSwatch.shade700,
-      fontFamily: 'SUITE',
-    ),
-    bodyMedium: TextStyle(
-      color: textSwatch.shade600,
-      fontFamily: 'SUITE',
-    ),
-    bodySmall: TextStyle(
-      color: textSwatch.shade500,
-      fontFamily: 'SUITE',
-    ),
-    labelLarge: TextStyle(
-      color: textSwatch.shade700,
-      fontFamily: 'SUITE',
-    ),
-    labelMedium: TextStyle(
-      color: textSwatch.shade600,
-      fontFamily: 'SUITE',
-    ),
-    labelSmall: TextStyle(
-      color: textSwatch.shade500,
-      fontFamily: 'SUITE',
-    ),
-  ),
-  checkboxTheme: CheckboxThemeData(
-    fillColor:
-        MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-      if (states.contains(MaterialState.disabled)) {
-        return null;
-      }
-      if (states.contains(MaterialState.selected)) {
-        return primarySwatch.shade500;
-      }
-      return null;
-    }),
-  ),
-  radioTheme: RadioThemeData(
-    fillColor:
-        MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-      if (states.contains(MaterialState.disabled)) {
-        return null;
-      }
-      if (states.contains(MaterialState.selected)) {
-        return primarySwatch.shade500;
-      }
-      return null;
-    }),
-  ),
-  switchTheme: SwitchThemeData(
-    thumbColor:
-        MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-      if (states.contains(MaterialState.disabled)) {
-        return null;
-      }
-      if (states.contains(MaterialState.selected)) {
-        return primarySwatch.shade500;
-      }
-      return null;
-    }),
-    trackColor:
-        MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-      if (states.contains(MaterialState.disabled)) {
-        return null;
-      }
-      if (states.contains(MaterialState.selected)) {
-        return primarySwatch.shade200;
-      }
-      return null;
-    }),
-  ),
-);
+class CustomThemeData {
+  CustomThemeData({required this.font}) {
+    updateThemeData(font);
+  }
+  String font;
+  late ThemeData lightTheme;
+  late ThemeData darkTheme;
 
-final ThemeData darkTheme = lightTheme.copyWith(
-  colorScheme: darkColorScheme,
-  textTheme: TextTheme(
-    displayLarge: TextStyle(
-      color: textSwatch.shade200,
-      fontFamily: 'SUITE',
-    ),
-    displayMedium: TextStyle(
-      color: textSwatch.shade300,
-      fontFamily: 'SUITE',
-    ),
-    displaySmall: TextStyle(
-      color: textSwatch.shade400,
-      fontFamily: 'SUITE',
-    ),
-    headlineLarge: TextStyle(
-      color: textSwatch.shade200,
-      fontFamily: 'SUITE',
-    ),
-    headlineMedium: TextStyle(
-      color: textSwatch.shade300,
-      fontFamily: 'SUITE',
-    ),
-    headlineSmall: TextStyle(
-      color: textSwatch.shade400,
-      fontFamily: 'SUITE',
-    ),
-    titleLarge: TextStyle(
-      color: textSwatch.shade200,
-      fontFamily: 'SUITE',
-    ),
-    titleMedium: TextStyle(
-      color: textSwatch.shade300,
-      fontFamily: 'SUITE',
-    ),
-    titleSmall: TextStyle(
-      color: textSwatch.shade400,
-      fontFamily: 'SUITE',
-    ),
-    bodyLarge: TextStyle(
-      color: textSwatch.shade200,
-      fontFamily: 'SUITE',
-    ),
-    bodyMedium: TextStyle(
-      color: textSwatch.shade300,
-      fontFamily: 'SUITE',
-    ),
-    bodySmall: TextStyle(
-      color: textSwatch.shade400,
-      fontFamily: 'SUITE',
-    ),
-    labelLarge: TextStyle(
-      color: textSwatch.shade200,
-      fontFamily: 'SUITE',
-    ),
-    labelMedium: TextStyle(
-      color: textSwatch.shade300,
-      fontFamily: 'SUITE',
-    ),
-    labelSmall: TextStyle(
-      color: textSwatch.shade400,
-      fontFamily: 'SUITE',
-    ),
-  ),
-  checkboxTheme: CheckboxThemeData(
-    fillColor:
-        MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-      if (states.contains(MaterialState.disabled)) {
-        return null;
-      }
-      if (states.contains(MaterialState.selected)) {
-        return primarySwatch.shade500;
-      }
-      return null;
-    }),
-  ),
-  radioTheme: RadioThemeData(
-    fillColor:
-        MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-      if (states.contains(MaterialState.disabled)) {
-        return null;
-      }
-      if (states.contains(MaterialState.selected)) {
-        return primarySwatch.shade500;
-      }
-      return null;
-    }),
-  ),
-  switchTheme: SwitchThemeData(
-    thumbColor:
-        MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-      if (states.contains(MaterialState.disabled)) {
-        return null;
-      }
-      if (states.contains(MaterialState.selected)) {
-        return primarySwatch.shade500;
-      }
-      return null;
-    }),
-    trackColor:
-        MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-      if (states.contains(MaterialState.disabled)) {
-        return null;
-      }
-      if (states.contains(MaterialState.selected)) {
-        return primarySwatch.shade900;
-      }
-      return null;
-    }),
-  ),
-);
+  void updateThemeData(String font) {
+    this.font = font;
+    if (font == 'System') {
+      font = '';
+    }
+    lightTheme = ThemeData(
+      colorScheme: lightColorScheme,
+      fontFamily: font,
+      textTheme: TextTheme(
+        displayLarge: TextStyle(
+          color: textSwatch.shade700,
+          fontFamily: font,
+        ),
+        displayMedium: TextStyle(
+          color: textSwatch.shade600,
+          fontFamily: font,
+        ),
+        displaySmall: TextStyle(
+          color: textSwatch.shade500,
+          fontFamily: font,
+        ),
+        headlineLarge: TextStyle(
+          color: textSwatch.shade700,
+          fontFamily: font,
+        ),
+        headlineMedium: TextStyle(
+          color: textSwatch.shade600,
+          fontFamily: font,
+        ),
+        headlineSmall: TextStyle(
+          color: textSwatch.shade500,
+          fontFamily: font,
+        ),
+        titleLarge: TextStyle(
+          color: textSwatch.shade700,
+          fontFamily: font,
+        ),
+        titleMedium: TextStyle(
+          color: textSwatch.shade600,
+          fontFamily: font,
+        ),
+        titleSmall: TextStyle(
+          color: textSwatch.shade500,
+          fontFamily: font,
+        ),
+        bodyLarge: TextStyle(
+          color: textSwatch.shade700,
+          fontFamily: font,
+        ),
+        bodyMedium: TextStyle(
+          color: textSwatch.shade600,
+          fontFamily: font,
+        ),
+        bodySmall: TextStyle(
+          color: textSwatch.shade500,
+          fontFamily: font,
+        ),
+        labelLarge: TextStyle(
+          color: textSwatch.shade700,
+          fontFamily: font,
+        ),
+        labelMedium: TextStyle(
+          color: textSwatch.shade600,
+          fontFamily: font,
+        ),
+        labelSmall: TextStyle(
+          color: textSwatch.shade500,
+          fontFamily: font,
+        ),
+      ),
+      checkboxTheme: CheckboxThemeData(
+        fillColor: MaterialStateProperty.resolveWith<Color?>(
+            (Set<MaterialState> states) {
+          if (states.contains(MaterialState.disabled)) {
+            return null;
+          }
+          if (states.contains(MaterialState.selected)) {
+            return primarySwatch.shade500;
+          }
+          return null;
+        }),
+      ),
+      radioTheme: RadioThemeData(
+        fillColor: MaterialStateProperty.resolveWith<Color?>(
+            (Set<MaterialState> states) {
+          if (states.contains(MaterialState.disabled)) {
+            return null;
+          }
+          if (states.contains(MaterialState.selected)) {
+            return primarySwatch.shade500;
+          }
+          return null;
+        }),
+      ),
+      switchTheme: SwitchThemeData(
+        thumbColor: MaterialStateProperty.resolveWith<Color?>(
+            (Set<MaterialState> states) {
+          if (states.contains(MaterialState.disabled)) {
+            return null;
+          }
+          if (states.contains(MaterialState.selected)) {
+            return primarySwatch.shade500;
+          }
+          return null;
+        }),
+        trackColor: MaterialStateProperty.resolveWith<Color?>(
+            (Set<MaterialState> states) {
+          if (states.contains(MaterialState.disabled)) {
+            return null;
+          }
+          if (states.contains(MaterialState.selected)) {
+            return primarySwatch.shade200;
+          }
+          return null;
+        }),
+      ),
+    );
+    darkTheme = lightTheme.copyWith(
+      colorScheme: darkColorScheme,
+      textTheme: TextTheme(
+        displayLarge: TextStyle(
+          color: textSwatch.shade200,
+          fontFamily: font,
+        ),
+        displayMedium: TextStyle(
+          color: textSwatch.shade300,
+          fontFamily: font,
+        ),
+        displaySmall: TextStyle(
+          color: textSwatch.shade400,
+          fontFamily: font,
+        ),
+        headlineLarge: TextStyle(
+          color: textSwatch.shade200,
+          fontFamily: font,
+        ),
+        headlineMedium: TextStyle(
+          color: textSwatch.shade300,
+          fontFamily: font,
+        ),
+        headlineSmall: TextStyle(
+          color: textSwatch.shade400,
+          fontFamily: font,
+        ),
+        titleLarge: TextStyle(
+          color: textSwatch.shade200,
+          fontFamily: font,
+        ),
+        titleMedium: TextStyle(
+          color: textSwatch.shade300,
+          fontFamily: font,
+        ),
+        titleSmall: TextStyle(
+          color: textSwatch.shade400,
+          fontFamily: font,
+        ),
+        bodyLarge: TextStyle(
+          color: textSwatch.shade200,
+          fontFamily: font,
+        ),
+        bodyMedium: TextStyle(
+          color: textSwatch.shade300,
+          fontFamily: font,
+        ),
+        bodySmall: TextStyle(
+          color: textSwatch.shade400,
+          fontFamily: font,
+        ),
+        labelLarge: TextStyle(
+          color: textSwatch.shade200,
+          fontFamily: font,
+        ),
+        labelMedium: TextStyle(
+          color: textSwatch.shade300,
+          fontFamily: font,
+        ),
+        labelSmall: TextStyle(
+          color: textSwatch.shade400,
+          fontFamily: font,
+        ),
+      ),
+      checkboxTheme: CheckboxThemeData(
+        fillColor: MaterialStateProperty.resolveWith<Color?>(
+            (Set<MaterialState> states) {
+          if (states.contains(MaterialState.disabled)) {
+            return null;
+          }
+          if (states.contains(MaterialState.selected)) {
+            return primarySwatch.shade500;
+          }
+          return null;
+        }),
+      ),
+      radioTheme: RadioThemeData(
+        fillColor: MaterialStateProperty.resolveWith<Color?>(
+            (Set<MaterialState> states) {
+          if (states.contains(MaterialState.disabled)) {
+            return null;
+          }
+          if (states.contains(MaterialState.selected)) {
+            return primarySwatch.shade500;
+          }
+          return null;
+        }),
+      ),
+      switchTheme: SwitchThemeData(
+        thumbColor: MaterialStateProperty.resolveWith<Color?>(
+            (Set<MaterialState> states) {
+          if (states.contains(MaterialState.disabled)) {
+            return null;
+          }
+          if (states.contains(MaterialState.selected)) {
+            return primarySwatch.shade500;
+          }
+          return null;
+        }),
+        trackColor: MaterialStateProperty.resolveWith<Color?>(
+            (Set<MaterialState> states) {
+          if (states.contains(MaterialState.disabled)) {
+            return null;
+          }
+          if (states.contains(MaterialState.selected)) {
+            return primarySwatch.shade900;
+          }
+          return null;
+        }),
+      ),
+    );
+  }
+}

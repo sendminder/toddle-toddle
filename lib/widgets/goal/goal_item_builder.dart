@@ -7,7 +7,6 @@ import 'package:collection/collection.dart';
 import 'package:toddle_toddle/widgets/my_calendar.dart';
 import 'package:toddle_toddle/states/theme_mode_state.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class GoalItemListWidget extends ConsumerWidget {
   const GoalItemListWidget({super.key});

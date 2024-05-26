@@ -7,6 +7,10 @@
     "dark_mode_content": "일반 모드와 다크 모드를 지원해요.",
     "language_title": "언어 설정",
     "language_content": "한국어와 영어를 지원해요.",
+    "select_language": "언어 선택",
+    "font_title": "글꼴 설정",
+    "font_subtitle": "4개의 글꼴을 지원해요.",
+    "select_font": "글꼴 선택",
     "no_goals": "목표가 없어요. 목표를 추가해 주세요.",
     "no_completed_goals": "완료한 목표가 없어요. 목표를 완료해보세요.",
     "monday": "월",
@@ -39,7 +43,6 @@
     "info": "정보",
     "push_setting_title": "푸시 알림",
     "push_setting_subtitle": "푸시 알림 시간을 설정해 주세요.",
-    "select_language": "언어 선택",
     "version": "버전",
     "ko": "한국어",
     "en": "영어",
@@ -47,5 +50,9 @@
     "active": "진행 중",
     "completed": "완료",
     "enable": "활성화",
-    "disable": "비활성화"
+    "disable": "비활성화",
+    "system": "안녕하세요! 저는 \"System\" 폰트에요.",
+    "suite": "안녕하세요! 저는 \"SUITE\" 폰트에요.",
+    "cookierun": "안녕하세요! 저는 \"Cookie Run\" 폰트에요.",
+    "nunito": "안녕하세요! 저는 \"Nunito\" 폰트에요."
 }

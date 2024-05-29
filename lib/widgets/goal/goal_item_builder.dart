@@ -123,10 +123,6 @@ class GoalItemListWidget extends ConsumerWidget {
                     child: Checkbox(
                       fillColor: MaterialStateProperty.all(
                           currentGoal.color.withAlpha(170)),
-                      checkColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
                       value: currentAchievement?.achieved ?? false,
                       onChanged: (bool? value) async {
                         await ref

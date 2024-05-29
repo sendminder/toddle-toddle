@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:toddle_toddle/config/theme.dart';
 import 'package:toddle_toddle/states/theme_mode_state.dart';
 import 'package:toddle_toddle/states/push_notification_state.dart';
 import 'package:toddle_toddle/states/goals_state.dart';
@@ -112,6 +113,108 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
+  void _showThemePicker(BuildContext context, WidgetRef ref) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        final yellos = [
+          const Color(0xFFF3B74B),
+          const Color(0xFFD9C6C0),
+          const Color(0xFFEFE7E5),
+          const Color(0xFF4D3405),
+        ];
+
+        final purples = [
+          const Color(0xFF6366F1),
+          const Color(0xFFA5B4FC),
+          const Color(0xFFE2E8F0),
+          const Color(0xFF0F172A),
+        ];
+
+        final greens = [
+          const Color(0xFF34D399),
+          const Color(0xFFB5C3D2),
+          const Color(0xFFC5F2E2),
+          const Color(0xFF08271C),
+        ];
+
+        return SimpleDialog(
+          backgroundColor: Theme.of(context).colorScheme.background,
+          title: Text('select_theme'.tr()),
+          children: <Widget>[
+            SimpleDialogOption(
+              onPressed: () {
+                ref
+                    .read(themeProvider.notifier)
+                    .setColorPaletteType(ColorPaletteType.yellow);
+                Navigator.pop(context);
+              },
+              child: _buildColorOption(context, 'yellow'.tr(), yellos),
+            ),
+            SimpleDialogOption(
+              onPressed: () {
+                ref
+                    .read(themeProvider.notifier)
+                    .setColorPaletteType(ColorPaletteType.purple);
+                Navigator.pop(context);
+              },
+              child: _buildColorOption(context, 'purple'.tr(), purples),
+            ),
+            SimpleDialogOption(
+              onPressed: () {
+                ref
+                    .read(themeProvider.notifier)
+                    .setColorPaletteType(ColorPaletteType.green);
+                Navigator.pop(context);
+              },
+              child: _buildColorOption(context, 'green'.tr(), greens),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildColorOption(
+      BuildContext context, String text, List<Color> colors) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Container(
+          width: 80,
+          height: 50,
+          decoration: BoxDecoration(
+            color: colors[0],
+            shape: BoxShape.rectangle,
+          ),
+        ),
+        Container(
+          width: 80,
+          height: 50,
+          decoration: BoxDecoration(
+            color: colors[1],
+            shape: BoxShape.rectangle,
+          ),
+        ),
+        Container(
+          width: 80,
+          height: 50,
+          decoration: BoxDecoration(
+            color: colors[2],
+            shape: BoxShape.rectangle,
+          ),
+        ),
+        const SizedBox(width: 20),
+        Text(
+          text,
+          style: TextStyle(
+            color: colors[3],
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     PushNotificationState pushEnable = ref.watch(pushNotificationProvider);
@@ -194,20 +297,20 @@ class SettingsScreen extends ConsumerWidget {
               padding: const EdgeInsets.only(right: 8),
               child: ListTile(
                 trailing: Text(
-                  selectedLanguageName.tr(),
+                  themeMode.colorPaletteType.toStringValue().tr(),
                   style: primaryColorStyle,
                   textAlign: TextAlign.end,
                 ),
                 title: Text(
-                  'language_title'.tr(),
+                  'theme_title'.tr(),
                   style: normalStyle,
                 ),
                 subtitle: Text(
-                  'language_content'.tr(),
+                  'theme_subtitle'.tr(),
                   style: smalStyle,
                 ),
                 onTap: () {
-                  _showLanguagePicker(context);
+                  _showThemePicker(context, ref);
                 },
               ),
             ),
@@ -229,6 +332,27 @@ class SettingsScreen extends ConsumerWidget {
                 ),
                 onTap: () {
                   _showFontPicker(context, ref);
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: ListTile(
+                trailing: Text(
+                  selectedLanguageName.tr(),
+                  style: primaryColorStyle,
+                  textAlign: TextAlign.end,
+                ),
+                title: Text(
+                  'language_title'.tr(),
+                  style: normalStyle,
+                ),
+                subtitle: Text(
+                  'language_content'.tr(),
+                  style: smalStyle,
+                ),
+                onTap: () {
+                  _showLanguagePicker(context);
                 },
               ),
             ),

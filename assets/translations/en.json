@@ -10,7 +10,10 @@
   "select_language": "Select Language",
   "font_title": "Font",
   "font_subtitle": "Supports 4 types of fonts.",
-  "select_font": "Select Font.",
+  "theme_title": "Theme",
+  "theme_subtitle": "Supports 3 types of themes.",
+  "select_font": "Select Font",
+  "select_theme": "Select Theme",
   "no_goals": "No goals available. Please add a goal.",
   "no_completed_goals": "No goals completed. Try complete a goal.",
   "monday": "Mon",
@@ -58,5 +61,8 @@
   "select_days_of_week": "Please select days of week.",
   "goal_name_empty": "Goal name cannot be empty.",
   "alert": "Alert",
-  "select_start_time": "Please select start time."
+  "select_start_time": "Please select start time.",
+  "yellow": "Yellow",
+  "purple": "Purple",
+  "green": "Green"
 }

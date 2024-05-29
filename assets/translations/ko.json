@@ -10,7 +10,10 @@
     "select_language": "언어 선택",
     "font_title": "글꼴 설정",
     "font_subtitle": "4개의 글꼴을 지원해요.",
+    "theme_title": "테마 설정",
+    "theme_subtitle": "3개의 테마를 지원해요.",
     "select_font": "글꼴 선택",
+    "select_theme": "테마 선택",
     "no_goals": "목표가 없어요. 목표를 추가해 주세요.",
     "no_completed_goals": "완료한 목표가 없어요. 목표를 완료해보세요.",
     "monday": "월",
@@ -58,5 +61,8 @@
     "select_days_of_week": "일정 요일을 선택해 주세요.",
     "goal_name_empty": "목표 이름을 입력해 주세요.",
     "alert": "경고",
-    "select_start_time": "시작 날짜를 선택해 주세요."
+    "select_start_time": "시작 날짜를 선택해 주세요.",
+    "yellow": "노랑노랑",
+    "purple": "보라보라",
+    "green": "초록초록"
 }

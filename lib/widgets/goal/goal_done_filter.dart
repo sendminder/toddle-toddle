@@ -26,7 +26,11 @@ class GoalDoneFilterWidget extends ConsumerWidget {
                 filterTypeState.type == FilterType.all ? background : primary,
             minimumSize: minSize,
           ),
-          child: Text('all'.tr()),
+          child: Text('all'.tr(),
+              style: filterTypeState.type == FilterType.all
+                  ? const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)
+                  : const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.normal)),
         ),
         const SizedBox(width: 10),
         ElevatedButton(
@@ -44,7 +48,11 @@ class GoalDoneFilterWidget extends ConsumerWidget {
                 : primary,
             minimumSize: minSize,
           ),
-          child: Text('active'.tr()),
+          child: Text('active'.tr(),
+              style: filterTypeState.type == FilterType.active
+                  ? const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)
+                  : const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.normal)),
         ),
         const SizedBox(width: 10),
         ElevatedButton(
@@ -62,7 +70,11 @@ class GoalDoneFilterWidget extends ConsumerWidget {
                 : primary,
             minimumSize: minSize,
           ),
-          child: Text('completed'.tr()),
+          child: Text('completed'.tr(),
+              style: filterTypeState.type == FilterType.completed
+                  ? const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)
+                  : const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.normal)),
         ),
       ],
     );

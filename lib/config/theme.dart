@@ -4,125 +4,213 @@ import 'package:flutter/material.dart';
 ///
 /// https://tailwindcss.com/docs/customizing-colors
 
-const int _primaryColor = 0xFF6366F1;
-const MaterialColor primarySwatch = MaterialColor(_primaryColor, <int, Color>{
-  50: Color(0xFFEEF2FF), // indigo-50
-  100: Color(0xFFE0E7FF), // indigo-100
-  200: Color(0xFFC7D2FE), // indigo-200
-  300: Color(0xFFA5B4FC), // indigo-300
-  400: Color(0xFF818CF8), // indigo-400
-  500: Color(_primaryColor), // indigo-500
-  600: Color(0xFF4F46E5), // indigo-600
-  700: Color(0xFF4338CA), // indigo-700
-  800: Color(0xFF3730A3), // indigo-800
-  900: Color(0xFF312E81), // indigo-900
-});
+enum ColorPaletteType {
+  yellow,
+  purple,
+  green,
+}
 
-const int _textColor = 0xFF64748B;
-const MaterialColor textSwatch = MaterialColor(_textColor, <int, Color>{
-  50: Color(0xFFF8FAFC), // slate-50
-  100: Color(0xFFF1F5F9), // slate-100
-  200: Color(0xFFE2E8F0), // slate-200
-  300: Color(0xFFCBD5E1), // slate-300
-  400: Color(0xFF94A3B8), // slate-400
-  500: Color(_textColor), // slate-500
-  600: Color(0xFF475569), // slate-600
-  700: Color(0xFF334155), // slate-700
-  800: Color(0xFF1E293B), // slate-800
-  900: Color(0xFF0F172A), // slate-900
-});
-
-const Color errorColor = Color(0xFFDC2626); // red-600
-
-final ColorScheme lightColorScheme = ColorScheme.light(
-  primary: primarySwatch.shade500,
-  secondary: primarySwatch.shade500,
-  onSecondary: Colors.white,
-  error: errorColor,
-  background: textSwatch.shade200,
-  onBackground: textSwatch.shade500,
-  onSurface: textSwatch.shade500,
-  surface: textSwatch.shade50,
-  surfaceVariant: Colors.white,
-  shadow: textSwatch.shade900.withOpacity(.1),
-);
-
-final ColorScheme darkColorScheme = ColorScheme.dark(
-  primary: primarySwatch.shade500,
-  secondary: primarySwatch.shade500,
-  onSecondary: Colors.white,
-  error: errorColor,
-  background: const Color(0xFF171724),
-  onBackground: textSwatch.shade400,
-  onSurface: textSwatch.shade300,
-  surface: const Color(0xFF262630),
-  surfaceVariant: const Color(0xFF282832),
-  shadow: textSwatch.shade900.withOpacity(.2),
-);
-
-// const int _primaryColor = 0xFFF3B74B;
-// const MaterialColor primarySwatch = MaterialColor(_primaryColor, <int, Color>{
-//   50: Color(0xFFFFF8E7), // 밝은 색상
-//   100: Color(0xFFFFECB3), // 연한 색상
-//   200: Color(0xFFFFE08F), // 연한 색상
-//   300: Color(0xFFFFD26B), // 중간 색상
-//   400: Color(0xFFFFC657), // 중간 색상
-//   500: Color(_primaryColor), // 기본 색상
-//   600: Color(0xFFE0A745), // 어두운 색상
-//   700: Color(0xFFC28F3E), // 어두운 색상
-//   800: Color(0xFFA57837), // 어두운 색상
-//   900: Color(0xFF885E30), // 매우 어두운 색상
-// });
-
-// const int _textColor = 0xFF6D4C41; // 갈색 계열 색상으로 변경
-// const MaterialColor textSwatch = MaterialColor(_textColor, <int, Color>{
-//   50: Color(0xFFF0EDEC), // 연한 베이지
-//   100: Color(0xFFF0EDEC), // 연한 베이지
-//   200: Color(0xFFE1DBD9), // home background
-//   300: Color(0xFF8A6F66), // 주황색
-//   400: Color(0xff7b5d54), // 주황색
-//   500: Color(_textColor), // 기본 색상
-//   600: Color(0xFF62443A), // 중간 브라운
-//   700: Color(0xFF4C352D), // 중간 브라운
-//   800: Color(0xFF362620), // 어두운 브라운
-//   900: Color(0xFF2B1E1A), // 매우 어두운 브라운
-// });
-
-// const Color errorColor = Color(0xFFDC2626); // red-600
-
-// final ColorScheme lightColorScheme = ColorScheme.light(
-//   primary: primarySwatch.shade500,
-//   secondary: primarySwatch.shade500,
-//   onSecondary: Colors.white,
-//   error: errorColor,
-//   background: textSwatch.shade200,
-//   onBackground: textSwatch.shade500,
-//   onSurface: textSwatch.shade500,
-//   surface: textSwatch.shade50,
-//   surfaceVariant: Colors.white,
-//   shadow: textSwatch.shade900.withOpacity(.1),
-// );
-
-// final ColorScheme darkColorScheme = ColorScheme.dark(
-//   primary: primarySwatch.shade500,
-//   secondary: primarySwatch.shade500,
-//   onSecondary: Colors.white,
-//   error: errorColor,
-//   background: textSwatch.shade900,
-//   onBackground: textSwatch.shade400,
-//   onSurface: textSwatch.shade300,
-//   surface: const Color(0xFF262630),
-//   surfaceVariant: const Color(0xFF282832),
-//   shadow: textSwatch.shade900.withOpacity(.2),
-// );
+extension ColorPaletteTypeExtension on ColorPaletteType {
+  String toStringValue() {
+    switch (this) {
+      case ColorPaletteType.yellow:
+        return 'yellow';
+      case ColorPaletteType.purple:
+        return 'purple';
+      case ColorPaletteType.green:
+        return 'green';
+    }
+  }
+}
 
 class CustomThemeData {
-  CustomThemeData({required this.font}) {
+  CustomThemeData({required this.font, required this.paletteType}) {
+    updateColorPallete(paletteType);
     updateThemeData(font);
   }
   String font;
+  ColorPaletteType paletteType;
   late ThemeData lightTheme;
   late ThemeData darkTheme;
+
+  int _primaryColor = 0xFFF3B74B;
+  int _textColor = 0xFF6D4C41;
+  Color errorColor = const Color(0xFFDC2626); // red-600
+
+  late MaterialColor primarySwatch;
+  late MaterialColor textSwatch;
+  late ColorScheme lightColorScheme;
+  late ColorScheme darkColorScheme;
+
+  void updateColorPallete(ColorPaletteType type) {
+    switch (type) {
+      case ColorPaletteType.yellow:
+        _primaryColor = 0xFFF3B74B;
+        _textColor = 0xFF6D4C41;
+        primarySwatch = MaterialColor(_primaryColor, <int, Color>{
+          50: const Color(0xFFFEF9F1), // indigo-50
+          100: const Color(0xFFFDF2DE), // indigo-100
+          200: const Color(0xFFFCEACC), // 토글버튼 백그라운드
+          300: const Color(0xFFFAE3B9), // indigo-300
+          400: const Color(0xFFF9DCA7), // indigo-400
+          500: Color(_primaryColor), // indigo-500
+          600: const Color(0xFF97650A), // indigo-600
+          700: const Color(0xFF855809), // indigo-700
+          800: const Color(0xFF724C08), // indigo-800
+          900: const Color(0xFF4D3405), // dark 토글 백그라운드
+        });
+
+        textSwatch = MaterialColor(_textColor, <int, Color>{
+          50: const Color(0xFFFEFEFD), // slate-50
+          100: const Color(0xFFF7F3F1), // slate-100
+          200: const Color(0xFFEFE7E5), // 기본 백그라운드
+          300: const Color(0xFFD9C6C0), // 기본 텍스트
+          400: const Color(0xFFC3A59B), // 네비게이션 텍스트
+          500: Color(_textColor), // slate-500
+          600: const Color(0xFF6D4C41), // 달력, 글씨 기본
+          700: const Color(0xFF543B32), // slate-700
+          800: const Color(0xFF30211C), // slate-800
+          900: const Color(0xFF17100E), // slate-900
+        });
+
+        lightColorScheme = ColorScheme.light(
+          primary: primarySwatch.shade500,
+          secondary: primarySwatch.shade500,
+          onSecondary: Colors.white,
+          error: errorColor,
+          background: textSwatch.shade200,
+          onBackground: textSwatch.shade500,
+          onSurface: textSwatch.shade500,
+          surface: textSwatch.shade50,
+          surfaceVariant: Colors.white,
+          shadow: textSwatch.shade900.withOpacity(.1),
+        );
+
+        darkColorScheme = ColorScheme.dark(
+          primary: primarySwatch.shade500,
+          secondary: primarySwatch.shade500,
+          onSecondary: Colors.white,
+          error: errorColor,
+          background: const Color(0xFF171724),
+          onBackground: textSwatch.shade400,
+          onSurface: textSwatch.shade300,
+          surface: const Color(0xFF262630),
+          surfaceVariant: const Color(0xFF282832),
+          shadow: textSwatch.shade900.withOpacity(.2),
+        );
+        break;
+      case ColorPaletteType.purple:
+        _primaryColor = 0xFF6366F1;
+        _textColor = 0xFF090A60;
+        primarySwatch = MaterialColor(_primaryColor, <int, Color>{
+          50: const Color(0xFFEEF2FF), // indigo-50
+          100: const Color(0xFFE0E7FF), // indigo-100
+          200: const Color(0xFFC7D2FE), // indigo-200
+          300: const Color(0xFFA5B4FC), // indigo-300
+          400: const Color(0xFF818CF8), // indigo-400
+          500: Color(_primaryColor), // indigo-500
+          600: const Color(0xFF4F46E5), // indigo-600
+          700: const Color(0xFF4338CA), // indigo-700
+          800: const Color(0xFF3730A3), // indigo-800
+          900: const Color(0xFF312E81), // indigo-900
+        });
+
+        textSwatch = MaterialColor(_textColor, <int, Color>{
+          50: const Color(0xFFF8FAFC), // slate-50
+          100: const Color(0xFFF1F5F9), // slate-100
+          200: const Color(0xFFE2E8F0), // slate-200
+          300: const Color(0xFF94A3B8), // slate-300
+          400: const Color(0xFFCFD0FB), // slate-400
+          500: Color(_textColor), // slate-500
+          600: const Color(0xFF475569), // slate-600
+          700: const Color(0xFF334155), // slate-700
+          800: const Color(0xFF1E293B), // slate-800
+          900: const Color(0xFF0F172A), // slate-900
+        });
+
+        lightColorScheme = ColorScheme.light(
+          primary: primarySwatch.shade500,
+          secondary: primarySwatch.shade500,
+          onSecondary: Colors.white,
+          error: errorColor,
+          background: textSwatch.shade200,
+          onBackground: textSwatch.shade500,
+          onSurface: textSwatch.shade500,
+          surface: textSwatch.shade50,
+          surfaceVariant: Colors.white,
+          shadow: textSwatch.shade900.withOpacity(.1),
+        );
+
+        darkColorScheme = ColorScheme.dark(
+          primary: primarySwatch.shade500,
+          secondary: primarySwatch.shade500,
+          onSecondary: Colors.white,
+          error: errorColor,
+          background: const Color(0xFF171724),
+          onBackground: textSwatch.shade400,
+          onSurface: textSwatch.shade300,
+          surface: const Color(0xFF262630),
+          surfaceVariant: const Color(0xFF282832),
+          shadow: textSwatch.shade900.withOpacity(.2),
+        );
+        break;
+      case ColorPaletteType.green:
+        _primaryColor = 0xFF34D399;
+        _textColor = 0xFF3B4D61;
+        primarySwatch = MaterialColor(_primaryColor, <int, Color>{
+          50: const Color(0xFFE5F9F2),
+          100: const Color(0xFFD5F6EA),
+          200: const Color(0xFFC5F2E2),
+          300: const Color(0xFFB5EfDA),
+          400: const Color(0xFF95E8CA),
+          500: Color(_primaryColor),
+          600: const Color(0xFF28B883),
+          700: const Color(0xFF24A878),
+          800: const Color(0xFF16674A),
+          900: const Color(0xFF08271C),
+        });
+
+        textSwatch = MaterialColor(_textColor, <int, Color>{
+          50: const Color(0xFFF2F5F7),
+          100: const Color(0xFFDAE1E8),
+          200: const Color(0xFFCED7E1),
+          300: const Color(0xFFB5C3D2),
+          400: const Color(0xFF91A5BC),
+          500: Color(_textColor),
+          600: const Color(0xFF597492),
+          700: const Color(0xFF4A6079),
+          800: const Color(0xFF344355),
+          900: const Color(0xFF161D24),
+        });
+
+        lightColorScheme = ColorScheme.light(
+          primary: primarySwatch.shade500,
+          secondary: primarySwatch.shade500,
+          onSecondary: Colors.white,
+          error: errorColor,
+          background: textSwatch.shade200,
+          onBackground: textSwatch.shade500,
+          onSurface: textSwatch.shade500,
+          surface: textSwatch.shade50,
+          surfaceVariant: Colors.white,
+          shadow: textSwatch.shade900.withOpacity(.1),
+        );
+
+        darkColorScheme = ColorScheme.dark(
+          primary: primarySwatch.shade500,
+          secondary: primarySwatch.shade500,
+          onSecondary: Colors.white,
+          error: errorColor,
+          background: const Color(0xFF171724),
+          onBackground: textSwatch.shade400,
+          onSurface: textSwatch.shade300,
+          surface: const Color(0xFF262630),
+          surfaceVariant: const Color(0xFF282832),
+          shadow: textSwatch.shade900.withOpacity(.2),
+        );
+        break;
+    }
+  }
 
   void updateThemeData(String font) {
     this.font = font;
@@ -195,16 +283,12 @@ class CustomThemeData {
         ),
       ),
       checkboxTheme: CheckboxThemeData(
-        fillColor: MaterialStateProperty.resolveWith<Color?>(
-            (Set<MaterialState> states) {
-          if (states.contains(MaterialState.disabled)) {
-            return null;
-          }
-          if (states.contains(MaterialState.selected)) {
-            return primarySwatch.shade500;
-          }
-          return null;
-        }),
+        checkColor:
+            MaterialStateProperty.resolveWith<Color?>((_) => Colors.white),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        side: const BorderSide(color: Colors.white70, width: 1.5),
       ),
       radioTheme: RadioThemeData(
         fillColor: MaterialStateProperty.resolveWith<Color?>(
@@ -306,16 +390,12 @@ class CustomThemeData {
         ),
       ),
       checkboxTheme: CheckboxThemeData(
-        fillColor: MaterialStateProperty.resolveWith<Color?>(
-            (Set<MaterialState> states) {
-          if (states.contains(MaterialState.disabled)) {
-            return null;
-          }
-          if (states.contains(MaterialState.selected)) {
-            return primarySwatch.shade500;
-          }
-          return null;
-        }),
+        checkColor:
+            MaterialStateProperty.resolveWith<Color?>((_) => Colors.white),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        side: const BorderSide(color: Colors.white70, width: 1.5),
       ),
       radioTheme: RadioThemeData(
         fillColor: MaterialStateProperty.resolveWith<Color?>(

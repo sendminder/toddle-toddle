@@ -26,6 +26,7 @@ import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:toddle_toddle/data/models/filter_type_adapter.dart';
+import 'package:toddle_toddle/data/models/color_palette_type_adapter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,6 +48,7 @@ void main() async {
   Hive.registerAdapter(AchievementAdapter());
   Hive.registerAdapter(ScheduleAdapter());
   Hive.registerAdapter(FilterTypeAdapter());
+  Hive.registerAdapter(ColorPaletteTypeAdapter());
 
   GetIt.I.registerSingleton<IdGenerator>(IdGenerator());
   await Hive.openBox(hivePrefBox);
@@ -77,7 +79,9 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final ThemeModeState currentTheme = ref.watch(themeProvider);
     final FontState currentFont = ref.watch(fontProvider);
-    final CustomThemeData customTheme = CustomThemeData(font: currentFont.font);
+    final CustomThemeData customTheme = CustomThemeData(
+        font: currentFont.font,
+        paletteType: currentTheme.currentColorPaletteType);
     // if (Platform.isAndroid) {
     return MaterialApp(
       /// Localization is not available for the title.

@@ -77,6 +77,20 @@ class SettingsScreen extends ConsumerWidget {
             ),
             SimpleDialogOption(
               onPressed: () {
+                ref.read(fontProvider.notifier).setFont('NotoSans');
+                Navigator.pop(context);
+              },
+              child: Text(
+                'notosans_example'.tr(),
+                style: const TextStyle(
+                  fontFamily: 'NotoSans',
+                  fontSize: 15,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ),
+            SimpleDialogOption(
+              onPressed: () {
                 ref.read(fontProvider.notifier).setFont('SUITE');
                 Navigator.pop(context);
               },

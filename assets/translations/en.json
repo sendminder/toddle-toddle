@@ -56,6 +56,7 @@
   "disable": "Disable",
   "system_example": "Hello, I'm \"System\" Font.",
   "suite_example": "Hello, I'm \"Suite\" Font.",
+  "notosans_example": "Hello, I'm \"NotoSans\" Font.",
   "cookierun_example": "Hello, I'm \"CookieRun\" Font.",
   "nunito_example": "Hello, I'm \"Nunito\" Font.",
   "select_days_of_week": "Please select days of week.",

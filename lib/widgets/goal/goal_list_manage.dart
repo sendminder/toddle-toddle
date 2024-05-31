@@ -125,25 +125,6 @@ class GoalListManageWidget extends ConsumerWidget {
                 Expanded(
                   flex: 1,
                   child: IconButton(
-                    icon: const Icon(
-                      FluentIcons.chart_multiple_24_regular,
-                      color: Colors.white70,
-                    ),
-                    onPressed: () {
-                      showModalBottomSheet<void>(
-                        isScrollControlled: true,
-                        context: context,
-                        builder: (BuildContext context) {
-                          return GoalChartWidget(goal: currentGoal);
-                        },
-                      );
-                    },
-                  ),
-                ),
-                const SizedBox(width: 3),
-                Expanded(
-                  flex: 1,
-                  child: IconButton(
                     icon: currentGoal.isEnd
                         ? const Icon(
                             FluentIcons.arrow_undo_24_filled,

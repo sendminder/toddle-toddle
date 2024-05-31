@@ -27,6 +27,7 @@ import 'package:timezone/timezone.dart' as tz;
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:toddle_toddle/data/models/filter_type_adapter.dart';
 import 'package:toddle_toddle/data/models/color_palette_type_adapter.dart';
+import 'package:toddle_toddle/const/cheer_up_messages.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -82,6 +83,8 @@ class MyApp extends ConsumerWidget {
     final CustomThemeData customTheme = CustomThemeData(
         font: currentFont.font,
         paletteType: currentTheme.currentColorPaletteType);
+    CheerUpMessages.setLanguage(context.locale.languageCode);
+
     // if (Platform.isAndroid) {
     return MaterialApp(
       /// Localization is not available for the title.

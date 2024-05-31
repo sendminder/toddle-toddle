@@ -8,6 +8,7 @@ import 'package:toddle_toddle/states/goals_state.dart';
 import 'package:hive/hive.dart';
 import 'package:toddle_toddle/const/strings.dart';
 import 'package:toddle_toddle/states/font_state.dart';
+import 'package:toddle_toddle/const/cheer_up_messages.dart';
 
 class SettingsScreen extends ConsumerWidget {
   SettingsScreen({super.key}) {
@@ -15,7 +16,7 @@ class SettingsScreen extends ConsumerWidget {
   }
   late String version;
 
-  void _showLanguagePicker(BuildContext context) {
+  void _showLanguagePicker(BuildContext context, WidgetRef ref) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -24,15 +25,20 @@ class SettingsScreen extends ConsumerWidget {
           title: Text('select_language'.tr()),
           children: <Widget>[
             SimpleDialogOption(
-              onPressed: () {
+              onPressed: () async {
                 context.setLocale(const Locale('en'));
+                CheerUpMessages.setLanguage(context.locale.languageCode);
+                await ref.read(goalsStateProvider.notifier).syncSchedule();
+
                 Navigator.pop(context);
               },
               child: Text('en'.tr()),
             ),
             SimpleDialogOption(
-              onPressed: () {
+              onPressed: () async {
                 context.setLocale(const Locale('ko'));
+                CheerUpMessages.setLanguage(context.locale.languageCode);
+                await ref.read(goalsStateProvider.notifier).syncSchedule();
                 Navigator.pop(context);
               },
               child: Text('ko'.tr()),
@@ -181,7 +187,7 @@ class SettingsScreen extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Container(
-          width: 80,
+          width: 60,
           height: 50,
           decoration: BoxDecoration(
             color: colors[0],
@@ -189,7 +195,7 @@ class SettingsScreen extends ConsumerWidget {
           ),
         ),
         Container(
-          width: 80,
+          width: 60,
           height: 50,
           decoration: BoxDecoration(
             color: colors[1],
@@ -197,7 +203,7 @@ class SettingsScreen extends ConsumerWidget {
           ),
         ),
         Container(
-          width: 80,
+          width: 60,
           height: 50,
           decoration: BoxDecoration(
             color: colors[2],
@@ -208,7 +214,7 @@ class SettingsScreen extends ConsumerWidget {
         Text(
           text,
           style: TextStyle(
-            color: colors[3],
+            color: Theme.of(context).colorScheme.primary,
           ),
         ),
       ],
@@ -352,7 +358,7 @@ class SettingsScreen extends ConsumerWidget {
                   style: smalStyle,
                 ),
                 onTap: () {
-                  _showLanguagePicker(context);
+                  _showLanguagePicker(context, ref);
                 },
               ),
             ),

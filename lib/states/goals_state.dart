@@ -42,7 +42,7 @@ class GoalsState extends StateNotifier<List<Goal>> {
   }
 
   Future<void> _initialize() async {
-    final box = await Hive.openBox<Goal>(hiveGoalBox);
+    final box = Hive.box<Goal>(hiveGoalBox);
     state = box.values.toList();
 
     final int scheduleSyncTime =
@@ -224,10 +224,9 @@ class GoalsState extends StateNotifier<List<Goal>> {
 
     await localPushService.scheduleNotification(
       id: goal.id,
-      title: '아장 아장',
-      subtitle: goal.name,
-      body:
-          '${timeToStr(hour)}:${timeToStr(minute)} $ampm ${'lets_achieve_goal'.tr()}',
+      title: goal.name,
+      subtitle:
+          '${timeToStr(hour)}:${timeToStr(minute)} $ampm | ${'lets_achieve_goal'.tr()}',
       startDate: scheduleStartDate,
       hour: hour,
       minute: minute,

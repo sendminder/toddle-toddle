@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
+import 'package:toddle_toddle/const/cheer_up_messages.dart';
 
 class LocalPushService {
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
@@ -9,6 +10,7 @@ class LocalPushService {
 
   // LocalPushService 인스턴스 생성을 위한 Singleton 패턴
   static final LocalPushService _instance = LocalPushService._internal();
+  static CheerUpMessages cheerUpMessages = CheerUpMessages();
 
   factory LocalPushService() {
     return _instance;
@@ -132,7 +134,6 @@ class LocalPushService {
     required int id,
     required String title,
     required String subtitle,
-    required String body,
     required DateTime startDate,
     required int hour,
     required int minute,
@@ -177,6 +178,7 @@ class LocalPushService {
         iOS: darwinNotificationDetails,
       );
 
+      var body = cheerUpMessages.getRandomMessage();
       await _flutterLocalNotificationsPlugin.zonedSchedule(
         notificationId,
         title,

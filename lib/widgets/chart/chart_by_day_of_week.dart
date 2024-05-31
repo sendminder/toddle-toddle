@@ -4,8 +4,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:toddle_toddle/data/models/goal.dart';
 
 class ChartByDayOfWeekWidget extends StatelessWidget {
-  ChartByDayOfWeekWidget({super.key, required this.goal});
-  Goal goal;
+  const ChartByDayOfWeekWidget({super.key, required this.goal});
+  final Goal goal;
 
   @override
   Widget build(BuildContext context) {

@@ -13,7 +13,7 @@ class NameTextForm extends ConsumerWidget {
   final String initText;
 
   @override
-  Widget build(BuildContext contex, WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final color = ref.watch(colorProvider);
     return TextFormField(
       cursorColor: color,

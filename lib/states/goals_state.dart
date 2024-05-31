@@ -14,6 +14,7 @@ final StateNotifierProvider<GoalsState, List<Goal>> goalsStateProvider =
   var state = GoalsState();
   // 비동기로 상태를 로드하고 설정
   state.createSorted().then((initializedState) {
+    // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
     ref.read(goalsStateProvider.notifier).state = initializedState.state;
   });
   return state;

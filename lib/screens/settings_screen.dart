@@ -10,6 +10,7 @@ import 'package:toddle_toddle/const/strings.dart';
 import 'package:toddle_toddle/states/font_state.dart';
 import 'package:toddle_toddle/const/cheer_up_messages.dart';
 
+// ignore: must_be_immutable
 class SettingsScreen extends ConsumerWidget {
   SettingsScreen({super.key}) {
     version = Hive.box(hivePrefBox).get('version', defaultValue: '') as String;
@@ -30,6 +31,7 @@ class SettingsScreen extends ConsumerWidget {
                 CheerUpMessages.setLanguage(context.locale.languageCode);
                 await ref.read(goalsStateProvider.notifier).syncSchedule();
 
+                // ignore: use_build_context_synchronously
                 Navigator.pop(context);
               },
               child: Text('en'.tr()),
@@ -39,6 +41,8 @@ class SettingsScreen extends ConsumerWidget {
                 context.setLocale(const Locale('ko'));
                 CheerUpMessages.setLanguage(context.locale.languageCode);
                 await ref.read(goalsStateProvider.notifier).syncSchedule();
+
+                // ignore: use_build_context_synchronously
                 Navigator.pop(context);
               },
               child: Text('ko'.tr()),

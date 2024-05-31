@@ -11,6 +11,7 @@ import 'package:get_it/get_it.dart';
 import 'package:toddle_toddle/widgets/editable/name_text_form.dart';
 import 'package:toddle_toddle/widgets/editable/color_picker_form.dart';
 
+// ignore: must_be_immutable
 class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
   AddOrUpdateGoalBottomSheet(
       {super.key, required this.goal, required this.init}) {
@@ -119,9 +120,7 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
                 }
               },
               child: Text(
-                startDate == null
-                    ? 'set_start_date'.tr()
-                    : timeToYearMonthDay(startDate),
+                timeToYearMonthDay(startDate),
                 style: TextStyle(
                   fontSize: 16,
                   color: goalColor,
@@ -309,6 +308,8 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
                       .read(goalsStateProvider.notifier)
                       .addOrUpdateGoal(goal);
                   ref.read(goalsStateProvider.notifier).printAll();
+
+                  // ignore: use_build_context_synchronously
                   Navigator.pop(context);
                 }
               },

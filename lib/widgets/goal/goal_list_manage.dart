@@ -156,9 +156,15 @@ class GoalListManageWidget extends ConsumerWidget {
                     onPressed: () async {
                       bool? result = currentGoal.isEnd
                           ? await showDeleteConfirmationDialog(
-                              context, currentGoal.name, 'recover_goal')
+                              // ignore: use_build_context_synchronously
+                              context,
+                              currentGoal.name,
+                              'recover_goal')
                           : await showDeleteConfirmationDialog(
-                              context, currentGoal.name, 'done_goal');
+                              // ignore: use_build_context_synchronously
+                              context,
+                              currentGoal.name,
+                              'done_goal');
                       if (result == true) {
                         if (currentGoal.isEnd) {
                           await ref

@@ -84,6 +84,7 @@ class GoalListManageWidget extends ConsumerWidget {
                     onTap: () async {
                       showModalBottomSheet<void>(
                         isScrollControlled: true,
+                        showDragHandle: true,
                         context: context,
                         builder: (BuildContext context) {
                           return GoalChartWidget(goal: currentGoal);
@@ -108,8 +109,9 @@ class GoalListManageWidget extends ConsumerWidget {
                       color: Colors.white70,
                     ),
                     onPressed: () {
-                      showModalBottomSheet(
+                      showModalBottomSheet<void>(
                         isScrollControlled: true,
+                        showDragHandle: true,
                         context: context,
                         builder: (BuildContext context) {
                           return AddOrUpdateGoalBottomSheet(

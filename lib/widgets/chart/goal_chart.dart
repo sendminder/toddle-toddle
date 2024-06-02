@@ -11,15 +11,15 @@ class GoalChartWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16.0),
-      height: 860,
+      padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+      height: 800,
       child: Column(
         children: [
           Text(
             goal.name,
             style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 20),
           GoalAchievementPercentWidget(goal: goal),
           const SizedBox(height: 20),
           ChartByDayOfWeekWidget(goal: goal),

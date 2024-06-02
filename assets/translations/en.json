@@ -9,7 +9,7 @@
   "language_content": "Supports Korean and English.",
   "select_language": "Select Language",
   "font_title": "Font",
-  "font_subtitle": "Supports 4 types of fonts.",
+  "font_subtitle": "Supports 5 types of fonts.",
   "theme_title": "Theme",
   "theme_subtitle": "Supports 3 types of themes.",
   "select_font": "Select Font",
@@ -45,13 +45,13 @@
   "appearance": "Appearance",
   "info": "Info",
   "push_setting_title": "Push Notifications",
-  "push_setting_subtitle": "Set the time for push notifications.",
+  "push_setting_subtitle": "Receive notifications for your goals.",
   "version": "Version",
   "ko": "Korean",
   "en": "English",
   "all": "All",
   "active": "Active",
-  "completed": "Completed",
+  "completed": "Done",
   "enable": "Enable",
   "disable": "Disable",
   "system_example": "Hello, I'm \"System\" Font.",
@@ -65,5 +65,7 @@
   "select_start_time": "Please select start time.",
   "yellow": "Yellow",
   "purple": "Purple",
-  "green": "Green"
+  "green": "Green",
+  "graph": "Graph",
+  "close": "Close"
 }

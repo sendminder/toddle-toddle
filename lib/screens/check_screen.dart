@@ -30,7 +30,7 @@ class CheckScreen extends ConsumerWidget {
                     SizedBox(height: 80),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -39,6 +39,7 @@ class CheckScreen extends ConsumerWidget {
         onPressed: () {
           showModalBottomSheet<void>(
             isScrollControlled: true,
+            showDragHandle: true,
             context: context,
             builder: (BuildContext context) {
               return AddOrUpdateGoalBottomSheet(

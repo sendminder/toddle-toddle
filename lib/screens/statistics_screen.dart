@@ -6,6 +6,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:toddle_toddle/data/models/goal.dart';
 import 'package:toddle_toddle/widgets/goal/add_or_update_goal.dart';
 import 'package:toddle_toddle/widgets/goal/goal_done_filter.dart';
+import 'package:toddle_toddle/widgets/chart/goal_graph.dart';
 
 class StatisticsScreen extends ConsumerWidget {
   const StatisticsScreen({super.key});
@@ -19,7 +20,32 @@ class StatisticsScreen extends ConsumerWidget {
           child: Column(
             children: <Widget>[
               const SizedBox(height: 15),
-              const GoalDoneFilterWidget(),
+              Stack(
+                children: <Widget>[
+                  const Center(
+                    child: GoalDoneFilterWidget(),
+                  ),
+                  Positioned(
+                    right: 12,
+                    child: IconButton(
+                      icon: Icon(
+                        FluentIcons.chart_multiple_24_regular,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                      onPressed: () {
+                        showModalBottomSheet<void>(
+                          isScrollControlled: true,
+                          showDragHandle: true,
+                          context: context,
+                          builder: (BuildContext context) {
+                            return const GoalGraphWidget();
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
               const SizedBox(height: 15),
               Expanded(
                 child: ListView(
@@ -37,6 +63,7 @@ class StatisticsScreen extends ConsumerWidget {
         onPressed: () {
           showModalBottomSheet<void>(
             isScrollControlled: true,
+            showDragHandle: true,
             context: context,
             builder: (BuildContext context) {
               return AddOrUpdateGoalBottomSheet(

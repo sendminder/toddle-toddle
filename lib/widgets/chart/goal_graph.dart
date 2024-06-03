@@ -4,6 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:toddle_toddle/states/goals_state.dart';
 import 'package:toddle_toddle/states/goal_filter_state.dart';
+import 'package:toddle_toddle/data/models/goal.dart';
 
 class GoalGraphWidget extends ConsumerWidget {
   const GoalGraphWidget({super.key});
@@ -30,14 +31,20 @@ class GoalGraphWidget extends ConsumerWidget {
       child: ListView(
         children: [
           const SizedBox(height: 15),
-          Text('goal_graph'.tr(), style: const TextStyle(fontSize: 20)),
+          Text(
+            'achievement_percent'.tr(),
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           SizedBox(
-            height: 300,
+            height: 400,
             child: PieChart(
               PieChartData(
                 sectionsSpace: 1,
-                centerSpaceRadius: 40,
-                sections: showingSections(),
+                centerSpaceRadius: 60,
+                sections: showingSections(goals),
               ),
             ),
           ),
@@ -46,38 +53,41 @@ class GoalGraphWidget extends ConsumerWidget {
     );
   }
 
-  List<PieChartSectionData> showingSections() {
-    return List.generate(2, (i) {
-      final isTouched = i == 0;
-      final double fontSize = isTouched ? 20 : 18;
-      final double radius = isTouched ? 50 : 50;
+  List<PieChartSectionData> showingSections(List<Goal> goals) {
+    var totalAchievements =
+        goals.fold<int>(0, (sum, goal) => sum + goal.achievements.length);
 
-      switch (i) {
-        case 0:
-          return PieChartSectionData(
-            color: const Color(0xff0293ee),
-            value: 25,
-            title: '25%',
-            radius: radius,
-            titleStyle: TextStyle(
-                fontSize: fontSize,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xffffffff)),
-          );
-        case 1:
-          return PieChartSectionData(
-            color: const Color(0xfff8b250),
-            value: 75,
-            title: '75%',
-            radius: radius,
-            titleStyle: TextStyle(
-                fontSize: fontSize,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xffffffff)),
-          );
-        default:
-          throw Error();
-      }
+    if (totalAchievements == 0) {
+      return [
+        PieChartSectionData(
+          color: Colors.grey,
+          value: 1,
+          title: '0%',
+          radius: 90,
+          titleStyle: const TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+          titlePositionPercentageOffset: 0.6,
+        )
+      ];
+    }
+
+    return List.generate(goals.length, (i) {
+      return PieChartSectionData(
+        color: goals[i].color,
+        value: goals[i].achievements.length.toDouble(),
+        title:
+            '${(goals[i].achievements.length / totalAchievements * 100).round()}%',
+        radius: 90,
+        titleStyle: const TextStyle(
+          fontSize: 13,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
+        titlePositionPercentageOffset: 0.6,
+      );
     });
   }
 }

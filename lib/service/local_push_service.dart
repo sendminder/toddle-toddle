@@ -166,6 +166,8 @@ class LocalPushService {
           DarwinNotificationDetails(
         subtitle: subtitle,
       );
+      var body = cheerUpMessages.getRandomMessage();
+
       NotificationDetails notificationDetails = NotificationDetails(
         android: AndroidNotificationDetails(
           id.toString(),
@@ -174,11 +176,14 @@ class LocalPushService {
           importance: Importance.max,
           priority: Priority.high,
           ticker: 'ticker',
+          styleInformation: BigTextStyleInformation(
+            body, // 알림 본문
+            summaryText: subtitle, // 서브타이틀
+          ),
         ),
         iOS: darwinNotificationDetails,
       );
 
-      var body = cheerUpMessages.getRandomMessage();
       await _flutterLocalNotificationsPlugin.zonedSchedule(
         notificationId,
         title,

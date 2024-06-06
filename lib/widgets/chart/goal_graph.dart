@@ -79,7 +79,7 @@ class GoalGraphWidget extends ConsumerWidget {
         color: goals[i].color,
         value: goals[i].achievements.length.toDouble(),
         title:
-            '${(goals[i].achievements.length / totalAchievements * 100).round()}%',
+            '${goals[i].name}\n(${(goals[i].achievements.length / totalAchievements * 100).round()}%)',
         radius: 90,
         titleStyle: const TextStyle(
           fontSize: 13,

@@ -1,5 +1,5 @@
 plugins {
-    id "com.android.application"
+    id 'com.android.application'
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
 }
@@ -23,10 +23,10 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace "dev.feichtinger.flutter_production_boilerplate_riverpod"
+    namespace "com.sendmind.toddletoddle"
     compileSdkVersion 34
     compileSdk 34
-    ndkVersion 21
+    ndkVersion '21.1.6352462'
 
     compileOptions {
         // Flag to enable support for the new language APIs
@@ -46,7 +46,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "dev.feichtinger.flutter_production_boilerplate_riverpod"
+        applicationId "com.sendmind.toddletoddle"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         versionCode flutterVersionCode.toInteger()

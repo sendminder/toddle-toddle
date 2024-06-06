@@ -62,10 +62,11 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
     now = DateTime(now.year, now.month, now.day);
     var lastDay = now.add(const Duration(days: 90));
     var firstDay = now.add(const Duration(days: -365));
+    final screenHeight = MediaQuery.of(context).size.height;
 
     return Container(
       padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-      height: 600,
+      height: screenHeight * 0.7,
       child: ListView(
         children: <Widget>[
           Text(
@@ -73,10 +74,24 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
             style: header,
             textAlign: TextAlign.left,
           ),
-          NameTextForm(
-            colorProvider: colorProvider,
-            stringProvider: goalNameProvider,
-            initText: goal.name,
+          TextFormField(
+            cursorColor: goalColor,
+            decoration: InputDecoration(
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: goalColor),
+              ),
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: goalColor),
+              ),
+            ),
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: goalColor,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+            initialValue: goalName,
+            onChanged: (value) {},
           ),
           const SizedBox(height: 20),
           Text(
@@ -84,7 +99,9 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
             style: header,
             textAlign: TextAlign.left,
           ),
+          const SizedBox(height: 5),
           ColorPickerFormWidget(colorProvider: colorProvider),
+          const SizedBox(height: 20),
           Text(
             'start_date'.tr(),
             style: header,
@@ -225,6 +242,7 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
             style: header,
             textAlign: TextAlign.left,
           ),
+          const SizedBox(height: 5),
           Center(
             child: Column(
               children: [
@@ -268,8 +286,7 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
               ],
             ),
           ),
-          const SizedBox(height: 5),
-          const Spacer(),
+          const SizedBox(height: 30),
           Center(
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(

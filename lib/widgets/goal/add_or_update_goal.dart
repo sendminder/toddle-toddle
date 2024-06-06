@@ -15,38 +15,35 @@ import 'package:toddle_toddle/widgets/editable/color_picker_form.dart';
 class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
   AddOrUpdateGoalBottomSheet(
       {super.key, required this.goal, required this.init}) {
-    goalNameProvider = StateProvider<String>((ref) => goal.name);
-    selectedModeProvider = StateProvider<String>(
-        (ref) => goal.schedule.isDaily == true ? 'Daily' : 'Weekly');
-    needPushProvider = StateProvider<bool>((ref) => goal.needPush);
-    startDateProvider = StateProvider<DateTime>((ref) => goal.startDate);
-    notificationTimeProvider =
-        StateProvider<String>((ref) => goal.schedule.notificationTime);
-    selectedDaysProvider =
-        StateProvider<List<int>>((ref) => goal.schedule.daysOfWeek);
-    colorProvider = StateProvider<Color>((ref) => goal.color);
+    goalName = goal.name;
+    selectedMode = goal.schedule.isDaily == true ? 'Daily' : 'Weekly';
+    needPush = goal.needPush;
+    startDate = goal.startDate;
+    notificationTime = goal.schedule.notificationTime;
+    selectedDays = goal.schedule.daysOfWeek;
+    goalColor = goal.color;
   }
   final bool init;
   final Goal goal;
-  late StateProvider<String> goalNameProvider;
-  late StateProvider<String> selectedModeProvider;
-  late StateProvider<String> notificationTimeProvider;
-  late StateProvider<DateTime> startDateProvider;
-  late StateProvider<List<int>> selectedDaysProvider;
-  late StateProvider<Color> colorProvider;
-  late StateProvider<bool> needPushProvider;
+  late String goalName;
+  late String selectedMode;
+  late String notificationTime;
+  late DateTime startDate;
+  late List<int> selectedDays;
+  late Color goalColor;
+  late bool needPush;
 
   final idGenerator = GetIt.I<IdGenerator>();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedMode = ref.watch(selectedModeProvider);
-    final startDate = ref.watch(startDateProvider);
-    final notificationTime = ref.watch(notificationTimeProvider);
-    final selectedDays = ref.watch(selectedDaysProvider);
-    final goalName = ref.watch(goalNameProvider);
-    final goalColor = ref.watch(colorProvider);
-    final needPush = ref.watch(needPushProvider);
+    // final selectedMode = ref.read(selectedModeProvider);
+    // final startDate = ref.read(startDateProvider);
+    // final notificationTime = ref.read(notificationTimeProvider);
+    // final selectedDays = ref.read(selectedDaysProvider);
+    // final goalName = ref.read(goalNameProvider);
+    // final goalColor = ref.read(colorProvider);
+    // final needPush = ref.read(needPushProvider);
 
     const header = TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
     var textButtonStyle = TextButton.styleFrom(
@@ -100,7 +97,7 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
             textAlign: TextAlign.left,
           ),
           const SizedBox(height: 5),
-          ColorPickerFormWidget(colorProvider: colorProvider),
+          ColorPickerFormWidget(selectedColor: goalColor),
           const SizedBox(height: 20),
           Text(
             'start_date'.tr(),
@@ -131,7 +128,8 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
                 if (picked != null && picked != startDate) {
                   var selected =
                       DateTime(picked.year, picked.month, picked.day);
-                  ref.read(startDateProvider.notifier).state = selected;
+                  startDate = selected;
+                  // ref.read(startDateProvider.notifier).state = selected;
                 }
               },
               child: Text(
@@ -165,8 +163,9 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
                   onPressed: (int index) {
                     // 선택된 모드 업데이트
                     goal.schedule.isDaily = index == 0;
-                    ref.read(selectedModeProvider.notifier).state =
-                        index == 0 ? 'Daily' : 'Weekly';
+                    selectedMode = index == 0 ? 'Daily' : 'Weekly';
+                    // ref.read(selectedModeProvider.notifier).state =
+                    //     index == 0 ? 'Daily' : 'Weekly';
                   },
                   children: <Widget>[
                     Padding(
@@ -195,8 +194,8 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
                   // Weekly 선택 시 나타나는 요일 토글 버튼
                   const SizedBox(height: 20),
                   WeekDaysToggle(
-                    selectedDaysProvider: selectedDaysProvider,
-                    colorProvider: colorProvider,
+                    selectedDays: selectedDays,
+                    color: goalColor,
                   ),
                 ],
               ],
@@ -223,8 +222,9 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
                 );
                 if (pickedTime != null) {
                   final String formattedTime = timeOfDayToString(pickedTime);
-                  ref.read(notificationTimeProvider.notifier).state =
-                      formattedTime;
+                  notificationTime = formattedTime;
+                  // ref.read(notificationTimeProvider.notifier).state =
+                  //     formattedTime;
                 }
               },
               child: Text(
@@ -257,8 +257,9 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
                   ],
                   onPressed: (int index) {
                     goal.schedule.isDaily = index == 0;
-                    ref.read(needPushProvider.notifier).state =
-                        index == 0 ? true : false;
+                    needPush = index == 0 ? true : false;
+                    // ref.read(needPushProvider.notifier).state =
+                    //     index == 0 ? true : false;
                   },
                   children: <Widget>[
                     Padding(

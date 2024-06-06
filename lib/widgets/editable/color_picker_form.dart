@@ -7,16 +7,14 @@ import 'package:toddle_toddle/utils/color_palette.dart';
 class ColorPickerFormWidget extends ConsumerWidget {
   ColorPickerFormWidget({
     super.key,
-    required this.colorProvider,
+    required this.selectedColor,
   });
 
-  final StateProvider<Color> colorProvider;
+  Color selectedColor;
   final logger = GetIt.I<Logger>();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedColor = ref.watch(colorProvider);
-
     return Container(
       padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
       child: GridView.builder(
@@ -32,7 +30,7 @@ class ColorPickerFormWidget extends ConsumerWidget {
           final color = palette[index];
           return GestureDetector(
             onTap: () {
-              ref.read(colorProvider.notifier).state = color;
+              selectedColor = color;
             },
             child: Container(
               width: 50,

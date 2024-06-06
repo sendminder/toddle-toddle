@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class WeekDaysToggle extends ConsumerWidget {
-  const WeekDaysToggle({
+  WeekDaysToggle({
     super.key,
-    required this.selectedDaysProvider,
-    required this.colorProvider,
+    required this.selectedDays,
+    required this.color,
   });
-  final StateProvider<List<int>> selectedDaysProvider;
-  final StateProvider<Color> colorProvider;
+  List<int> selectedDays;
+  Color color;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedDays = ref.watch(selectedDaysProvider);
-    final color = ref.watch(colorProvider);
+    // final selectedDays = ref.watch(selectedDaysProvider);
+    // final color = ref.watch(colorProvider);
     final isSelected =
         List.generate(7, (index) => selectedDays.contains(index));
     final style = TextStyle(
@@ -27,15 +27,15 @@ class WeekDaysToggle extends ConsumerWidget {
       fillColor: color.withAlpha(60),
       isSelected: isSelected,
       onPressed: (int index) {
-        ref.read(selectedDaysProvider.notifier).update((state) {
-          final newList = [...state];
-          if (newList.contains(index)) {
-            newList.remove(index);
-          } else {
-            newList.add(index);
-          }
-          return newList..sort(); // 리스트를 정렬합니다.
-        });
+        // ref.read(selectedDaysProvider.notifier).update((state) {
+        //   final newList = [...state];
+        //   if (newList.contains(index)) {
+        //     newList.remove(index);
+        //   } else {
+        //     newList.add(index);
+        //   }
+        //   return newList..sort(); // 리스트를 정렬합니다.
+        // });
       },
       children: [
         Text(

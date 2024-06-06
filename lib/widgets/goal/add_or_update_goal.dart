@@ -65,10 +65,8 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
 
     return Container(
       padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-      height: 800,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
+      height: 600,
+      child: ListView(
         children: <Widget>[
           Text(
             'goal_name'.tr(),

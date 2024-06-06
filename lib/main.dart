@@ -9,7 +9,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 import 'package:toddle_toddle/utils/id_generator.dart';
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:flutter_timezone/flutter_timezone.dart';
 
 import 'package:toddle_toddle/data/models/goal.dart';
 import 'package:toddle_toddle/data/models/schedule.dart';
@@ -116,7 +116,7 @@ class MyApp extends ConsumerWidget {
 
 Future<void> setupTimeZone() async {
   tz.initializeTimeZones();
-  String timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
+  String timeZoneName = await FlutterTimezone.getLocalTimezone();
   tz.setLocalLocation(tz.getLocation(timeZoneName));
 }
 

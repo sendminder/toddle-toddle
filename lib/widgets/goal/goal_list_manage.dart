@@ -115,7 +115,7 @@ class GoalListManageWidget extends ConsumerWidget {
                         context: context,
                         builder: (BuildContext context) {
                           return AddOrUpdateGoalBottomSheet(
-                            goal: currentGoal,
+                            initGoal: currentGoal,
                             init: false,
                           );
                         },

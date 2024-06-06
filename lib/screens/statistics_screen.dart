@@ -67,7 +67,7 @@ class StatisticsScreen extends ConsumerWidget {
             context: context,
             builder: (BuildContext context) {
               return AddOrUpdateGoalBottomSheet(
-                goal: Goal.newDefaultGoal(),
+                initGoal: Goal.newDefaultGoal(),
                 init: true,
               );
             },

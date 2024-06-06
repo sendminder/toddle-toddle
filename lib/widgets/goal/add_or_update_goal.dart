@@ -3,47 +3,35 @@ import 'package:flutter/material.dart';
 import 'package:toddle_toddle/data/models/schedule.dart';
 import 'package:toddle_toddle/states/goals_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:toddle_toddle/data/models/goal.dart';
 import 'package:toddle_toddle/utils/id_generator.dart';
 import 'package:toddle_toddle/widgets/week_days_toggle.dart';
 import 'package:toddle_toddle/utils/time.dart';
 import 'package:get_it/get_it.dart';
-import 'package:toddle_toddle/widgets/editable/name_text_form.dart';
 import 'package:toddle_toddle/widgets/editable/color_picker_form.dart';
+import 'package:toddle_toddle/states/goal_provider.dart';
+import 'package:toddle_toddle/data/models/goal.dart';
 
 // ignore: must_be_immutable
 class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
   AddOrUpdateGoalBottomSheet(
-      {super.key, required this.goal, required this.init}) {
-    goalName = goal.name;
-    selectedMode = goal.schedule.isDaily == true ? 'Daily' : 'Weekly';
-    needPush = goal.needPush;
-    startDate = goal.startDate;
-    notificationTime = goal.schedule.notificationTime;
-    selectedDays = goal.schedule.daysOfWeek;
-    goalColor = goal.color;
-  }
+      {super.key, required this.initGoal, required this.init}) {}
   final bool init;
-  final Goal goal;
-  late String goalName;
-  late String selectedMode;
-  late String notificationTime;
-  late DateTime startDate;
-  late List<int> selectedDays;
-  late Color goalColor;
-  late bool needPush;
+  final Goal initGoal;
 
   final idGenerator = GetIt.I<IdGenerator>();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final selectedMode = ref.read(selectedModeProvider);
-    // final startDate = ref.read(startDateProvider);
-    // final notificationTime = ref.read(notificationTimeProvider);
-    // final selectedDays = ref.read(selectedDaysProvider);
-    // final goalName = ref.read(goalNameProvider);
-    // final goalColor = ref.read(colorProvider);
-    // final needPush = ref.read(needPushProvider);
+    ref.read(goalProvider.notifier).initGoal(initGoal);
+    final goalState = ref.watch(goalProvider);
+    final goal = goalState.goal;
+    String goalName = goal.name;
+    String selectedMode = goal.schedule.isDaily ? 'Daily' : 'Weekly';
+    String notificationTime = goal.schedule.notificationTime;
+    DateTime startDate = goal.startDate;
+    List<int> selectedDays = goal.schedule.daysOfWeek;
+    Color goalColor = goal.color;
+    bool needPush = goal.needPush;
 
     const header = TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
     var textButtonStyle = TextButton.styleFrom(
@@ -63,7 +51,7 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
 
     return Container(
       padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-      height: screenHeight * 0.7,
+      height: screenHeight * 0.8,
       child: ListView(
         children: <Widget>[
           Text(
@@ -87,8 +75,10 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
-            initialValue: goalName,
-            onChanged: (value) {},
+            initialValue: goal.name,
+            onChanged: (value) {
+              ref.read(goalProvider.notifier).updateName(value);
+            },
           ),
           const SizedBox(height: 20),
           Text(
@@ -97,7 +87,11 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
             textAlign: TextAlign.left,
           ),
           const SizedBox(height: 5),
-          ColorPickerFormWidget(selectedColor: goalColor),
+          ColorPickerFormWidget(
+              selectedColor: goalColor,
+              onColorChanged: (newColor) {
+                ref.read(goalProvider.notifier).updateColor(newColor);
+              }),
           const SizedBox(height: 20),
           Text(
             'start_date'.tr(),
@@ -129,7 +123,7 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
                   var selected =
                       DateTime(picked.year, picked.month, picked.day);
                   startDate = selected;
-                  // ref.read(startDateProvider.notifier).state = selected;
+                  ref.read(goalProvider.notifier).updateStartDate(selected);
                 }
               },
               child: Text(
@@ -164,8 +158,7 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
                     // 선택된 모드 업데이트
                     goal.schedule.isDaily = index == 0;
                     selectedMode = index == 0 ? 'Daily' : 'Weekly';
-                    // ref.read(selectedModeProvider.notifier).state =
-                    //     index == 0 ? 'Daily' : 'Weekly';
+                    ref.read(goalProvider.notifier).updateIsDaily(index == 0);
                   },
                   children: <Widget>[
                     Padding(
@@ -190,13 +183,18 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
                     ),
                   ],
                 ),
-                if (selectedMode == 'Weekly') ...[
+                if (ref.read(goalProvider.notifier).goal.schedule.isDaily ==
+                    false) ...[
                   // Weekly 선택 시 나타나는 요일 토글 버튼
                   const SizedBox(height: 20),
                   WeekDaysToggle(
-                    selectedDays: selectedDays,
-                    color: goalColor,
-                  ),
+                      selectedDays: selectedDays,
+                      color: goalColor,
+                      onSelectedChanged: (days) {
+                        ref
+                            .read(goalProvider.notifier)
+                            .updateSelectedDays(days);
+                      }),
                 ],
               ],
             ),
@@ -223,8 +221,9 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
                 if (pickedTime != null) {
                   final String formattedTime = timeOfDayToString(pickedTime);
                   notificationTime = formattedTime;
-                  // ref.read(notificationTimeProvider.notifier).state =
-                  //     formattedTime;
+                  ref
+                      .read(goalProvider.notifier)
+                      .updateNotificationTime(formattedTime);
                 }
               },
               child: Text(
@@ -256,10 +255,9 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
                     needPush == false,
                   ],
                   onPressed: (int index) {
-                    goal.schedule.isDaily = index == 0;
+                    goal.needPush = index == 0;
                     needPush = index == 0 ? true : false;
-                    // ref.read(needPushProvider.notifier).state =
-                    //     index == 0 ? true : false;
+                    ref.read(goalProvider.notifier).updateNeedPush(needPush);
                   },
                   children: <Widget>[
                     Padding(
@@ -299,10 +297,6 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
                 if (goal.id == 0) {
                   goal.id = await idGenerator.generateUniqueId();
                 }
-                goal.name = goalName;
-                goal.startDate = startDate;
-                goal.color = goalColor;
-                goal.needPush = needPush;
                 Schedule schedule = Schedule(
                   daysOfWeek: selectedDays,
                   notificationTime: notificationTime,

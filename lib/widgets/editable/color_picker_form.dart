@@ -8,9 +8,11 @@ class ColorPickerFormWidget extends ConsumerWidget {
   ColorPickerFormWidget({
     super.key,
     required this.selectedColor,
+    required this.onColorChanged,
   });
 
   Color selectedColor;
+  final ValueChanged<Color> onColorChanged;
   final logger = GetIt.I<Logger>();
 
   @override
@@ -30,7 +32,7 @@ class ColorPickerFormWidget extends ConsumerWidget {
           final color = palette[index];
           return GestureDetector(
             onTap: () {
-              selectedColor = color;
+              onColorChanged(color);
             },
             child: Container(
               width: 50,

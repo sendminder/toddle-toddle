@@ -6,15 +6,15 @@ class WeekDaysToggle extends ConsumerWidget {
   WeekDaysToggle({
     super.key,
     required this.selectedDays,
+    required this.onSelectedChanged,
     required this.color,
   });
   List<int> selectedDays;
+  ValueChanged<List<int>> onSelectedChanged;
   Color color;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final selectedDays = ref.watch(selectedDaysProvider);
-    // final color = ref.watch(colorProvider);
     final isSelected =
         List.generate(7, (index) => selectedDays.contains(index));
     final style = TextStyle(
@@ -27,15 +27,14 @@ class WeekDaysToggle extends ConsumerWidget {
       fillColor: color.withAlpha(60),
       isSelected: isSelected,
       onPressed: (int index) {
-        // ref.read(selectedDaysProvider.notifier).update((state) {
-        //   final newList = [...state];
-        //   if (newList.contains(index)) {
-        //     newList.remove(index);
-        //   } else {
-        //     newList.add(index);
-        //   }
-        //   return newList..sort(); // 리스트를 정렬합니다.
-        // });
+        final newList = [...selectedDays];
+        if (newList.contains(index)) {
+          newList.remove(index);
+        } else {
+          newList.add(index);
+        }
+        selectedDays = newList..sort(); // 리스트를 정렬합니다.
+        onSelectedChanged(selectedDays);
       },
       children: [
         Text(

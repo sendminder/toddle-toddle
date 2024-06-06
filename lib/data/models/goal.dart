@@ -47,6 +47,7 @@ class Goal extends HiveObject {
     this.isEnd = false,
     this.needPush = true,
     List<Achievement>? achievements,
+    DateTime? endTime,
   }) : achievements = achievements ?? [];
 
   Map<String, dynamic> toJson() {
@@ -90,5 +91,29 @@ class Goal extends HiveObject {
 
   void deleteAchievement(DateTime date) async {
     achievements.removeWhere((achievement) => achievement.date == date);
+  }
+
+  Goal copyWith({
+    int? id,
+    String? name,
+    DateTime? startDate,
+    DateTime? endTime,
+    Schedule? schedule,
+    List<Achievement>? achievements,
+    Color? color,
+    bool? isEnd,
+    bool? needPush,
+  }) {
+    return Goal(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      startDate: startDate ?? this.startDate,
+      endTime: endTime ?? this.endTime,
+      schedule: schedule ?? this.schedule,
+      achievements: achievements ?? this.achievements,
+      color: color ?? this.color,
+      isEnd: isEnd ?? this.isEnd,
+      needPush: needPush ?? this.needPush,
+    );
   }
 }

@@ -89,7 +89,7 @@ class MyApp extends ConsumerWidget {
     // if (Platform.isAndroid) {
     return MaterialApp(
       /// Localization is not available for the title.
-      title: 'Toddle Toddle',
+      title: '아장아장',
 
       /// Theme stuff
       theme: customTheme.lightTheme,

@@ -1,11 +1,11 @@
 {
-    "name": "toddle toddle",
-    "short_name": "toddle toddle",
+    "name": "아장아장",
+    "short_name": "아장아장",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "toddle toddle",
+    "description": "아장아장",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

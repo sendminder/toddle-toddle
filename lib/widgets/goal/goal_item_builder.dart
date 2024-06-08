@@ -19,7 +19,7 @@ class GoalItemListWidget extends ConsumerWidget {
 
     bool hasContents = false;
     for (var goal in goals) {
-      if (hasThatTimeSchedule(targetTime, goal)) {
+      if (hasThatTimeSchedule(targetTime, goal) && !goal.isEnd) {
         hasContents = true;
         break;
       }

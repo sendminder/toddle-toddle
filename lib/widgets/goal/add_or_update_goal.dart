@@ -14,7 +14,7 @@ import 'package:toddle_toddle/data/models/goal.dart';
 // ignore: must_be_immutable
 class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
   AddOrUpdateGoalBottomSheet(
-      {super.key, required this.initGoal, required this.init}) {}
+      {super.key, required this.initGoal, required this.init});
   final bool init;
   final Goal initGoal;
 
@@ -51,7 +51,7 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
 
     return Container(
       padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-      height: screenHeight * 0.8,
+      height: screenHeight * 0.75,
       child: ListView(
         children: <Widget>[
           Text(

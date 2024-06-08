@@ -101,29 +101,7 @@ class GoalListManageWidget extends ConsumerWidget {
                     ),
                   ),
                 ),
-                Expanded(
-                  flex: 1,
-                  child: IconButton(
-                    icon: const Icon(
-                      FluentIcons.edit_settings_24_regular,
-                      color: Colors.white70,
-                    ),
-                    onPressed: () {
-                      showModalBottomSheet<void>(
-                        isScrollControlled: true,
-                        showDragHandle: true,
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AddOrUpdateGoalBottomSheet(
-                            initGoal: currentGoal,
-                            init: false,
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ),
-                const SizedBox(width: 3),
+                const SizedBox(width: 5),
                 Expanded(
                   flex: 1,
                   child: IconButton(
@@ -162,7 +140,7 @@ class GoalListManageWidget extends ConsumerWidget {
                     },
                   ),
                 ),
-                const SizedBox(width: 3),
+                const SizedBox(width: 10),
                 Expanded(
                   flex: 1,
                   child: IconButton(
@@ -181,6 +159,7 @@ class GoalListManageWidget extends ConsumerWidget {
                     },
                   ),
                 ),
+                const SizedBox(width: 5),
               ],
             ),
           ),

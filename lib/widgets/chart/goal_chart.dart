@@ -10,9 +10,11 @@ class GoalChartWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Container(
       padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-      height: 800,
+      height: screenHeight * 0.75,
       child: Column(
         children: [
           Text(

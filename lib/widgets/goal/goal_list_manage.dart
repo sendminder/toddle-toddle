@@ -162,7 +162,7 @@ class GoalListManageWidget extends ConsumerWidget {
                     },
                   ),
                 ),
-                const SizedBox(width: 5),
+                const SizedBox(width: 10),
               ],
             ),
           ),

@@ -12,7 +12,8 @@ class GoalDoneFilterWidget extends ConsumerWidget {
     final filterTypeState = ref.watch(goalFilterProvider);
     final goals = ref.watch(goalsStateProvider);
     final primary = Theme.of(context).colorScheme.primary;
-    final background = Theme.of(context).colorScheme.onSurface;
+    final background = Theme.of(context).colorScheme.background;
+    final selectedColor = Colors.white.withAlpha(200);
     const minSize = Size(40, 35);
 
     final allCount = goals.length;
@@ -28,10 +29,12 @@ class GoalDoneFilterWidget extends ConsumerWidget {
             ref.read(goalFilterProvider.notifier).setFilterType(FilterType.all);
           },
           style: ElevatedButton.styleFrom(
+            elevation: 5,
             backgroundColor:
                 filterTypeState.type == FilterType.all ? primary : background,
-            foregroundColor:
-                filterTypeState.type == FilterType.all ? background : primary,
+            foregroundColor: filterTypeState.type == FilterType.all
+                ? selectedColor
+                : primary,
             minimumSize: minSize,
           ),
           child: Text('${'all'.tr()}($allCount)',
@@ -52,7 +55,7 @@ class GoalDoneFilterWidget extends ConsumerWidget {
                 ? primary
                 : background,
             foregroundColor: filterTypeState.type == FilterType.active
-                ? background
+                ? selectedColor
                 : primary,
             minimumSize: minSize,
           ),
@@ -74,7 +77,7 @@ class GoalDoneFilterWidget extends ConsumerWidget {
                 ? primary
                 : background,
             foregroundColor: filterTypeState.type == FilterType.completed
-                ? background
+                ? selectedColor
                 : primary,
             minimumSize: minSize,
           ),

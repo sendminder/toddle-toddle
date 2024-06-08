@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter/cupertino.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/adapters.dart';
@@ -86,32 +85,20 @@ class MyApp extends ConsumerWidget {
         paletteType: currentTheme.currentColorPaletteType);
     CheerUpMessages.setLanguage(context.locale.languageCode);
 
-    // if (Platform.isAndroid) {
     return MaterialApp(
       /// Localization is not available for the title.
       title: '아장아장',
 
-      /// Theme stuff
       theme: customTheme.lightTheme,
       darkTheme: customTheme.darkTheme,
       themeMode: currentTheme.themeMode,
 
-      /// Localization stuff
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       debugShowCheckedModeBanner: false,
       home: const HomeScreen(),
     );
-    // }
-    // return CupertinoApp(
-    //   title: 'Toddle Toddle',
-    //   localizationsDelegates: context.localizationDelegates,
-    //   supportedLocales: context.supportedLocales,
-    //   locale: context.locale,
-    //   debugShowCheckedModeBanner: false,
-    //   home: const HomeScreen(),
-    // );
   }
 }
 

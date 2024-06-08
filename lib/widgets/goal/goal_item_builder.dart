@@ -35,7 +35,7 @@ class GoalItemListWidget extends ConsumerWidget {
     }
 
     final themeMode = ref.read(themeProvider);
-    var activeAlpha = themeMode.themeMode == ThemeMode.dark ? 145 : 180;
+    var inActiveAlpha = themeMode.themeMode == ThemeMode.dark ? 145 : 180;
 
     return ListView.builder(
       shrinkWrap: true,
@@ -54,8 +54,8 @@ class GoalItemListWidget extends ConsumerWidget {
             .firstOrNull;
 
         var done = currentAchievement?.achieved ?? false;
-        var alpha = done ? 255 : activeAlpha;
-        var goalNameColor = done ? Colors.white : Colors.white70;
+        var alpha = done ? inActiveAlpha : 255;
+        var goalNameColor = done ? Colors.white70 : Colors.white;
 
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 3),
@@ -94,6 +94,10 @@ class GoalItemListWidget extends ConsumerWidget {
                         fontSize: 18,
                         color: goalNameColor,
                         fontWeight: FontWeight.bold,
+                        decorationColor: Colors.white70,
+                        decoration: done
+                            ? TextDecoration.lineThrough
+                            : TextDecoration.none,
                       ),
                     ),
                   ),

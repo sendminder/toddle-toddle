@@ -50,7 +50,7 @@ class CustomThemeData {
         primarySwatch = MaterialColor(_primaryColor, <int, Color>{
           50: const Color(0xFFFEF9F1), // indigo-50
           100: const Color(0xFFFDF2DE), // indigo-100
-          200: const Color(0xFFFCEACC), // 토글버튼 백그라운드
+          200: const Color(0xFFF9DCA7), // 토글버튼 백그라운드
           300: const Color(0xFFFAE3B9), // indigo-300
           400: const Color(0xFFF9DCA7), // indigo-400
           500: Color(_primaryColor), // indigo-500
@@ -284,7 +284,7 @@ class CustomThemeData {
       ),
       checkboxTheme: CheckboxThemeData(
         checkColor:
-            MaterialStateProperty.resolveWith<Color?>((_) => Colors.white),
+            MaterialStateProperty.resolveWith<Color?>((_) => Colors.white70),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -391,7 +391,7 @@ class CustomThemeData {
       ),
       checkboxTheme: CheckboxThemeData(
         checkColor:
-            MaterialStateProperty.resolveWith<Color?>((_) => Colors.white),
+            MaterialStateProperty.resolveWith<Color?>((_) => Colors.white70),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),

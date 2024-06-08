@@ -12,7 +12,7 @@ class GoalDoneFilterWidget extends ConsumerWidget {
     final filterTypeState = ref.watch(goalFilterProvider);
     final goals = ref.watch(goalsStateProvider);
     final primary = Theme.of(context).colorScheme.primary;
-    final background = Theme.of(context).colorScheme.background;
+    final background = Theme.of(context).colorScheme.onSurface;
     const minSize = Size(40, 35);
 
     final allCount = goals.length;

@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:toddle_toddle/states/goal_filter_state.dart';
 import 'package:toddle_toddle/states/goals_state.dart';
-import 'package:toddle_toddle/widgets/goal/add_or_update_goal.dart';
 import 'package:toddle_toddle/widgets/chart/goal_chart.dart';
 import 'package:toddle_toddle/states/theme_mode_state.dart';
 
@@ -53,15 +52,15 @@ class GoalListManageWidget extends ConsumerWidget {
       itemCount: goals.length,
       itemBuilder: (context, index) {
         var currentGoal = goals[index];
-        var goalNameColor = currentGoal.isEnd ? Colors.white : Colors.white70;
+        var goalNameColor = currentGoal.isEnd ? Colors.white70 : Colors.white;
 
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 3),
           child: Container(
             decoration: BoxDecoration(
               color: currentGoal.isEnd
-                  ? currentGoal.color
-                  : currentGoal.color.withAlpha(alpha),
+                  ? currentGoal.color.withAlpha(alpha)
+                  : currentGoal.color,
               borderRadius: BorderRadius.circular(16),
             ),
             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
@@ -97,6 +96,10 @@ class GoalListManageWidget extends ConsumerWidget {
                         fontSize: 18,
                         color: goalNameColor,
                         fontWeight: FontWeight.bold,
+                        decorationColor: Colors.white70,
+                        decoration: currentGoal.isEnd
+                            ? TextDecoration.lineThrough
+                            : TextDecoration.none,
                       ),
                     ),
                   ),

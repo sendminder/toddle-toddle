@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
 import 'package:toddle_toddle/const/strings.dart';
-import 'package:toddle_toddle/config/theme.dart';
+import 'package:toddle_toddle/data/enums/color_palette_type.dart';
 
 final AutoDisposeChangeNotifierProvider<ThemeModeState> themeProvider =
     ChangeNotifierProvider.autoDispose(

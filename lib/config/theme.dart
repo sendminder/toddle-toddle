@@ -1,27 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:toddle_toddle/data/enums/color_palette_type.dart';
 
 /// Colors from Tailwind CSS (v3.0) - June 2022
 ///
 /// https://tailwindcss.com/docs/customizing-colors
-
-enum ColorPaletteType {
-  yellow,
-  purple,
-  green,
-}
-
-extension ColorPaletteTypeExtension on ColorPaletteType {
-  String toStringValue() {
-    switch (this) {
-      case ColorPaletteType.yellow:
-        return 'yellow';
-      case ColorPaletteType.purple:
-        return 'purple';
-      case ColorPaletteType.green:
-        return 'green';
-    }
-  }
-}
 
 class CustomThemeData {
   CustomThemeData({required this.font, required this.paletteType}) {

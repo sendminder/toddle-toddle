@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:toddle_toddle/config/theme.dart';
+import 'package:toddle_toddle/data/enums/color_palette_type.dart';
 
 class ColorPaletteTypeAdapter extends TypeAdapter<ColorPaletteType> {
   @override

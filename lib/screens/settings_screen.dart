@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:toddle_toddle/config/theme.dart';
+import 'package:toddle_toddle/data/enums/color_palette_type.dart';
 import 'package:toddle_toddle/states/theme_mode_state.dart';
 import 'package:toddle_toddle/states/push_notification_state.dart';
 import 'package:toddle_toddle/states/goals_state.dart';

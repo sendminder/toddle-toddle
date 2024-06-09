@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:toddle_toddle/states/goals_state.dart';
 import 'package:toddle_toddle/states/goal_filter_state.dart';
 import 'package:toddle_toddle/data/models/goal.dart';
+import 'package:toddle_toddle/data/enums/goal_filter_type.dart';
 
 class GoalGraphWidget extends ConsumerWidget {
   const GoalGraphWidget({super.key});
@@ -15,12 +16,12 @@ class GoalGraphWidget extends ConsumerWidget {
     var filterTypeState = ref.watch(goalFilterProvider);
 
     switch (filterTypeState.type) {
-      case FilterType.all:
+      case GoalFilterType.all:
         break;
-      case FilterType.active:
+      case GoalFilterType.active:
         goals = goals.where((element) => element.isEnd == false).toList();
         break;
-      case FilterType.completed:
+      case GoalFilterType.completed:
         goals = goals.where((element) => element.isEnd == true).toList();
         break;
     }

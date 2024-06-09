@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
 import 'package:toddle_toddle/data/models/goal.dart';
 import 'package:toddle_toddle/data/models/achievement.dart';
+import 'package:toddle_toddle/data/enums/schedule_type.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:toddle_toddle/const/strings.dart';
 import 'package:logger/logger.dart';
@@ -195,7 +196,7 @@ class GoalsState extends StateNotifier<List<Goal>> {
 
   Future<void> _updatePushSchedule(Goal goal, bool needCancle) async {
     var daysOfWeek = goal.schedule.daysOfWeek;
-    if (goal.schedule.isDaily) {
+    if (goal.schedule.scheduleType == ScheduleType.daily) {
       daysOfWeek = [0, 1, 2, 3, 4, 5, 6];
     }
     if (needCancle) {
@@ -224,15 +225,15 @@ class GoalsState extends StateNotifier<List<Goal>> {
     final ampm = goal.schedule.notificationTime.split(' ')[1];
 
     await localPushService.scheduleNotification(
-      id: goal.id,
-      title: goal.name,
-      subtitle:
-          '${timeToStr(hour)}:${timeToStr(minute)} $ampm | ${'lets_achieve_goal'.tr()}',
-      startDate: scheduleStartDate,
-      hour: hour,
-      minute: minute,
-      daysOfWeek: daysOfWeek,
-    );
+        id: goal.id,
+        title: goal.name,
+        subtitle:
+            '${timeToStr(hour)}:${timeToStr(minute)} $ampm | ${'lets_achieve_goal'.tr()}',
+        startDate: scheduleStartDate,
+        hour: hour,
+        minute: minute,
+        daysOfWeek: daysOfWeek,
+        isOnce: goal.schedule.scheduleType == ScheduleType.once);
     logger.d(
         'scheduleNotification: ${goal.id} $daysOfWeek $scheduleStartDate $hour:$minute');
   }

@@ -10,6 +10,7 @@ import 'package:get_it/get_it.dart';
 import 'package:toddle_toddle/widgets/editable/color_picker_form.dart';
 import 'package:toddle_toddle/states/goal_provider.dart';
 import 'package:toddle_toddle/data/models/goal.dart';
+import 'package:toddle_toddle/data/enums/schedule_type.dart';
 
 // ignore: must_be_immutable
 class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
@@ -25,13 +26,12 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
     ref.read(goalProvider.notifier).initGoal(initGoal);
     final goalState = ref.watch(goalProvider);
     final goal = goalState.goal;
-    String goalName = goal.name;
-    String selectedMode = goal.schedule.isDaily ? 'Daily' : 'Weekly';
     String notificationTime = goal.schedule.notificationTime;
     DateTime startDate = goal.startDate;
     List<int> selectedDays = goal.schedule.daysOfWeek;
     Color goalColor = goal.color;
     bool needPush = goal.needPush;
+    ScheduleType scheduleType = goal.schedule.scheduleType;
 
     const header = TextStyle(fontSize: 18, fontWeight: FontWeight.bold);
     var textButtonStyle = TextButton.styleFrom(
@@ -48,6 +48,7 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
     var lastDay = now.add(const Duration(days: 90));
     var firstDay = now.add(const Duration(days: -365));
     final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
 
     return Container(
       padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
@@ -146,21 +147,36 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
             child: Column(
               children: [
                 ToggleButtons(
-                  constraints:
-                      const BoxConstraints(minWidth: 170, minHeight: 48),
+                  constraints: BoxConstraints(
+                    minWidth: (screenWidth - 40) / 3,
+                    maxWidth: (screenWidth - 40) / 3,
+                    minHeight: 48,
+                  ),
                   borderRadius: BorderRadius.circular(16),
                   fillColor: goalColor.withAlpha(40),
                   isSelected: [
-                    selectedMode == 'Daily',
-                    selectedMode == 'Weekly',
+                    scheduleType == ScheduleType.once,
+                    scheduleType == ScheduleType.daily,
+                    scheduleType == ScheduleType.weekly,
                   ],
                   onPressed: (int index) {
                     // 선택된 모드 업데이트
-                    goal.schedule.isDaily = index == 0;
-                    selectedMode = index == 0 ? 'Daily' : 'Weekly';
-                    ref.read(goalProvider.notifier).updateIsDaily(index == 0);
+                    goal.schedule.scheduleType =
+                        ScheduleTypeExtension.fromIntValue(index);
+                    ref.read(goalProvider.notifier).updateScheduleType(
+                        ScheduleTypeExtension.fromIntValue(index));
                   },
                   children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Text(
+                        'once'.tr(),
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: goalColor,
+                        ),
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Text(
@@ -183,8 +199,12 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
                     ),
                   ],
                 ),
-                if (ref.read(goalProvider.notifier).goal.schedule.isDaily ==
-                    false) ...[
+                if (ref
+                        .read(goalProvider.notifier)
+                        .goal
+                        .schedule
+                        .scheduleType ==
+                    ScheduleType.weekly) ...[
                   // Weekly 선택 시 나타나는 요일 토글 버튼
                   const SizedBox(height: 20),
                   WeekDaysToggle(
@@ -246,8 +266,11 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
             child: Column(
               children: [
                 ToggleButtons(
-                  constraints:
-                      const BoxConstraints(minWidth: 170, minHeight: 48),
+                  constraints: BoxConstraints(
+                    minWidth: (screenWidth - 40) / 2,
+                    maxWidth: (screenWidth - 40) / 2,
+                    minHeight: 48,
+                  ),
                   borderRadius: BorderRadius.circular(16),
                   fillColor: goalColor.withAlpha(40),
                   isSelected: [
@@ -300,7 +323,7 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
                 Schedule schedule = Schedule(
                   daysOfWeek: selectedDays,
                   notificationTime: notificationTime,
-                  isDaily: selectedMode == 'Daily',
+                  scheduleType: scheduleType,
                 );
                 goal.schedule = schedule;
 
@@ -309,7 +332,7 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
                     showAlertDialog(context, 'goal_name_empty'.tr());
                     return;
                   }
-                  if (!goal.schedule.isDaily &&
+                  if (goal.schedule.scheduleType == ScheduleType.weekly &&
                       goal.schedule.daysOfWeek.isEmpty) {
                     showAlertDialog(context, 'select_days_of_week'.tr());
                     return;

@@ -138,6 +138,7 @@ class LocalPushService {
     required int hour,
     required int minute,
     required List<int> daysOfWeek,
+    required bool isOnce,
   }) async {
     final tz.TZDateTime scheduledDate = tz.TZDateTime(
       tz.local,
@@ -148,55 +149,26 @@ class LocalPushService {
       minute,
     );
     DateTime now = DateTime.now();
-    // DateTime에서 요일은 1(월요일)부터 7(일요일)까지
-    int currentWeekday = now.weekday;
-    for (final int day in daysOfWeek) {
-      // index는 0에서 6까지이므로
-      int difference = day - currentWeekday + 1;
-      if (difference < 0) {
-        // 현재 요일 이후에 해당 요일이 오려면 다음 주로 넘기기
-        difference += 7;
+    if (isOnce) {
+      await zonedSchdule(id, id, title, subtitle, scheduledDate);
+    } else {
+      // DateTime에서 요일은 1(월요일)부터 7(일요일)까지
+      int currentWeekday = now.weekday;
+      for (final int day in daysOfWeek) {
+        // index는 0에서 6까지이므로
+        int difference = day - currentWeekday + 1;
+        if (difference < 0) {
+          // 현재 요일 이후에 해당 요일이 오려면 다음 주로 넘기기
+          difference += 7;
+        }
+        final tz.TZDateTime scheduledDateWithDay = scheduledDate.add(Duration(
+          days: difference,
+        ));
+
+        final int notificationId = id + day;
+        await zonedSchdule(
+            id, notificationId, title, subtitle, scheduledDateWithDay);
       }
-      final tz.TZDateTime scheduledDateWithDay = scheduledDate.add(Duration(
-        days: difference,
-      ));
-
-      final int notificationId = id + day;
-
-      DarwinNotificationDetails darwinNotificationDetails =
-          DarwinNotificationDetails(
-        subtitle: subtitle,
-      );
-      var body = cheerUpMessages.getRandomMessage();
-
-      NotificationDetails notificationDetails = NotificationDetails(
-        android: AndroidNotificationDetails(
-          id.toString(),
-          id.toString(),
-          channelDescription: title,
-          importance: Importance.max,
-          priority: Priority.high,
-          ticker: 'ticker',
-          styleInformation: BigTextStyleInformation(
-            body, // 알림 본문
-            summaryText: subtitle, // 서브타이틀
-          ),
-        ),
-        iOS: darwinNotificationDetails,
-      );
-
-      await _flutterLocalNotificationsPlugin.zonedSchedule(
-        notificationId,
-        title,
-        body,
-        scheduledDateWithDay,
-        notificationDetails,
-        androidScheduleMode: AndroidScheduleMode.exact,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime,
-        matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime,
-        payload: '$id',
-      );
     }
   }
 
@@ -206,5 +178,43 @@ class LocalPushService {
 
   Future<void> cancelAll() async {
     await _flutterLocalNotificationsPlugin.cancelAll();
+  }
+
+  Future<void> zonedSchdule(int id, int notificationId, String title,
+      String subtitle, tz.TZDateTime scheduledDate) async {
+    DarwinNotificationDetails darwinNotificationDetails =
+        DarwinNotificationDetails(
+      subtitle: subtitle,
+    );
+    var body = cheerUpMessages.getRandomMessage();
+
+    NotificationDetails notificationDetails = NotificationDetails(
+      android: AndroidNotificationDetails(
+        id.toString(),
+        id.toString(),
+        channelDescription: title,
+        importance: Importance.max,
+        priority: Priority.high,
+        ticker: 'ticker',
+        styleInformation: BigTextStyleInformation(
+          body, // 알림 본문
+          summaryText: subtitle, // 서브타이틀
+        ),
+      ),
+      iOS: darwinNotificationDetails,
+    );
+
+    await _flutterLocalNotificationsPlugin.zonedSchedule(
+      notificationId,
+      title,
+      body,
+      scheduledDate,
+      notificationDetails,
+      androidScheduleMode: AndroidScheduleMode.exact,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
+      matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime,
+      payload: '$id',
+    );
   }
 }

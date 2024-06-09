@@ -7,6 +7,7 @@ import 'package:toddle_toddle/states/goals_state.dart';
 import 'package:toddle_toddle/widgets/chart/goal_chart.dart';
 import 'package:toddle_toddle/states/theme_mode_state.dart';
 import 'package:toddle_toddle/widgets/goal/add_or_update_goal.dart';
+import 'package:toddle_toddle/data/enums/goal_filter_type.dart';
 
 class GoalListManageWidget extends ConsumerWidget {
   const GoalListManageWidget({super.key});
@@ -17,12 +18,12 @@ class GoalListManageWidget extends ConsumerWidget {
     var filterTypeState = ref.watch(goalFilterProvider);
 
     switch (filterTypeState.type) {
-      case FilterType.all:
+      case GoalFilterType.all:
         break;
-      case FilterType.active:
+      case GoalFilterType.active:
         goals = goals.where((element) => element.isEnd == false).toList();
         break;
-      case FilterType.completed:
+      case GoalFilterType.completed:
         goals = goals.where((element) => element.isEnd == true).toList();
         break;
     }
@@ -31,7 +32,7 @@ class GoalListManageWidget extends ConsumerWidget {
     var alpha = themeMode.themeMode == ThemeMode.dark ? 145 : 180;
 
     if (goals.isEmpty) {
-      if (filterTypeState.type == FilterType.completed) {
+      if (filterTypeState.type == GoalFilterType.completed) {
         return Center(
           child: Text(
             'no_completed_goals'.tr(),

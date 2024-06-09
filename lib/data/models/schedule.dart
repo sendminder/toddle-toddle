@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:toddle_toddle/data/enums/schedule_type.dart';
 
 part 'schedule.g.dart';
 
@@ -11,19 +12,19 @@ class Schedule extends HiveObject {
   String notificationTime; // HH:MM AM
 
   @HiveField(2)
-  bool isDaily;
+  ScheduleType scheduleType;
 
   Schedule({
     required this.daysOfWeek,
     required this.notificationTime,
-    required this.isDaily,
+    required this.scheduleType,
   });
 
   Map<String, dynamic> toJson() {
     return {
       'daysOfWeek': daysOfWeek,
       'notificationTime': notificationTime,
-      'isDaily': isDaily,
+      'scheduleType': scheduleType,
     };
   }
 
@@ -31,7 +32,7 @@ class Schedule extends HiveObject {
     return Schedule(
       daysOfWeek: [],
       notificationTime: '09:30 AM',
-      isDaily: true,
+      scheduleType: ScheduleType.daily,
     );
   }
 
@@ -47,9 +48,8 @@ class Schedule extends HiveObject {
     await save(); // Hive에 변경사항 저장
   }
 
-  // isDaily 수정 함수
-  Future<void> updateIsDaily(bool newIsDaily) async {
-    isDaily = newIsDaily;
+  Future<void> updateScheduleType(ScheduleType type) async {
+    scheduleType = type;
     await save(); // Hive에 변경사항 저장
   }
 

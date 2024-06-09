@@ -19,7 +19,7 @@ class ScheduleAdapter extends TypeAdapter<Schedule> {
     return Schedule(
       daysOfWeek: (fields[0] as List).cast<int>(),
       notificationTime: fields[1] as String,
-      isDaily: fields[2] as bool,
+      scheduleType: fields[2] as ScheduleType,
     );
   }
 
@@ -32,7 +32,7 @@ class ScheduleAdapter extends TypeAdapter<Schedule> {
       ..writeByte(1)
       ..write(obj.notificationTime)
       ..writeByte(2)
-      ..write(obj.isDaily);
+      ..write(obj.scheduleType);
   }
 
   @override

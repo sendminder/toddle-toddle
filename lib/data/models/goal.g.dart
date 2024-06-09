@@ -25,7 +25,8 @@ class GoalAdapter extends TypeAdapter<Goal> {
       isEnd: fields[7] as bool,
       needPush: fields[8] as bool,
       achievements: (fields[5] as List?)?.cast<Achievement>(),
-    )..endTime = fields[3] as DateTime?;
+      endTime: fields[3] as DateTime?,
+    );
   }
 
   @override

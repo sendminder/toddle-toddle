@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:toddle_toddle/states/goal_filter_state.dart';
 import 'package:toddle_toddle/states/goals_state.dart';
+import 'package:toddle_toddle/data/enums/goal_filter_type.dart';
 
 class GoalDoneFilterWidget extends ConsumerWidget {
   const GoalDoneFilterWidget({super.key});
@@ -26,19 +27,22 @@ class GoalDoneFilterWidget extends ConsumerWidget {
       children: [
         ElevatedButton(
           onPressed: () {
-            ref.read(goalFilterProvider.notifier).setFilterType(FilterType.all);
+            ref
+                .read(goalFilterProvider.notifier)
+                .setFilterType(GoalFilterType.all);
           },
           style: ElevatedButton.styleFrom(
             elevation: 5,
-            backgroundColor:
-                filterTypeState.type == FilterType.all ? primary : background,
-            foregroundColor: filterTypeState.type == FilterType.all
+            backgroundColor: filterTypeState.type == GoalFilterType.all
+                ? primary
+                : background,
+            foregroundColor: filterTypeState.type == GoalFilterType.all
                 ? selectedColor
                 : primary,
             minimumSize: minSize,
           ),
           child: Text('${'all'.tr()}($allCount)',
-              style: filterTypeState.type == FilterType.all
+              style: filterTypeState.type == GoalFilterType.all
                   ? const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)
                   : const TextStyle(
                       fontSize: 14, fontWeight: FontWeight.normal)),
@@ -48,19 +52,19 @@ class GoalDoneFilterWidget extends ConsumerWidget {
           onPressed: () {
             ref
                 .read(goalFilterProvider.notifier)
-                .setFilterType(FilterType.active);
+                .setFilterType(GoalFilterType.active);
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: filterTypeState.type == FilterType.active
+            backgroundColor: filterTypeState.type == GoalFilterType.active
                 ? primary
                 : background,
-            foregroundColor: filterTypeState.type == FilterType.active
+            foregroundColor: filterTypeState.type == GoalFilterType.active
                 ? selectedColor
                 : primary,
             minimumSize: minSize,
           ),
           child: Text('${'active'.tr()}($activeCount)',
-              style: filterTypeState.type == FilterType.active
+              style: filterTypeState.type == GoalFilterType.active
                   ? const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)
                   : const TextStyle(
                       fontSize: 14, fontWeight: FontWeight.normal)),
@@ -70,19 +74,19 @@ class GoalDoneFilterWidget extends ConsumerWidget {
           onPressed: () {
             ref
                 .read(goalFilterProvider.notifier)
-                .setFilterType(FilterType.completed);
+                .setFilterType(GoalFilterType.completed);
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: filterTypeState.type == FilterType.completed
+            backgroundColor: filterTypeState.type == GoalFilterType.completed
                 ? primary
                 : background,
-            foregroundColor: filterTypeState.type == FilterType.completed
+            foregroundColor: filterTypeState.type == GoalFilterType.completed
                 ? selectedColor
                 : primary,
             minimumSize: minSize,
           ),
           child: Text('${'completed'.tr()}($completedCount)',
-              style: filterTypeState.type == FilterType.completed
+              style: filterTypeState.type == GoalFilterType.completed
                   ? const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)
                   : const TextStyle(
                       fontSize: 14, fontWeight: FontWeight.normal)),

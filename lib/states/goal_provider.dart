@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:toddle_toddle/data/models/goal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:toddle_toddle/data/enums/schedule_type.dart';
 
 final AutoDisposeChangeNotifierProvider<GoalState> goalProvider =
     ChangeNotifierProvider.autoDispose(
@@ -37,8 +38,8 @@ class GoalState with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateIsDaily(bool value) {
-    _goal.schedule.isDaily = value;
+  void updateScheduleType(ScheduleType type) {
+    _goal.schedule.scheduleType = type;
     notifyListeners();
   }
 

@@ -7,6 +7,7 @@ import 'package:collection/collection.dart';
 import 'package:toddle_toddle/widgets/my_calendar.dart';
 import 'package:toddle_toddle/states/theme_mode_state.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:toddle_toddle/data/enums/schedule_type.dart';
 
 class GoalItemListWidget extends ConsumerWidget {
   const GoalItemListWidget({super.key});
@@ -148,21 +149,28 @@ class GoalItemListWidget extends ConsumerWidget {
   // 시작 시간이 설정되어 있고, 현재 시간보다 미래인 경우 스킵
   // 또는 주간 목표인 경우, 오늘 요일이 설정되어 있지 않은 경우 스킵
   bool hasThatTimeSchedule(DateTime targetTime, Goal goal) {
-    if (goal.schedule.isDaily) {
+    if (goal.schedule.scheduleType == ScheduleType.daily) {
       if (goal.startDate.isBefore(targetTime) ||
           goal.startDate.isAtSameMomentAs(targetTime)) {
         return true;
       }
     }
 
-    if (goal.schedule.isDaily == false) {
+    if (goal.schedule.scheduleType == ScheduleType.weekly) {
       if (goal.startDate.isAfter(targetTime)) {
         return false;
       }
+      if (goal.schedule.daysOfWeek.contains(targetTime.weekday - 1)) {
+        return true;
+      }
     }
 
-    if (goal.schedule.daysOfWeek.contains(targetTime.weekday - 1)) {
-      return true;
+    if (goal.schedule.scheduleType == ScheduleType.once) {
+      if (goal.startDate.year == targetTime.year &&
+          goal.startDate.month == targetTime.month &&
+          goal.startDate.day == targetTime.day) {
+        return true;
+      }
     }
 
     return false;

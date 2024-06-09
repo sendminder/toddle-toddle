@@ -25,7 +25,7 @@ import 'package:toddle_toddle/service/local_push_service.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:toddle_toddle/data/models/filter_type_adapter.dart';
+import 'package:toddle_toddle/data/adapter/filter_type_adapter.dart';
 import 'package:toddle_toddle/data/adapter/color_palette_type_adapter.dart';
 import 'package:toddle_toddle/data/adapter/schedule_type_adapter.dart';
 import 'package:toddle_toddle/const/cheer_up_messages.dart';
@@ -49,7 +49,7 @@ void main() async {
   Hive.registerAdapter(GoalAdapter());
   Hive.registerAdapter(AchievementAdapter());
   Hive.registerAdapter(ScheduleAdapter());
-  Hive.registerAdapter(FilterTypeAdapter());
+  Hive.registerAdapter(GoalFilterTypeAdapter());
   Hive.registerAdapter(ColorPaletteTypeAdapter());
   Hive.registerAdapter(ScheduleTypeAdapter());
 

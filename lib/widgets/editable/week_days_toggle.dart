@@ -22,7 +22,14 @@ class WeekDaysToggle extends ConsumerWidget {
       color: color,
     );
 
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return ToggleButtons(
+      constraints: BoxConstraints(
+        minWidth: (screenWidth - 40) / 7,
+        maxWidth: (screenWidth - 40) / 7,
+        minHeight: 48,
+      ),
       borderRadius: BorderRadius.circular(16),
       fillColor: color.withAlpha(60),
       isSelected: isSelected,

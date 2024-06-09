@@ -18,7 +18,7 @@ class WeekDaysToggle extends ConsumerWidget {
     final isSelected =
         List.generate(7, (index) => selectedDays.contains(index));
     final style = TextStyle(
-      fontSize: 14,
+      fontSize: 13,
       color: color,
     );
 

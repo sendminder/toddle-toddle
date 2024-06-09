@@ -63,7 +63,7 @@ class CustomThemeData {
           background: textSwatch.shade200,
           onBackground: textSwatch.shade500,
           onSurface: textSwatch.shade500,
-          surface: textSwatch.shade50,
+          surface: textSwatch.shade200,
           surfaceVariant: Colors.white,
           shadow: textSwatch.shade900.withOpacity(.1),
         );
@@ -76,7 +76,7 @@ class CustomThemeData {
           background: const Color(0xFF17100E),
           onBackground: textSwatch.shade400,
           onSurface: textSwatch.shade300,
-          surface: const Color(0xFF262630),
+          surface: const Color(0xFF17100E),
           surfaceVariant: const Color(0xFF282832),
           shadow: textSwatch.shade900.withOpacity(.2),
         );
@@ -173,7 +173,7 @@ class CustomThemeData {
           background: textSwatch.shade200,
           onBackground: textSwatch.shade500,
           onSurface: textSwatch.shade500,
-          surface: textSwatch.shade50,
+          surface: textSwatch.shade200,
           surfaceVariant: Colors.white,
           shadow: textSwatch.shade900.withOpacity(.1),
         );
@@ -186,7 +186,7 @@ class CustomThemeData {
           background: const Color(0xFF161D24),
           onBackground: textSwatch.shade400,
           onSurface: textSwatch.shade300,
-          surface: const Color(0xFF262630),
+          surface: const Color(0xFF161D24),
           surfaceVariant: const Color(0xFF282832),
           shadow: textSwatch.shade900.withOpacity(.2),
         );

@@ -16,7 +16,7 @@ class GoalFilterState extends ChangeNotifier {
         .get('goalFilterType', defaultValue: GoalFilterType.all);
   }
 
-  GoalFilterType? filterType;
+  late GoalFilterType filterType;
 
   get type => filterType;
 

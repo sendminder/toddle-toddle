@@ -151,7 +151,8 @@ class LocalPushService {
     // DateTime에서 요일은 1(월요일)부터 7(일요일)까지
     int currentWeekday = now.weekday;
     for (final int day in daysOfWeek) {
-      int difference = day - currentWeekday;
+      // index는 0에서 6까지이므로
+      int difference = day - currentWeekday + 1;
       if (difference < 0) {
         // 현재 요일 이후에 해당 요일이 오려면 다음 주로 넘기기
         difference += 7;

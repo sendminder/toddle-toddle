@@ -6,6 +6,7 @@ import 'package:toddle_toddle/states/goal_filter_state.dart';
 import 'package:toddle_toddle/states/goals_state.dart';
 import 'package:toddle_toddle/widgets/chart/goal_chart.dart';
 import 'package:toddle_toddle/states/theme_mode_state.dart';
+import 'package:toddle_toddle/widgets/goal/add_or_update_goal.dart';
 
 class GoalListManageWidget extends ConsumerWidget {
   const GoalListManageWidget({super.key});
@@ -104,7 +105,29 @@ class GoalListManageWidget extends ConsumerWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: 5),
+                Expanded(
+                  flex: 1,
+                  child: IconButton(
+                    icon: const Icon(
+                      FluentIcons.edit_settings_24_regular,
+                      color: Colors.white70,
+                    ),
+                    onPressed: () {
+                      showModalBottomSheet<void>(
+                        isScrollControlled: true,
+                        showDragHandle: true,
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AddOrUpdateGoalBottomSheet(
+                            initGoal: currentGoal,
+                            init: false,
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(width: 10),
                 Expanded(
                   flex: 1,
                   child: IconButton(

@@ -67,5 +67,13 @@
     "yellow": "노랑노랑",
     "purple": "보라보라",
     "green": "초록초록",
-    "achievement_percent": "전체 목표 달성률"
+    "graph": "그래프",
+    "close": "닫기",
+    "total_achievement_percentage": "전체 목표 달성률",
+    "achievement_percentage": "목표 달성률",
+    "total_achievements": "목표 달성 수",
+    "total_days": "총 일수",
+    "achievements": "목표 성취도",
+    "weekly_graph": "요일별 달성수",
+    "monthly_achievements": "목표 달성 달력"
 }

@@ -69,5 +69,11 @@
   "green": "Green",
   "graph": "Graph",
   "close": "Close",
-  "achievement_percent": "Achievement Percent"
+  "total_achievement_percentage": "Achievement Percentage",
+  "achievement_percentage": "Achievement Percentage",
+  "total_achievements": "Total Achievements",
+  "total_days": "Total Days",
+  "achievemnts": "Achievements",
+  "weekly_graph": "Weekly Graph",
+  "monthly_achievements": "Monthly Achievements"
 }

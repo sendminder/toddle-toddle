@@ -14,12 +14,12 @@ class StatisticsScreen extends ConsumerWidget {
   const StatisticsScreen({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    Offset _initialSwipeOffset = Offset.zero;
+    Offset initialSwipeOffset = Offset.zero;
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       body: GestureDetector(
-        onPanStart: (details) => _initialSwipeOffset = details.localPosition,
+        onPanStart: (details) => initialSwipeOffset = details.localPosition,
         onPanEnd: (details) {
           final dx = details.velocity.pixelsPerSecond.dx;
           if (dx > 0) {

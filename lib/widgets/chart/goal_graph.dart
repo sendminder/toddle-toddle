@@ -6,6 +6,7 @@ import 'package:toddle_toddle/states/goals_state.dart';
 import 'package:toddle_toddle/states/goal_filter_state.dart';
 import 'package:toddle_toddle/data/models/goal.dart';
 import 'package:toddle_toddle/data/enums/goal_filter_type.dart';
+import 'package:toddle_toddle/widgets/chart/goal_achievement_percent.dart';
 
 class GoalGraphWidget extends ConsumerWidget {
   const GoalGraphWidget({super.key});
@@ -27,6 +28,28 @@ class GoalGraphWidget extends ConsumerWidget {
     }
     final screenHeight = MediaQuery.of(context).size.height;
 
+    if (goals.isEmpty) {
+      return Container(
+        padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+        height: screenHeight * 0.75,
+        child: Center(
+          child: Text(
+            'no_goals'.tr(),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+        ),
+      );
+    }
+
+    // achievement의 true 개수를 기준으로 정렬
+    goals.sort((a, b) {
+      var aTrueCount =
+          a.achievements.where((element) => element.achieved).length;
+      var bTrueCount =
+          b.achievements.where((element) => element.achieved).length;
+      return bTrueCount.compareTo(aTrueCount);
+    });
+
     return Container(
       padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
       height: screenHeight * 0.75,
@@ -34,9 +57,9 @@ class GoalGraphWidget extends ConsumerWidget {
         children: [
           const SizedBox(height: 15),
           Text(
-            'achievement_percent'.tr(),
+            'total_achievement_percentage'.tr(),
             style: const TextStyle(
-              fontSize: 20,
+              fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -50,6 +73,21 @@ class GoalGraphWidget extends ConsumerWidget {
               ),
             ),
           ),
+          ...goals.map((goal) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 15),
+                Text(
+                  goal.name,
+                  style: const TextStyle(fontSize: 18),
+                  textAlign: TextAlign.left,
+                ),
+                const SizedBox(height: 10),
+                GoalAchievementPercentWidget(goal: goal),
+              ],
+            );
+          }),
         ],
       ),
     );

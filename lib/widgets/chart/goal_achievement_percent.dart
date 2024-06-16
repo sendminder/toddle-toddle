@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:toddle_toddle/data/enums/schedule_type.dart';
 import 'package:toddle_toddle/data/models/goal.dart';
 
 class GoalAchievementPercentWidget extends StatelessWidget {
@@ -14,6 +16,20 @@ class GoalAchievementPercentWidget extends StatelessWidget {
       lastDay = goal.endTime!;
     }
     int totalDays = lastDay.difference(goal.startDate).inDays + 1;
+
+    // 주별 스케쥴은 다르게 계산해야 함
+    if (goal.schedule.scheduleType == ScheduleType.weekly) {
+      totalDays = 0;
+      var currentDay = goal.startDate;
+      while (currentDay.isBefore(lastDay) ||
+          currentDay.isAtSameMomentAs(lastDay)) {
+        if (goal.schedule.daysOfWeek.contains(currentDay.weekday)) {
+          totalDays++;
+        }
+        currentDay = currentDay.add(const Duration(days: 1));
+      }
+    }
+
     double achievementPercentage = (totalAchievements / totalDays) * 100;
 
     return Container(
@@ -26,16 +42,16 @@ class GoalAchievementPercentWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Total Achievements: $totalAchievements',
-            style: const TextStyle(fontSize: 20),
+            '${'total_achievements'.tr()}: $totalAchievements',
+            style: const TextStyle(fontSize: 16),
           ),
           Text(
-            'Total Days: $totalDays',
-            style: const TextStyle(fontSize: 20),
+            '${'total_days'.tr()}: $totalDays',
+            style: const TextStyle(fontSize: 16),
           ),
           Text(
-            'Achievement Percentage: ${achievementPercentage.toStringAsFixed(1)}%',
-            style: const TextStyle(fontSize: 20),
+            '${'achievement_percentage'.tr()}: ${achievementPercentage.toStringAsFixed(1)}%',
+            style: const TextStyle(fontSize: 16),
           ),
           const SizedBox(height: 10),
           Stack(

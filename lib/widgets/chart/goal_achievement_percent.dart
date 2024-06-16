@@ -23,7 +23,7 @@ class GoalAchievementPercentWidget extends StatelessWidget {
       var currentDay = goal.startDate;
       while (currentDay.isBefore(lastDay) ||
           currentDay.isAtSameMomentAs(lastDay)) {
-        if (goal.schedule.daysOfWeek.contains(currentDay.weekday)) {
+        if (goal.schedule.daysOfWeek.contains(currentDay.weekday - 1)) {
           totalDays++;
         }
         currentDay = currentDay.add(const Duration(days: 1));

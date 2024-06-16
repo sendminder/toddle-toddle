@@ -20,6 +20,7 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
   final Goal initGoal;
 
   final idGenerator = GetIt.I<IdGenerator>();
+  var notificationTimeOfDay = TimeOfDay.fromDateTime(DateTime.now());
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -226,7 +227,7 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
               onPressed: () async {
                 final TimeOfDay? pickedTime = await showTimePicker(
                   context: context,
-                  initialTime: TimeOfDay.now(),
+                  initialTime: notificationTimeOfDay,
                   initialEntryMode: TimePickerEntryMode.dialOnly,
                   builder: (BuildContext context, Widget? child) {
                     return Theme(
@@ -240,6 +241,7 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
                 );
                 if (pickedTime != null) {
                   final String formattedTime = timeOfDayToString(pickedTime);
+                  notificationTimeOfDay = pickedTime;
                   notificationTime = formattedTime;
                   ref
                       .read(goalProvider.notifier)

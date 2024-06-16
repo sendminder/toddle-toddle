@@ -82,9 +82,9 @@ class GoalItemListWidget extends ConsumerWidget {
                 Expanded(
                   flex: 7,
                   child: GestureDetector(
-                    onTap: () async {
+                    onTap: () {
                       bool newValue = !(currentAchievement?.achieved ?? false);
-                      await ref
+                      ref
                           .read(goalsStateProvider.notifier)
                           .addOrUpdateAchievement(
                               currentGoal.id, targetTime, newValue);
@@ -113,8 +113,8 @@ class GoalItemListWidget extends ConsumerWidget {
                           )
                         : const Icon(FluentIcons.alert_off_24_filled,
                             color: Colors.white70),
-                    onPressed: () async {
-                      await ref
+                    onPressed: () {
+                      ref
                           .read(goalsStateProvider.notifier)
                           .toggleNeedPush(currentGoal.id);
                     },
@@ -129,8 +129,8 @@ class GoalItemListWidget extends ConsumerWidget {
                       fillColor: MaterialStateProperty.all(
                           currentGoal.color.withAlpha(170)),
                       value: currentAchievement?.achieved ?? false,
-                      onChanged: (bool? value) async {
-                        await ref
+                      onChanged: (bool? value) {
+                        ref
                             .read(goalsStateProvider.notifier)
                             .addOrUpdateAchievement(
                                 currentGoal.id, targetTime, value!);

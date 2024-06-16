@@ -88,13 +88,10 @@ class MyApp extends ConsumerWidget {
     CheerUpMessages.setLanguage(context.locale.languageCode);
 
     return MaterialApp(
-      /// Localization is not available for the title.
-      title: '아장아장',
-
+      title: 'app_name'.tr(),
       theme: customTheme.lightTheme,
       darkTheme: customTheme.darkTheme,
       themeMode: currentTheme.themeMode,
-
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,

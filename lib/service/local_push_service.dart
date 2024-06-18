@@ -150,7 +150,7 @@ class LocalPushService {
     );
     DateTime now = DateTime.now();
     if (isOnce) {
-      await zonedSchdule(id, id, title, subtitle, scheduledDate);
+      await zonedSchedule(id, id, title, subtitle, scheduledDate);
     } else {
       // DateTime에서 요일은 1(월요일)부터 7(일요일)까지
       int currentWeekday = now.weekday;
@@ -161,13 +161,18 @@ class LocalPushService {
           // 현재 요일 이후에 해당 요일이 오려면 다음 주로 넘기기
           difference += 7;
         }
-        final tz.TZDateTime scheduledDateWithDay = scheduledDate.add(Duration(
-          days: difference,
-        ));
 
-        final int notificationId = id + day;
-        await zonedSchdule(
-            id, notificationId, title, subtitle, scheduledDateWithDay);
+        for (int week = 0; week < 4; week++) {
+          // 4주 동안 반복해서 알림을 설정
+          int totalDifference = difference + (week * 7);
+          final tz.TZDateTime scheduledDateWithDay = scheduledDate.add(Duration(
+            days: totalDifference,
+          ));
+
+          final int notificationId = id + day + (week * 7);
+          await zonedSchedule(
+              id, notificationId, title, subtitle, scheduledDateWithDay);
+        }
       }
     }
   }
@@ -180,7 +185,7 @@ class LocalPushService {
     await _flutterLocalNotificationsPlugin.cancelAll();
   }
 
-  Future<void> zonedSchdule(int id, int notificationId, String title,
+  Future<void> zonedSchedule(int id, int notificationId, String title,
       String subtitle, tz.TZDateTime scheduledDate) async {
     DarwinNotificationDetails darwinNotificationDetails =
         DarwinNotificationDetails(

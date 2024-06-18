@@ -6,6 +6,7 @@ import 'package:toddle_toddle/data/models/achievement.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:toddle_toddle/utils/color_palette.dart';
+import 'package:toddle_toddle/data/enums/schedule_type.dart';
 
 part 'goal.g.dart';
 
@@ -93,6 +94,35 @@ class Goal extends HiveObject {
     achievements.removeWhere((achievement) => achievement.date == date);
   }
 
+  GoalStatistics getGoalStatistics() {
+    int totalAchievements = achievements.where((a) => a.achieved).length;
+    var lastDay = DateTime.now();
+    if (endTime != null) {
+      lastDay = endTime!;
+    }
+    int totalDays = lastDay.difference(startDate).inDays + 1;
+
+    // 주별 스케쥴은 다르게 계산해야 함
+    if (schedule.scheduleType == ScheduleType.weekly) {
+      totalDays = 0;
+      var currentDay = startDate;
+      while (currentDay.isBefore(lastDay) ||
+          currentDay.isAtSameMomentAs(lastDay)) {
+        if (schedule.daysOfWeek.contains(currentDay.weekday - 1)) {
+          totalDays++;
+        }
+        currentDay = currentDay.add(const Duration(days: 1));
+      }
+    }
+
+    double achievementPercentage = (totalAchievements / totalDays) * 100;
+    return GoalStatistics(
+      achievementPercentage: achievementPercentage,
+      totalAchievements: totalAchievements,
+      totalDays: totalDays,
+    );
+  }
+
   Goal copyWith({
     int? id,
     String? name,
@@ -116,4 +146,15 @@ class Goal extends HiveObject {
       needPush: needPush ?? this.needPush,
     );
   }
+}
+
+class GoalStatistics {
+  final int totalAchievements;
+  final int totalDays;
+  final double achievementPercentage;
+
+  GoalStatistics(
+      {required this.totalAchievements,
+      required this.totalDays,
+      required this.achievementPercentage});
 }

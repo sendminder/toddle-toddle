@@ -8,6 +8,7 @@ import 'package:toddle_toddle/widgets/chart/goal_chart.dart';
 import 'package:toddle_toddle/states/theme_mode_state.dart';
 import 'package:toddle_toddle/widgets/goal/add_or_update_goal.dart';
 import 'package:toddle_toddle/data/enums/goal_filter_type.dart';
+import 'package:toddle_toddle/data/models/goal.dart';
 
 class GoalListManageWidget extends ConsumerWidget {
   const GoalListManageWidget({super.key});
@@ -55,11 +56,26 @@ class GoalListManageWidget extends ConsumerWidget {
       itemBuilder: (context, index) {
         var currentGoal = goals[index];
         var goalNameColor = currentGoal.isEnd ? Colors.white70 : Colors.white;
+        GoalStatistics goalStat = currentGoal.getGoalStatistics();
 
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 3),
           child: Container(
             decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  currentGoal.color, // 시작 색상
+                  currentGoal.color,
+                  currentGoal.color.withAlpha(alpha),
+                ],
+                stops: [
+                  0.0, // 시작 지점
+                  goalStat.achievementPercentage / 100,
+                  goalStat.achievementPercentage / 100,
+                ],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ),
               color: currentGoal.isEnd
                   ? currentGoal.color.withAlpha(alpha)
                   : currentGoal.color,

@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:toddle_toddle/data/enums/schedule_type.dart';
 import 'package:toddle_toddle/data/models/goal.dart';
 
 class GoalAchievementPercentWidget extends StatelessWidget {
@@ -10,27 +9,7 @@ class GoalAchievementPercentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int totalAchievements = goal.achievements.where((a) => a.achieved).length;
-    var lastDay = DateTime.now();
-    if (goal.endTime != null) {
-      lastDay = goal.endTime!;
-    }
-    int totalDays = lastDay.difference(goal.startDate).inDays + 1;
-
-    // 주별 스케쥴은 다르게 계산해야 함
-    if (goal.schedule.scheduleType == ScheduleType.weekly) {
-      totalDays = 0;
-      var currentDay = goal.startDate;
-      while (currentDay.isBefore(lastDay) ||
-          currentDay.isAtSameMomentAs(lastDay)) {
-        if (goal.schedule.daysOfWeek.contains(currentDay.weekday - 1)) {
-          totalDays++;
-        }
-        currentDay = currentDay.add(const Duration(days: 1));
-      }
-    }
-
-    double achievementPercentage = (totalAchievements / totalDays) * 100;
+    GoalStatistics goalStat = goal.getGoalStatistics();
 
     return Container(
       padding: const EdgeInsets.all(16.0),
@@ -42,15 +21,15 @@ class GoalAchievementPercentWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            '${'total_achievements'.tr()}: $totalAchievements',
+            '${'total_achievements'.tr()}: ${goalStat.totalAchievements}',
             style: const TextStyle(fontSize: 16),
           ),
           Text(
-            '${'total_days'.tr()}: $totalDays',
+            '${'total_days'.tr()}: ${goalStat.totalDays}',
             style: const TextStyle(fontSize: 16),
           ),
           Text(
-            '${'achievement_percentage'.tr()}: ${achievementPercentage.toStringAsFixed(1)}%',
+            '${'achievement_percentage'.tr()}: ${goalStat.achievementPercentage.toStringAsFixed(1)}%',
             style: const TextStyle(fontSize: 16),
           ),
           const SizedBox(height: 10),
@@ -65,7 +44,7 @@ class GoalAchievementPercentWidget extends StatelessWidget {
               ),
               Container(
                 height: 20,
-                width: (achievementPercentage / 100) *
+                width: (goalStat.achievementPercentage / 100) *
                     MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   color: goal.color.withAlpha(220),

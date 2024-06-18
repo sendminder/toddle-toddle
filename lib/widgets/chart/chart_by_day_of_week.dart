@@ -13,20 +13,21 @@ class ChartByDayOfWeekWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // 요일별 달성 횟수 계산
     Map<int, int> dayOfWeekAchievementCount = {
-      1: 0,
-      2: 0,
+      1: 0, // 일
+      2: 0, // 월
       3: 0,
       4: 0,
       5: 0,
       6: 0,
-      7: 0
+      7: 0 // 토
     };
 
     for (var achievement in goal.achievements) {
       if (achievement.achieved) {
         int dayOfWeek = achievement.date.weekday;
-        dayOfWeekAchievementCount[dayOfWeek] =
-            dayOfWeekAchievementCount[dayOfWeek]! + 1;
+        int startSundayIndex = (dayOfWeek + 1) % 7;
+        dayOfWeekAchievementCount[(startSundayIndex) % 7] =
+            dayOfWeekAchievementCount[startSundayIndex]! + 1;
       }
     }
 
@@ -63,7 +64,7 @@ class ChartByDayOfWeekWidget extends StatelessWidget {
               topTitles: const AxisTitles(
                 sideTitles: SideTitles(showTitles: false),
               ),
-              rightTitles: AxisTitles(
+              leftTitles: AxisTitles(
                 sideTitles: SideTitles(
                   showTitles: true,
                   getTitlesWidget: (value, meta) {
@@ -74,7 +75,7 @@ class ChartByDayOfWeekWidget extends StatelessWidget {
                   },
                 ),
               ),
-              leftTitles: const AxisTitles(
+              rightTitles: const AxisTitles(
                 sideTitles: SideTitles(showTitles: false),
               ),
               bottomTitles: AxisTitles(
@@ -83,19 +84,19 @@ class ChartByDayOfWeekWidget extends StatelessWidget {
                   getTitlesWidget: (value, meta) {
                     switch (value.toInt()) {
                       case 1:
-                        return Text('monday'.tr());
-                      case 2:
-                        return Text('tuesday'.tr());
-                      case 3:
-                        return Text('wednesday'.tr());
-                      case 4:
-                        return Text('thursday'.tr());
-                      case 5:
-                        return Text('friday'.tr());
-                      case 6:
-                        return Text('saturday'.tr());
-                      case 7:
                         return Text('sunday'.tr());
+                      case 2:
+                        return Text('monday'.tr());
+                      case 3:
+                        return Text('tuesday'.tr());
+                      case 4:
+                        return Text('wednesday'.tr());
+                      case 5:
+                        return Text('thursday'.tr());
+                      case 6:
+                        return Text('friday'.tr());
+                      case 7:
+                        return Text('saturday'.tr());
                       default:
                         return const Text('');
                     }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:toddle_toddle/data/enums/schedule_type.dart';
 import 'package:toddle_toddle/data/models/achievement.dart';
 import 'package:toddle_toddle/data/models/goal.dart';
 
@@ -30,20 +31,17 @@ class MonthlyCalendar extends ConsumerWidget {
             rightChevronVisible: false, // 오른쪽 화살표 숨김
           ),
           calendarBuilders: CalendarBuilders(
-            todayBuilder: (context, day, focusedDay) {
-              Achievement? achievement = goal.achievements
-                  .where((a) => isSameDay(a.date, day))
-                  .firstOrNull;
-              bool isAchieved = achievement?.achieved ?? false;
-
-              return focusedContainer(context, now, day, isAchieved);
+            todayBuilder: (context, date, focusedDay) {
+              return focusedContainer(context, now, date, false);
             },
             defaultBuilder: (context, date, focusedDay) {
-              Achievement? achievement = goal.achievements
-                  .where((a) => isSameDay(a.date, date))
-                  .firstOrNull;
-              bool isAchieved = achievement?.achieved ?? false;
-              return focusedContainer(context, now, date, isAchieved);
+              return focusedContainer(context, now, date, false);
+            },
+            outsideBuilder: (context, date, focusedDay) {
+              return focusedContainer(context, now, date, true);
+            },
+            disabledBuilder: (context, date, focusedDay) {
+              return focusedContainer(context, now, date, true);
             },
           ),
         ),
@@ -52,18 +50,23 @@ class MonthlyCalendar extends ConsumerWidget {
   }
 
   Container focusedContainer(
-      BuildContext context, DateTime now, DateTime day, bool isFocused) {
+      BuildContext context, DateTime now, DateTime day, bool isOutRange) {
+    bool isAchievement = goal.isAchievement(day);
+    bool hasGoalDay = goal.hasGoalDay(day);
+
     return Container(
       margin: const EdgeInsets.all(4),
       alignment: Alignment.center,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: isFocused ? goal.color : null,
+        color: isAchievement && !isOutRange ? goal.color : null,
       ),
       child: Text(
         '${day.day}',
         style: TextStyle(
-          color: isFocused ? Colors.white : null,
+          color: isAchievement
+              ? Colors.white
+              : (hasGoalDay && !isOutRange ? goal.color : Colors.grey),
         ),
       ),
     );

@@ -146,6 +146,39 @@ class Goal extends HiveObject {
       needPush: needPush ?? this.needPush,
     );
   }
+
+  bool hasGoalDay(DateTime day) {
+    bool hasGoalDay = false;
+    ScheduleType scheduleType = schedule.scheduleType;
+    switch (scheduleType) {
+      case ScheduleType.daily:
+        hasGoalDay = true;
+        break;
+      case ScheduleType.once:
+        hasGoalDay = isSameDay(startDate, day);
+        break;
+      case ScheduleType.weekly:
+        hasGoalDay = schedule.daysOfWeek.contains(day.weekday - 1);
+        break;
+      default:
+        break;
+    }
+    return hasGoalDay;
+  }
+
+  bool isAchievement(DateTime day) {
+    Achievement? achievement =
+        achievements.where((a) => isSameDay(a.date, day)).firstOrNull;
+    return achievement?.achieved ?? false;
+  }
+
+  bool isSameDay(DateTime? a, DateTime? b) {
+    if (a == null || b == null) {
+      return false;
+    }
+
+    return a.year == b.year && a.month == b.month && a.day == b.day;
+  }
 }
 
 class GoalStatistics {

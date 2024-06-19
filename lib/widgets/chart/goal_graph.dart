@@ -29,12 +29,16 @@ class GoalGraphWidget extends ConsumerWidget {
     final screenHeight = MediaQuery.of(context).size.height;
 
     if (goals.isEmpty) {
+      String text = 'no_goals';
+      if (filterTypeState.type == GoalFilterType.completed) {
+        text = 'no_completed_goals';
+      }
       return Container(
         padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
         height: screenHeight * 0.75,
         child: Center(
           child: Text(
-            'no_goals'.tr(),
+            text.tr(),
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ),

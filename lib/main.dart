@@ -70,7 +70,7 @@ void main() async {
           Locale('en'),
           Locale('ko'),
         ],
-        fallbackLocale: const Locale('en'),
+        fallbackLocale: const Locale('ko'),
         useFallbackTranslations: true,
         child: const MyApp(),
       ),

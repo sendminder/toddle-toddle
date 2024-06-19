@@ -177,7 +177,7 @@ class GoalsState extends StateNotifier<List<Goal>> {
   Future<void> cancelSchedule(int goalId) async {
     var goal = getGoalById(goalId);
     if (goal != null) {
-      for (int j = 0; j < 30; j++) {
+      for (int j = 0; j < 7; j++) {
         await localPushService.cancelNotification(goal.id + j);
         logger.d('cancelNotification: ${goal.id + j}');
       }
@@ -200,7 +200,7 @@ class GoalsState extends StateNotifier<List<Goal>> {
       daysOfWeek = [0, 1, 2, 3, 4, 5, 6];
     }
     if (needCancle) {
-      for (int j = 0; j < 30; j++) {
+      for (int j = 0; j < 7; j++) {
         await localPushService.cancelNotification(goal.id + j);
         logger.d('cancelNotification: ${goal.id + j}');
       }

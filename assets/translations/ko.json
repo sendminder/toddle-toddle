@@ -75,5 +75,7 @@
     "total_days": "총 일수",
     "achievements": "목표 성취도",
     "weekly_graph": "요일별 달성수",
-    "monthly_achievements": "목표 달성 달력"
+    "monthly_achievements": "목표 달성 달력",
+    "select_now_day": "이전 날짜를 선택해주세요.",
+    "check": "확인"
 }

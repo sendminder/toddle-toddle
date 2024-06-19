@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:toddle_toddle/data/models/goal.dart';
 import 'package:toddle_toddle/widgets/chart/chart_by_day_of_week.dart';
 import 'package:toddle_toddle/widgets/chart/goal_achievement_percent.dart';
-import 'package:toddle_toddle/widgets/monthly_calendar.dart';
+import 'package:toddle_toddle/widgets/calendar/monthly_calendar.dart';
 
 class GoalChartWidget extends StatelessWidget {
   final Goal goal;

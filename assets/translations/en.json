@@ -75,5 +75,7 @@
   "total_days": "Total Days",
   "achievemnts": "Achievements",
   "weekly_graph": "Weekly Graph",
-  "monthly_achievements": "Monthly Achievements"
+  "monthly_achievements": "Monthly Achievements",
+  "select_now_day": "Please select previous or current.",
+  "check": "Check"
 }

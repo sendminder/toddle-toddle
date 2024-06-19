@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5,8 +6,8 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 final focusedDayProvider = StateProvider<DateTime>((ref) => DateTime.now());
 
-class MyCalendar extends ConsumerWidget {
-  const MyCalendar({super.key});
+class WeeklyCalendar extends ConsumerWidget {
+  const WeeklyCalendar({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -34,6 +35,7 @@ class MyCalendar extends ConsumerWidget {
           ),
           onDaySelected: (selectedDay, focusedDay) {
             if (!isSameDay(selectedDay, now) && selectedDay.isAfter(now)) {
+              showAlertDialog(context, 'select_now_day'.tr());
               return;
             }
             ref.read(focusedDayProvider.notifier).state = selectedDay;
@@ -113,6 +115,27 @@ class MyCalendar extends ConsumerWidget {
           color: isFocused ? Colors.white : null,
         ),
       ),
+    );
+  }
+
+  void showAlertDialog(BuildContext context, String message) {
+    showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Theme.of(context).colorScheme.surface,
+          title: Text('check'.tr()),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('button_positive'.tr()),
+            ),
+          ],
+        );
+      },
     );
   }
 }

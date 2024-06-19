@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:toddle_toddle/data/models/goal.dart';
 import 'package:toddle_toddle/states/goals_state.dart';
 import 'package:collection/collection.dart';
-import 'package:toddle_toddle/widgets/my_calendar.dart';
+import 'package:toddle_toddle/widgets/calendar/weekly_calendar.dart';
 import 'package:toddle_toddle/states/theme_mode_state.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:toddle_toddle/data/enums/schedule_type.dart';

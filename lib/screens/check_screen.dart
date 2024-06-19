@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:toddle_toddle/data/models/goal.dart';
 import 'package:toddle_toddle/widgets/goal/add_or_update_goal.dart';
 import 'package:toddle_toddle/widgets/goal/goal_item_builder.dart';
-import 'package:toddle_toddle/widgets/my_calendar.dart';
+import 'package:toddle_toddle/widgets/calendar/weekly_calendar.dart';
 
 class CheckScreen extends ConsumerWidget {
   const CheckScreen({super.key});
@@ -20,7 +20,7 @@ class CheckScreen extends ConsumerWidget {
           child: Column(
             children: [
               const SizedBox(height: 15),
-              const MyCalendar(),
+              const WeeklyCalendar(),
               const SizedBox(height: 15),
               Expanded(
                 child: ListView(

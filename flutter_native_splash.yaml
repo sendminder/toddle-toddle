@@ -1,0 +1,3 @@
+flutter_native_splash:
+  color: "#FFD289" # 스플래시 배경 색상
+  image: assets/images/splash.png # 스플래시 이미지 경로

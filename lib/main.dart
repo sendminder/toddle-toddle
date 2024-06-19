@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
@@ -29,9 +30,10 @@ import 'package:toddle_toddle/data/adapter/filter_type_adapter.dart';
 import 'package:toddle_toddle/data/adapter/color_palette_type_adapter.dart';
 import 'package:toddle_toddle/data/adapter/schedule_type_adapter.dart';
 import 'package:toddle_toddle/const/cheer_up_messages.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   GetIt.I.registerSingleton<Logger>(Logger());
   GetIt.I.registerSingleton<LocalPushService>(LocalPushService());
   await GetIt.I<LocalPushService>().init();
@@ -58,6 +60,7 @@ void main() async {
   // await Hive.deleteBoxFromDisk(hiveGoalBox);
   await Hive.openBox<Goal>(hiveGoalBox);
   await setupVersion();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   runApp(
     ProviderScope(
@@ -73,6 +76,10 @@ void main() async {
       ),
     ),
   );
+
+  Timer(const Duration(seconds: 3), () {
+    FlutterNativeSplash.remove();
+  });
 }
 
 class MyApp extends ConsumerWidget {

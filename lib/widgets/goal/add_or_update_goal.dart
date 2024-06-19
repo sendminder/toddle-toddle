@@ -378,7 +378,7 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Theme.of(context).colorScheme.background,
+          backgroundColor: Theme.of(context).colorScheme.surface,
           title: Text('alert'.tr()),
           content: Text(message),
           actions: <Widget>[

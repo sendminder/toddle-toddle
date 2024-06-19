@@ -77,5 +77,6 @@
   "weekly_graph": "Weekly Graph",
   "monthly_achievements": "Monthly Achievements",
   "select_now_day": "Please select previous or current.",
-  "check": "Check"
+  "check": "Check",
+  "complete_goal" : "Want to complete the goal?"
 }

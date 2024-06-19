@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:toddle_toddle/data/models/achievement.dart';
 import 'package:toddle_toddle/data/models/goal.dart';
 import 'package:toddle_toddle/states/goals_state.dart';
 import 'package:collection/collection.dart';
@@ -82,12 +83,9 @@ class GoalItemListWidget extends ConsumerWidget {
                 Expanded(
                   flex: 7,
                   child: GestureDetector(
-                    onTap: () {
-                      bool newValue = !(currentAchievement?.achieved ?? false);
-                      ref
-                          .read(goalsStateProvider.notifier)
-                          .addOrUpdateAchievement(
-                              currentGoal.id, targetTime, newValue);
+                    onTap: () async {
+                      await updateAchievement(context, ref, currentAchievement,
+                          currentGoal, targetTime);
                     },
                     child: Text(
                       currentGoal.name,
@@ -126,14 +124,12 @@ class GoalItemListWidget extends ConsumerWidget {
                   child: Transform.scale(
                     scale: 1.2,
                     child: Checkbox(
-                      fillColor: MaterialStateProperty.all(
+                      fillColor: WidgetStateProperty.all(
                           currentGoal.color.withAlpha(170)),
                       value: currentAchievement?.achieved ?? false,
-                      onChanged: (bool? value) {
-                        ref
-                            .read(goalsStateProvider.notifier)
-                            .addOrUpdateAchievement(
-                                currentGoal.id, targetTime, value!);
+                      onChanged: (bool? value) async {
+                        await updateAchievement(context, ref,
+                            currentAchievement, currentGoal, targetTime);
                       },
                     ),
                   ),
@@ -141,6 +137,59 @@ class GoalItemListWidget extends ConsumerWidget {
               ],
             ),
           ),
+        );
+      },
+    );
+  }
+
+  Future<void> updateAchievement(
+    BuildContext context,
+    WidgetRef ref,
+    Achievement? currentAchievement,
+    Goal currentGoal,
+    DateTime targetTime,
+  ) async {
+    bool newValue = !(currentAchievement?.achieved ?? false);
+    if (currentGoal.schedule.scheduleType == ScheduleType.once && newValue) {
+      var res = await showConfirmationDialog(
+          context, currentGoal.name, "complete_goal");
+      if (res == true) {
+        ref
+            .read(goalsStateProvider.notifier)
+            .addOrUpdateAchievement(currentGoal.id, targetTime, newValue);
+
+        ref.read(goalsStateProvider.notifier).doneGoal(currentGoal.id);
+      }
+    } else {
+      ref
+          .read(goalsStateProvider.notifier)
+          .addOrUpdateAchievement(currentGoal.id, targetTime, newValue);
+    }
+  }
+
+  Future<bool?> showConfirmationDialog(
+      BuildContext context, String goalName, String contentNameKey) {
+    return showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Theme.of(context).colorScheme.surface,
+          title: Text(goalName),
+          content: Text(contentNameKey.tr()),
+          actions: <Widget>[
+            TextButton(
+              child: Text('button_negative'.tr()),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+            ),
+            TextButton(
+              child: Text('button_positive'.tr()),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+              },
+            ),
+          ],
         );
       },
     );

@@ -217,7 +217,7 @@ class GoalListManageWidget extends ConsumerWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Theme.of(context).colorScheme.background,
+          backgroundColor: Theme.of(context).colorScheme.surface,
           title: Text(goalName),
           content: Text(contentNameKey.tr()),
           actions: <Widget>[

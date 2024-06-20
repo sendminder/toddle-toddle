@@ -40,7 +40,7 @@ class ChartByDayOfWeekWidget extends StatelessWidget {
         barRods: [
           BarChartRodData(
             toY: entry.value.toDouble(),
-            color: goal.color.withAlpha(220),
+            color: goal.color.withAlpha(230),
             width: 16,
             borderRadius: BorderRadius.circular(4),
           ),
@@ -62,6 +62,7 @@ class ChartByDayOfWeekWidget extends StatelessWidget {
             alignment: BarChartAlignment.spaceAround,
             barGroups: barGroups,
             borderData: FlBorderData(show: false),
+            gridData: const FlGridData(show: false),
             titlesData: FlTitlesData(
               topTitles: const AxisTitles(
                 sideTitles: SideTitles(showTitles: false),

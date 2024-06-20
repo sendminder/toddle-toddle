@@ -24,7 +24,7 @@ final StateNotifierProvider<GoalsState, List<Goal>> goalsStateProvider =
 class GoalsState extends StateNotifier<List<Goal>> {
   final logger = GetIt.I<Logger>();
   final localPushService = GetIt.I<LocalPushService>();
-  final int syncInterval = 60 * 60 * 6;
+  final int syncInterval = 60 * 60 * 24;
 
   GoalsState() : super([]);
 

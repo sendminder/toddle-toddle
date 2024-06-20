@@ -47,7 +47,7 @@ class GoalAchievementPercentWidget extends StatelessWidget {
                 width: (goalStat.achievementPercentage / 100) *
                     MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                  color: goal.color.withAlpha(220),
+                  color: goal.color.withAlpha(230),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),

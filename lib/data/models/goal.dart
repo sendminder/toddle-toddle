@@ -106,6 +106,10 @@ class Goal extends HiveObject {
     if (schedule.scheduleType == ScheduleType.weekly) {
       totalDays = 0;
       var currentDay = startDate;
+      if (endTime != null) {
+        lastDay = DateTime(endTime!.year, endTime!.month, endTime!.day)
+            .add(const Duration(days: 1));
+      }
       while (currentDay.isBefore(lastDay) ||
           currentDay.isAtSameMomentAs(lastDay)) {
         if (schedule.daysOfWeek.contains(currentDay.weekday - 1)) {
@@ -113,6 +117,8 @@ class Goal extends HiveObject {
         }
         currentDay = currentDay.add(const Duration(days: 1));
       }
+    } else if (schedule.scheduleType == ScheduleType.once) {
+      totalDays = 1;
     }
 
     double achievementPercentage = (totalAchievements / totalDays) * 100;

@@ -32,16 +32,16 @@ class MonthlyCalendar extends ConsumerWidget {
           ),
           calendarBuilders: CalendarBuilders(
             todayBuilder: (context, date, focusedDay) {
-              return focusedContainer(context, now, date, false);
+              return focusedContainer(context, now, date);
             },
             defaultBuilder: (context, date, focusedDay) {
-              return focusedContainer(context, now, date, false);
+              return focusedContainer(context, now, date);
             },
             outsideBuilder: (context, date, focusedDay) {
-              return focusedContainer(context, now, date, true);
+              return focusedContainer(context, now, date);
             },
             disabledBuilder: (context, date, focusedDay) {
-              return focusedContainer(context, now, date, true);
+              return focusedContainer(context, now, date);
             },
           ),
         ),
@@ -49,8 +49,7 @@ class MonthlyCalendar extends ConsumerWidget {
     );
   }
 
-  Container focusedContainer(
-      BuildContext context, DateTime now, DateTime day, bool isOutRange) {
+  Container focusedContainer(BuildContext context, DateTime now, DateTime day) {
     bool isAchievement = goal.isAchievement(day);
     bool hasGoalDay = goal.hasGoalDay(day);
 
@@ -59,14 +58,14 @@ class MonthlyCalendar extends ConsumerWidget {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: isAchievement && !isOutRange ? goal.color : null,
+        color: isAchievement ? goal.color : null,
       ),
       child: Text(
         '${day.day}',
         style: TextStyle(
           color: isAchievement
               ? Colors.white
-              : (hasGoalDay && !isOutRange ? goal.color : Colors.grey),
+              : (hasGoalDay ? goal.color : Colors.grey),
         ),
       ),
     );

@@ -77,7 +77,7 @@ void main() async {
     ),
   );
 
-  Timer(const Duration(milliseconds: 1200), () {
+  Timer(const Duration(milliseconds: 500), () {
     FlutterNativeSplash.remove();
   });
 }

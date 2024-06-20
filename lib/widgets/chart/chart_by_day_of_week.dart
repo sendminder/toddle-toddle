@@ -13,21 +13,23 @@ class ChartByDayOfWeekWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // 요일별 달성 횟수 계산
     Map<int, int> dayOfWeekAchievementCount = {
-      1: 0, // 일
-      2: 0, // 월
+      0: 0, // 일
+      1: 0, // 월
+      2: 0,
       3: 0,
       4: 0,
       5: 0,
-      6: 0,
-      7: 0 // 토
+      6: 0 // 토
     };
 
     for (var achievement in goal.achievements) {
       if (achievement.achieved) {
+        // 1(월) <= weekday <= 7(일)
         int dayOfWeek = achievement.date.weekday;
-        int startSundayIndex = (dayOfWeek + 1) % 7;
-        dayOfWeekAchievementCount[(startSundayIndex) % 7] =
-            dayOfWeekAchievementCount[startSundayIndex]! + 1;
+        // 일요일(7)을 0으로 변경
+        if (dayOfWeek == 7) dayOfWeek = 0;
+        dayOfWeekAchievementCount[dayOfWeek] =
+            dayOfWeekAchievementCount[dayOfWeek]! + 1;
       }
     }
 
@@ -83,19 +85,19 @@ class ChartByDayOfWeekWidget extends StatelessWidget {
                   showTitles: true,
                   getTitlesWidget: (value, meta) {
                     switch (value.toInt()) {
-                      case 1:
+                      case 0:
                         return Text('sunday'.tr());
-                      case 2:
+                      case 1:
                         return Text('monday'.tr());
-                      case 3:
+                      case 2:
                         return Text('tuesday'.tr());
-                      case 4:
+                      case 3:
                         return Text('wednesday'.tr());
-                      case 5:
+                      case 4:
                         return Text('thursday'.tr());
-                      case 6:
+                      case 5:
                         return Text('friday'.tr());
-                      case 7:
+                      case 6:
                         return Text('saturday'.tr());
                       default:
                         return const Text('');

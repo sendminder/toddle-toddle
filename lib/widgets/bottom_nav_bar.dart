@@ -16,7 +16,7 @@ class BottomNavBar extends ConsumerWidget {
       margin: const EdgeInsets.only(top: 1, right: 4, left: 4),
       elevation: 4,
       shadowColor: Theme.of(context).colorScheme.shadow,
-      color: Theme.of(context).colorScheme.surfaceVariant,
+      color: Theme.of(context).colorScheme.surfaceContainerHighest,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(16),

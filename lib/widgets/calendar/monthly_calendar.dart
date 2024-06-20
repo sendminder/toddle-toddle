@@ -51,7 +51,13 @@ class MonthlyCalendar extends ConsumerWidget {
 
   Container focusedContainer(BuildContext context, DateTime now, DateTime day) {
     bool isAchievement = goal.isAchievement(day);
-    bool hasGoalDay = goal.hasGoalDay(day);
+    // 스케쥴 요일이 맞으면서 && 시작시간 이후이면서 && 현재시간보다 이전이면서 && 종료시간이 있으면 종료시간보다 이전인경우에만 표시
+    bool hasGoalDay = goal.hasGoalDay(day) &&
+        day.isAfter(goal.startDate) &&
+        day.isBefore(now); //  &&
+    //     goal.endTime != null
+    // ? day.isBefore(goal.endTime!)
+    // : true;
 
     return Container(
       margin: const EdgeInsets.all(4),

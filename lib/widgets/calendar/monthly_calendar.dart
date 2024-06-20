@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:toddle_toddle/data/enums/schedule_type.dart';
-import 'package:toddle_toddle/data/models/achievement.dart';
 import 'package:toddle_toddle/data/models/goal.dart';
 
 class MonthlyCalendar extends ConsumerWidget {

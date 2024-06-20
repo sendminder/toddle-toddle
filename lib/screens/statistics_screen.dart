@@ -17,7 +17,7 @@ class StatisticsScreen extends ConsumerWidget {
     Offset initialSwipeOffset = Offset.zero;
 
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: GestureDetector(
         onPanStart: (details) => initialSwipeOffset = details.localPosition,
         onPanEnd: (details) {

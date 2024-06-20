@@ -22,7 +22,7 @@ class SettingsScreen extends ConsumerWidget {
       context: context,
       builder: (BuildContext context) {
         return SimpleDialog(
-          backgroundColor: Theme.of(context).colorScheme.background,
+          backgroundColor: Theme.of(context).colorScheme.surface,
           title: Text('select_language'.tr()),
           children: <Widget>[
             SimpleDialogOption(
@@ -58,7 +58,7 @@ class SettingsScreen extends ConsumerWidget {
       context: context,
       builder: (BuildContext context) {
         return SimpleDialog(
-          backgroundColor: Theme.of(context).colorScheme.background,
+          backgroundColor: Theme.of(context).colorScheme.surface,
           title: Text('select_font'.tr()),
           children: <Widget>[
             SimpleDialogOption(
@@ -163,7 +163,7 @@ class SettingsScreen extends ConsumerWidget {
         ];
 
         return SimpleDialog(
-          backgroundColor: Theme.of(context).colorScheme.background,
+          backgroundColor: Theme.of(context).colorScheme.surface,
           title: Text('select_theme'.tr()),
           children: <Widget>[
             SimpleDialogOption(
@@ -259,7 +259,7 @@ class SettingsScreen extends ConsumerWidget {
     final font = ref.watch(fontProvider);
 
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.only(left: 8, right: 8, bottom: 10),

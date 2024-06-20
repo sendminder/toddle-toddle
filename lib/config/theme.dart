@@ -60,11 +60,9 @@ class CustomThemeData {
           secondary: primarySwatch.shade500,
           onSecondary: Colors.white,
           error: errorColor,
-          background: textSwatch.shade200,
-          onBackground: textSwatch.shade500,
           onSurface: textSwatch.shade500,
           surface: textSwatch.shade200,
-          surfaceVariant: Colors.white,
+          surfaceContainerHighest: Colors.white,
           shadow: textSwatch.shade900.withOpacity(.1),
         );
 
@@ -73,11 +71,9 @@ class CustomThemeData {
           secondary: primarySwatch.shade500,
           onSecondary: Colors.white,
           error: errorColor,
-          background: const Color(0xFF17100E),
-          onBackground: textSwatch.shade400,
           onSurface: textSwatch.shade300,
           surface: const Color(0xFF17100E),
-          surfaceVariant: const Color(0xFF282832),
+          surfaceContainerHighest: const Color(0xFF282832),
           shadow: textSwatch.shade900.withOpacity(.2),
         );
         break;
@@ -115,11 +111,9 @@ class CustomThemeData {
           secondary: primarySwatch.shade500,
           onSecondary: Colors.white,
           error: errorColor,
-          background: textSwatch.shade200,
-          onBackground: textSwatch.shade500,
           onSurface: textSwatch.shade500,
           surface: textSwatch.shade50,
-          surfaceVariant: Colors.white,
+          surfaceContainerHighest: Colors.white,
           shadow: textSwatch.shade900.withOpacity(.1),
         );
 
@@ -128,11 +122,9 @@ class CustomThemeData {
           secondary: primarySwatch.shade500,
           onSecondary: Colors.white,
           error: errorColor,
-          background: const Color(0xFF171724),
-          onBackground: textSwatch.shade400,
           onSurface: textSwatch.shade300,
           surface: const Color(0xFF262630),
-          surfaceVariant: const Color(0xFF282832),
+          surfaceContainerHighest: const Color(0xFF282832),
           shadow: textSwatch.shade900.withOpacity(.2),
         );
         break;
@@ -170,11 +162,9 @@ class CustomThemeData {
           secondary: primarySwatch.shade500,
           onSecondary: Colors.white,
           error: errorColor,
-          background: textSwatch.shade200,
-          onBackground: textSwatch.shade500,
           onSurface: textSwatch.shade500,
           surface: textSwatch.shade200,
-          surfaceVariant: Colors.white,
+          surfaceContainerHighest: Colors.white,
           shadow: textSwatch.shade900.withOpacity(.1),
         );
 
@@ -183,11 +173,9 @@ class CustomThemeData {
           secondary: primarySwatch.shade500,
           onSecondary: Colors.white,
           error: errorColor,
-          background: const Color(0xFF161D24),
-          onBackground: textSwatch.shade400,
           onSurface: textSwatch.shade300,
           surface: const Color(0xFF161D24),
-          surfaceVariant: const Color(0xFF282832),
+          surfaceContainerHighest: const Color(0xFF282832),
           shadow: textSwatch.shade900.withOpacity(.2),
         );
         break;
@@ -266,41 +254,41 @@ class CustomThemeData {
       ),
       checkboxTheme: CheckboxThemeData(
         checkColor:
-            MaterialStateProperty.resolveWith<Color?>((_) => Colors.white70),
+            WidgetStateProperty.resolveWith<Color?>((_) => Colors.white70),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
         side: const BorderSide(color: Colors.white70, width: 1.5),
       ),
       radioTheme: RadioThemeData(
-        fillColor: MaterialStateProperty.resolveWith<Color?>(
-            (Set<MaterialState> states) {
-          if (states.contains(MaterialState.disabled)) {
+        fillColor: WidgetStateProperty.resolveWith<Color?>(
+            (Set<WidgetState> states) {
+          if (states.contains(WidgetState.disabled)) {
             return null;
           }
-          if (states.contains(MaterialState.selected)) {
+          if (states.contains(WidgetState.selected)) {
             return primarySwatch.shade500;
           }
           return null;
         }),
       ),
       switchTheme: SwitchThemeData(
-        thumbColor: MaterialStateProperty.resolveWith<Color?>(
-            (Set<MaterialState> states) {
-          if (states.contains(MaterialState.disabled)) {
+        thumbColor: WidgetStateProperty.resolveWith<Color?>(
+            (Set<WidgetState> states) {
+          if (states.contains(WidgetState.disabled)) {
             return null;
           }
-          if (states.contains(MaterialState.selected)) {
+          if (states.contains(WidgetState.selected)) {
             return primarySwatch.shade500;
           }
           return null;
         }),
-        trackColor: MaterialStateProperty.resolveWith<Color?>(
-            (Set<MaterialState> states) {
-          if (states.contains(MaterialState.disabled)) {
+        trackColor: WidgetStateProperty.resolveWith<Color?>(
+            (Set<WidgetState> states) {
+          if (states.contains(WidgetState.disabled)) {
             return null;
           }
-          if (states.contains(MaterialState.selected)) {
+          if (states.contains(WidgetState.selected)) {
             return primarySwatch.shade200;
           }
           return null;
@@ -373,41 +361,41 @@ class CustomThemeData {
       ),
       checkboxTheme: CheckboxThemeData(
         checkColor:
-            MaterialStateProperty.resolveWith<Color?>((_) => Colors.white70),
+            WidgetStateProperty.resolveWith<Color?>((_) => Colors.white70),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
         side: const BorderSide(color: Colors.white70, width: 1.5),
       ),
       radioTheme: RadioThemeData(
-        fillColor: MaterialStateProperty.resolveWith<Color?>(
-            (Set<MaterialState> states) {
-          if (states.contains(MaterialState.disabled)) {
+        fillColor: WidgetStateProperty.resolveWith<Color?>(
+            (Set<WidgetState> states) {
+          if (states.contains(WidgetState.disabled)) {
             return null;
           }
-          if (states.contains(MaterialState.selected)) {
+          if (states.contains(WidgetState.selected)) {
             return primarySwatch.shade500;
           }
           return null;
         }),
       ),
       switchTheme: SwitchThemeData(
-        thumbColor: MaterialStateProperty.resolveWith<Color?>(
-            (Set<MaterialState> states) {
-          if (states.contains(MaterialState.disabled)) {
+        thumbColor: WidgetStateProperty.resolveWith<Color?>(
+            (Set<WidgetState> states) {
+          if (states.contains(WidgetState.disabled)) {
             return null;
           }
-          if (states.contains(MaterialState.selected)) {
+          if (states.contains(WidgetState.selected)) {
             return primarySwatch.shade500;
           }
           return null;
         }),
-        trackColor: MaterialStateProperty.resolveWith<Color?>(
-            (Set<MaterialState> states) {
-          if (states.contains(MaterialState.disabled)) {
+        trackColor: WidgetStateProperty.resolveWith<Color?>(
+            (Set<WidgetState> states) {
+          if (states.contains(WidgetState.disabled)) {
             return null;
           }
-          if (states.contains(MaterialState.selected)) {
+          if (states.contains(WidgetState.selected)) {
             return primarySwatch.shade900;
           }
           return null;

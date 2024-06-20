@@ -261,8 +261,8 @@ class CustomThemeData {
         side: const BorderSide(color: Colors.white70, width: 1.5),
       ),
       radioTheme: RadioThemeData(
-        fillColor: WidgetStateProperty.resolveWith<Color?>(
-            (Set<WidgetState> states) {
+        fillColor:
+            WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
           if (states.contains(WidgetState.disabled)) {
             return null;
           }
@@ -273,25 +273,26 @@ class CustomThemeData {
         }),
       ),
       switchTheme: SwitchThemeData(
-        thumbColor: WidgetStateProperty.resolveWith<Color?>(
-            (Set<WidgetState> states) {
-          if (states.contains(WidgetState.disabled)) {
-            return null;
-          }
+        thumbColor:
+            WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
           if (states.contains(WidgetState.selected)) {
             return primarySwatch.shade500;
           }
-          return null;
+          return primarySwatch.shade800;
         }),
-        trackColor: WidgetStateProperty.resolveWith<Color?>(
-            (Set<WidgetState> states) {
-          if (states.contains(WidgetState.disabled)) {
-            return null;
-          }
+        trackColor:
+            WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
           if (states.contains(WidgetState.selected)) {
             return primarySwatch.shade200;
           }
           return null;
+        }),
+        trackOutlineColor:
+            WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+          if (states.contains(WidgetState.selected)) {
+            return primarySwatch.shade200;
+          }
+          return primarySwatch.shade800;
         }),
       ),
     );
@@ -368,8 +369,8 @@ class CustomThemeData {
         side: const BorderSide(color: Colors.white70, width: 1.5),
       ),
       radioTheme: RadioThemeData(
-        fillColor: WidgetStateProperty.resolveWith<Color?>(
-            (Set<WidgetState> states) {
+        fillColor:
+            WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
           if (states.contains(WidgetState.disabled)) {
             return null;
           }
@@ -380,25 +381,26 @@ class CustomThemeData {
         }),
       ),
       switchTheme: SwitchThemeData(
-        thumbColor: WidgetStateProperty.resolveWith<Color?>(
-            (Set<WidgetState> states) {
-          if (states.contains(WidgetState.disabled)) {
-            return null;
-          }
+        thumbColor:
+            WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
           if (states.contains(WidgetState.selected)) {
-            return primarySwatch.shade500;
+            return primarySwatch.shade400;
           }
-          return null;
+          return primarySwatch.shade800;
         }),
-        trackColor: WidgetStateProperty.resolveWith<Color?>(
-            (Set<WidgetState> states) {
-          if (states.contains(WidgetState.disabled)) {
-            return null;
-          }
+        trackColor:
+            WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
           if (states.contains(WidgetState.selected)) {
-            return primarySwatch.shade900;
+            return primarySwatch.shade800;
           }
-          return null;
+          return primarySwatch.shade400;
+        }),
+        trackOutlineColor:
+            WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+          if (states.contains(WidgetState.selected)) {
+            return primarySwatch.shade800;
+          }
+          return primarySwatch.shade400;
         }),
       ),
     );

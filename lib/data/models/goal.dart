@@ -39,6 +39,9 @@ class Goal extends HiveObject {
   @HiveField(8)
   bool needPush;
 
+  @HiveField(9)
+  int targetAchievementCount;
+
   Goal({
     required this.id,
     required this.name,
@@ -49,6 +52,7 @@ class Goal extends HiveObject {
     this.needPush = true,
     List<Achievement>? achievements,
     DateTime? endTime,
+    this.targetAchievementCount = 1,
   }) : achievements = achievements ?? [];
 
   Map<String, dynamic> toJson() {
@@ -64,6 +68,7 @@ class Goal extends HiveObject {
       'color': color.value,
       'isEnd': isEnd,
       'needPush': needPush,
+      'targetAchievementCount': targetAchievementCount,
     };
   }
 
@@ -95,7 +100,9 @@ class Goal extends HiveObject {
   }
 
   GoalStatistics getGoalStatistics() {
-    int totalAchievements = achievements.where((a) => a.achieved).length;
+    int totalAchievementsCount =
+        achievements.where((a) => a.achievedCount >= 1).length;
+
     var lastDay = DateTime.now();
     if (endTime != null) {
       lastDay = endTime!;
@@ -121,10 +128,11 @@ class Goal extends HiveObject {
       totalDays = 1;
     }
 
-    double achievementPercentage = (totalAchievements / totalDays) * 100;
+    double achievementPercentage =
+        (totalAchievementsCount / (totalDays * targetAchievementCount)) * 100;
     return GoalStatistics(
       achievementPercentage: achievementPercentage,
-      totalAchievements: totalAchievements,
+      totalAchievements: totalAchievementsCount,
       totalDays: totalDays,
     );
   }
@@ -139,6 +147,7 @@ class Goal extends HiveObject {
     Color? color,
     bool? isEnd,
     bool? needPush,
+    int? targetAchievementCount,
   }) {
     return Goal(
       id: id ?? this.id,
@@ -150,6 +159,8 @@ class Goal extends HiveObject {
       color: color ?? this.color,
       isEnd: isEnd ?? this.isEnd,
       needPush: needPush ?? this.needPush,
+      targetAchievementCount:
+          targetAchievementCount ?? this.targetAchievementCount,
     );
   }
 
@@ -189,7 +200,11 @@ class Goal extends HiveObject {
   bool isAchievement(DateTime day) {
     Achievement? achievement =
         achievements.where((a) => isSameDay(a.date, day)).firstOrNull;
-    return achievement?.achieved ?? false;
+    if (achievement == null) {
+      return false;
+    }
+    return achievement.achieved &&
+        targetAchievementCount <= achievement.achievedCount;
   }
 
   bool isSameDay(DateTime? a, DateTime? b) {

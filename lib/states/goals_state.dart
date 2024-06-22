@@ -154,8 +154,10 @@ class GoalsState extends StateNotifier<List<Goal>> {
       } else {
         // 해당 날짜의 Achievement가 존재하지 않으면, 새로운 Achievement를 추가
         if (achieved) {
-          Achievement newAchievement =
-              Achievement(date: date, achieved: achieved);
+          Achievement newAchievement = Achievement(
+              date: date,
+              achieved: achieved,
+              achievedCount: goal.targetAchievementCount);
           await goal.addAchievement(newAchievement);
         }
       }

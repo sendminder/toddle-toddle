@@ -10,12 +10,17 @@ class Achievement extends HiveObject {
   @HiveField(1)
   bool achieved;
 
-  Achievement({required this.date, required this.achieved});
+  @HiveField(2)
+  int achievedCount;
+
+  Achievement(
+      {required this.date, required this.achieved, this.achievedCount = 0});
 
   Map<String, dynamic> toJson() {
     return {
       'date': date.toIso8601String(),
       'achieved': achieved,
+      'achievedCount': achievedCount,
     };
   }
 
@@ -27,5 +32,10 @@ class Achievement extends HiveObject {
   // 달성 여부 업데이트 함수
   Future<void> updateAchieved(bool newAchieved) async {
     achieved = newAchieved;
+    if (newAchieved) {
+      achievedCount = 1;
+    } else {
+      achievedCount = 0;
+    }
   }
 }

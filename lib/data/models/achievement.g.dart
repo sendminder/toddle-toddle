@@ -19,17 +19,20 @@ class AchievementAdapter extends TypeAdapter<Achievement> {
     return Achievement(
       date: fields[0] as DateTime,
       achieved: fields[1] as bool,
+      achievedCount: fields[2] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, Achievement obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(3)
       ..writeByte(0)
       ..write(obj.date)
       ..writeByte(1)
-      ..write(obj.achieved);
+      ..write(obj.achieved)
+      ..writeByte(2)
+      ..write(obj.achievedCount);
   }
 
   @override

@@ -26,13 +26,14 @@ class GoalAdapter extends TypeAdapter<Goal> {
       needPush: fields[8] as bool,
       achievements: (fields[5] as List?)?.cast<Achievement>(),
       endTime: fields[3] as DateTime?,
+      targetAchievementCount: fields[9] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, Goal obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -50,7 +51,9 @@ class GoalAdapter extends TypeAdapter<Goal> {
       ..writeByte(7)
       ..write(obj.isEnd)
       ..writeByte(8)
-      ..write(obj.needPush);
+      ..write(obj.needPush)
+      ..writeByte(9)
+      ..write(obj.targetAchievementCount);
   }
 
   @override

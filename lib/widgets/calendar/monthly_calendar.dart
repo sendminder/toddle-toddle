@@ -23,6 +23,7 @@ class MonthlyCalendar extends ConsumerWidget {
           focusedDay: now,
           firstDay: firstDay,
           lastDay: lastDay,
+          availableGestures: AvailableGestures.horizontalSwipe,
           headerStyle: const HeaderStyle(
             formatButtonVisible: false, // Format 버튼 숨김
             leftChevronVisible: false, // 왼쪽 화살표 숨김

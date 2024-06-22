@@ -14,9 +14,7 @@ class BottomNavBar extends ConsumerWidget {
     final int? navIndex = ref.watch(bottomNavProvider) as int?;
     final themeMode = ref.read(themeProvider);
 
-    final selectedColor = themeMode.themeMode == ThemeMode.light
-        ? Colors.black.withAlpha(190)
-        : Colors.white.withAlpha(230);
+    final selectedColor = Theme.of(context).colorScheme.primary;
 
     final unSelectedColor = themeMode.themeMode == ThemeMode.light
         ? Colors.black.withAlpha(130)
@@ -62,8 +60,8 @@ class BottomNavBar extends ConsumerWidget {
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: navIndex == 0
-                    ? const Icon(FluentIcons.run_24_filled)
-                    : const Icon(FluentIcons.run_24_regular),
+                    ? const Icon(FluentIcons.home_24_filled)
+                    : const Icon(FluentIcons.home_24_regular),
                 label: tr('bottom_nav_first'),
               ),
               BottomNavigationBarItem(

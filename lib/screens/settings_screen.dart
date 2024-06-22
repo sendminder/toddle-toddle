@@ -138,25 +138,25 @@ class SettingsScreen extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        const yello = Color(0xFFFFB74C);
         final yellos = [
-          const Color(0xFFF3B74B),
-          const Color(0xFFD9C6C0),
-          const Color(0xFFEFE7E5),
-          const Color(0xFF4D3405),
+          yello,
+          yello.withAlpha(150),
+          yello.withAlpha(30),
         ];
 
+        const purple = Color(0xFF6366F1);
         final purples = [
-          const Color(0xFF6366F1),
-          const Color(0xFFA5B4FC),
-          const Color(0xFFE2E8F0),
-          const Color(0xFF0F172A),
+          purple,
+          purple.withAlpha(150),
+          purple.withAlpha(30),
         ];
 
+        const green = Color(0xFF28B883);
         final greens = [
-          const Color(0xFF34D399),
-          const Color(0xFFB5C3D2),
-          const Color(0xFFC5F2E2),
-          const Color(0xFF08271C),
+          green,
+          green.withAlpha(150),
+          green.withAlpha(30),
         ];
 
         return SimpleDialog(

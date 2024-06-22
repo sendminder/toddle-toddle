@@ -27,12 +27,12 @@ class CustomThemeData {
   void updateColorPallete(ColorPaletteType type) {
     switch (type) {
       case ColorPaletteType.yellow:
-        _primaryColor = 0xFFEDB300;
+        _primaryColor = 0xFFFFB74C;
         _textColor = 0xFF6D4C41;
         primarySwatch = MaterialColor(_primaryColor, <int, Color>{
           50: const Color(0xFFFEF9F1),
           100: const Color(0xFFFDF2DE),
-          200: const Color(0xFFF9DCA7), // 토글버튼 백그라운드
+          200: const Color(0xFFF8E5C0), // 토글버튼 백그라운드
           300: const Color(0xFFFAE3B9),
           400: const Color(0xFFF9DCA7),
           500: Color(_primaryColor),

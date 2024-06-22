@@ -61,7 +61,7 @@ class CustomThemeData {
           onSecondary: Colors.white,
           error: errorColor,
           onSurface: textSwatch.shade500,
-          surface: textSwatch.shade200,
+          surface: textSwatch.shade100,
           shadow: textSwatch.shade900.withOpacity(.1),
           onSecondaryFixedVariant: textSwatch.shade200, // 네비게이션바 백그라운드
         );

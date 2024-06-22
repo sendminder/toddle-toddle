@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:toddle_toddle/states/theme_mode_state.dart';
 
 import 'package:toddle_toddle/states/bottom_nav_bar_state.dart';
 
@@ -11,6 +12,15 @@ class BottomNavBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final int? navIndex = ref.watch(bottomNavProvider) as int?;
+    final themeMode = ref.read(themeProvider);
+
+    final selectedColor = themeMode.themeMode == ThemeMode.light
+        ? Colors.black.withAlpha(190)
+        : Colors.white.withAlpha(230);
+
+    final unSelectedColor = themeMode.themeMode == ThemeMode.light
+        ? Colors.black.withAlpha(130)
+        : Colors.white.withAlpha(130);
 
     return Card(
       margin: const EdgeInsets.only(top: 1, right: 4, left: 4),
@@ -28,8 +38,6 @@ class BottomNavBar extends ConsumerWidget {
           const Divider(
             height: 3,
             thickness: 0.2,
-            indent: 5,
-            endIndent: 5,
             color: Colors.grey,
           ),
           BottomNavigationBar(
@@ -41,8 +49,8 @@ class BottomNavBar extends ConsumerWidget {
             type: BottomNavigationBarType.fixed,
             elevation: 0,
             backgroundColor: Theme.of(context).colorScheme.surface,
-            selectedItemColor: Theme.of(context).colorScheme.primary,
-            unselectedItemColor: Theme.of(context).textTheme.bodySmall!.color,
+            selectedItemColor: selectedColor,
+            unselectedItemColor: unSelectedColor,
             selectedFontSize: 12,
             selectedLabelStyle: const TextStyle(
               fontWeight: FontWeight.w300,
@@ -53,15 +61,21 @@ class BottomNavBar extends ConsumerWidget {
             ),
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: const Icon(FluentIcons.run_24_regular),
+                icon: navIndex == 0
+                    ? const Icon(FluentIcons.run_24_filled)
+                    : const Icon(FluentIcons.run_24_regular),
                 label: tr('bottom_nav_first'),
               ),
               BottomNavigationBarItem(
-                icon: const Icon(FluentIcons.history_24_regular),
+                icon: navIndex == 1
+                    ? const Icon(FluentIcons.history_24_filled)
+                    : const Icon(FluentIcons.history_24_regular),
                 label: tr('bottom_nav_second'),
               ),
               BottomNavigationBarItem(
-                icon: const Icon(FluentIcons.settings_24_regular),
+                icon: navIndex == 2
+                    ? const Icon(FluentIcons.settings_24_filled)
+                    : const Icon(FluentIcons.settings_24_regular),
                 label: tr('bottom_nav_third'),
               ),
             ],

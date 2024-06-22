@@ -202,27 +202,45 @@ class SettingsScreen extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Container(
-          width: 60,
-          height: 50,
           decoration: BoxDecoration(
-            color: colors[0],
-            shape: BoxShape.rectangle,
+            border: Border.all(color: Colors.grey), // 회색 테두리
+            borderRadius: BorderRadius.circular(9.0), // 테두리 둥글기 (선택 사항)
           ),
-        ),
-        Container(
-          width: 60,
-          height: 50,
-          decoration: BoxDecoration(
-            color: colors[1],
-            shape: BoxShape.rectangle,
-          ),
-        ),
-        Container(
-          width: 60,
-          height: 50,
-          decoration: BoxDecoration(
-            color: colors[2],
-            shape: BoxShape.rectangle,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Container(
+                width: 60,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: colors[0],
+                  shape: BoxShape.rectangle,
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(8.0),
+                      bottomLeft: Radius.circular(8.0)),
+                ),
+              ),
+              Container(
+                width: 60,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: colors[1],
+                  shape: BoxShape.rectangle,
+                ),
+              ),
+              Container(
+                width: 60,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: colors[2],
+                  shape: BoxShape.rectangle,
+                  borderRadius: const BorderRadius.only(
+                    topRight: Radius.circular(8.0),
+                    bottomRight: Radius.circular(8.0),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
         const SizedBox(width: 20),
@@ -243,7 +261,7 @@ class SettingsScreen extends ConsumerWidget {
     ThemeModeState themeMode = ref.watch(themeProvider);
     const divider = Divider(
       height: 3,
-      thickness: 0.3,
+      thickness: 0.2,
       indent: 5,
       endIndent: 5,
       color: Colors.grey,

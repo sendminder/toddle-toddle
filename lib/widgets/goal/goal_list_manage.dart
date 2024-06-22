@@ -61,24 +61,27 @@ class GoalListManageWidget extends ConsumerWidget {
 
         return Slidable(
           key: Key(currentGoal.id.toString()),
+          closeOnScroll: true,
           endActionPane: ActionPane(
+            extentRatio: 0.23,
             motion: const DrawerMotion(),
             children: [
               SlidableAction(
+                autoClose: true,
                 onPressed: (context) async {
                   await ref
                       .read(goalsStateProvider.notifier)
                       .removeGoal(currentGoal.id);
                 },
-                backgroundColor: currentGoal.color.withAlpha(180),
-                foregroundColor: Colors.white,
-                icon: const Icon(
+                backgroundColor: Theme.of(context).colorScheme.surface,
+                foregroundColor: currentGoal.color,
+                icon: Icon(
                   FluentIcons.delete_24_regular,
-                  color: Colors.white70,
+                  color: currentGoal.color,
                 ).icon,
                 label: 'delete'.tr(),
                 spacing: 4,
-                borderRadius: BorderRadius.circular(20.0),
+                borderRadius: BorderRadius.circular(16.0),
               ),
             ],
           ),

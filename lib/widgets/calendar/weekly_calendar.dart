@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-
-final focusedDayProvider = StateProvider<DateTime>((ref) => DateTime.now());
+import 'package:toddle_toddle/states/focused_time_state.dart';
 
 class WeeklyCalendar extends ConsumerWidget {
   const WeeklyCalendar({super.key});
@@ -12,20 +11,20 @@ class WeeklyCalendar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final locale = Localizations.localeOf(context).toString();
-    final focusedDay = ref.watch(focusedDayProvider);
+    final focusedDay = ref.watch(focusedTimeProvider);
     var now = DateTime.now();
     now = DateTime(now.year, now.month, now.day);
     var lastDay = now.add(const Duration(days: 7));
     var firstDay = now.add(const Duration(days: -365));
     var backTodayColor = Theme.of(context).colorScheme.primary;
-    var isToday = isSameDay(now, focusedDay);
+    var isToday = isSameDay(now, focusedDay.focusedTime);
 
     return Stack(
       children: [
         TableCalendar(
           locale: locale,
           calendarFormat: CalendarFormat.week,
-          focusedDay: focusedDay,
+          focusedDay: focusedDay.focusedTime!,
           firstDay: firstDay,
           lastDay: lastDay,
           headerStyle: const HeaderStyle(
@@ -38,7 +37,7 @@ class WeeklyCalendar extends ConsumerWidget {
               showAlertDialog(context, 'select_now_day'.tr());
               return;
             }
-            ref.read(focusedDayProvider.notifier).state = selectedDay;
+            ref.read(focusedTimeProvider.notifier).setFocusedTime(selectedDay);
           },
           calendarBuilders: CalendarBuilders(
             todayBuilder: (context, day, focusedDay) {
@@ -46,7 +45,7 @@ class WeeklyCalendar extends ConsumerWidget {
               return focusedContainer(context, now, day, isFocused);
             },
             defaultBuilder: (context, date, _) {
-              final isFocused = isSameDay(date, focusedDay);
+              final isFocused = isSameDay(date, focusedDay.focusedTime);
               return focusedContainer(context, now, date, isFocused);
             },
           ),
@@ -62,7 +61,7 @@ class WeeklyCalendar extends ConsumerWidget {
                     color: backTodayColor,
                   ),
                   onPressed: () {
-                    ref.read(focusedDayProvider.notifier).state = now;
+                    ref.read(focusedTimeProvider.notifier).setFocusedTime(now);
                   },
                 ),
               ),

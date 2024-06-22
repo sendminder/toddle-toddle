@@ -76,8 +76,8 @@
     "achievements": "목표 성취도",
     "weekly_graph": "요일별 달성수",
     "monthly_achievements": "목표 달성 달력",
-    "select_now_day": "이전 날짜를 선택해주세요.",
-    "check": "확인",
+    "select_now_day": "오늘 또는 이전 날짜를 선택해주세요.",
+    "check": "안내",
     "complete_goal" : "목표를 완료 하시겠어요?",
     "delete": "삭제",
     "edit": "수정"

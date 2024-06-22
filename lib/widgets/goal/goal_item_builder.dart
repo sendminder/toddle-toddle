@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:toddle_toddle/data/models/achievement.dart';
 import 'package:toddle_toddle/data/models/goal.dart';
+import 'package:toddle_toddle/states/focused_time_state.dart';
 import 'package:toddle_toddle/states/goals_state.dart';
 import 'package:collection/collection.dart';
-import 'package:toddle_toddle/widgets/calendar/weekly_calendar.dart';
 import 'package:toddle_toddle/states/theme_mode_state.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:toddle_toddle/data/enums/schedule_type.dart';
@@ -18,7 +18,7 @@ class GoalItemListWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final goals = ref.watch(goalsStateProvider);
-    final focusTime = ref.watch(focusedDayProvider);
+    final focusTime = ref.watch(focusedTimeProvider).focusedTime;
     final targetTime = DateTime(focusTime.year, focusTime.month, focusTime.day);
 
     bool hasContents = false;

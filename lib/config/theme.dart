@@ -112,7 +112,7 @@ class CustomThemeData {
           onSecondary: Colors.white,
           error: errorColor,
           onSurface: textSwatch.shade500,
-          surface: textSwatch.shade50,
+          surface: textSwatch.shade200,
           surfaceContainerHighest: Colors.white,
           shadow: textSwatch.shade900.withOpacity(.1),
         );
@@ -123,7 +123,7 @@ class CustomThemeData {
           onSecondary: Colors.white,
           error: errorColor,
           onSurface: textSwatch.shade300,
-          surface: const Color(0xFF262630),
+          surface: const Color(0xFF0F172A),
           surfaceContainerHighest: const Color(0xFF282832),
           shadow: textSwatch.shade900.withOpacity(.2),
         );

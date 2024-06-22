@@ -30,16 +30,16 @@ class MonthlyCalendar extends ConsumerWidget {
           ),
           calendarBuilders: CalendarBuilders(
             todayBuilder: (context, date, focusedDay) {
-              return focusedContainer(context, now, date);
+              return focusedContainer(context, date);
             },
             defaultBuilder: (context, date, focusedDay) {
-              return focusedContainer(context, now, date);
+              return focusedContainer(context, date);
             },
             outsideBuilder: (context, date, focusedDay) {
-              return focusedContainer(context, now, date);
+              return focusedContainer(context, date);
             },
             disabledBuilder: (context, date, focusedDay) {
-              return focusedContainer(context, now, date);
+              return focusedContainer(context, date);
             },
           ),
         ),
@@ -47,21 +47,9 @@ class MonthlyCalendar extends ConsumerWidget {
     );
   }
 
-  Container focusedContainer(BuildContext context, DateTime now, DateTime day) {
+  Container focusedContainer(BuildContext context, DateTime day) {
     bool isAchievement = goal.isAchievement(day);
-    // 스케쥴 요일이 맞으면서 && 시작시간 이후이면서 && 내일보다 이전이면서 && 종료시간이 있으면 종료시간보다 이전인경우에만 표시
-    var tommorrow =
-        DateTime(now.year, now.month, now.day).add(const Duration(days: 1));
-    bool hasGoalDay = goal.hasGoalDay(day) &&
-        day.isAfter(goal.startDate) &&
-        day.isBefore(tommorrow);
-
-    if (goal.endTime != null) {
-      var endTimeTommorrow =
-          DateTime(goal.endTime!.year, goal.endTime!.month, goal.endTime!.day)
-              .add(const Duration(days: 1));
-      hasGoalDay = hasGoalDay && day.isBefore(endTimeTommorrow);
-    }
+    bool hasGoalDay = goal.isGoalPlanned(day);
 
     return Container(
       margin: const EdgeInsets.all(4),

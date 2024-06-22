@@ -153,23 +153,37 @@ class Goal extends HiveObject {
     );
   }
 
-  bool hasGoalDay(DateTime day) {
-    bool hasGoalDay = false;
+  bool isGoalPlanned(DateTime day) {
+    bool isGoalPlanned = false;
+
+    // 스케쥴 요일이 맞으면서
     ScheduleType scheduleType = schedule.scheduleType;
     switch (scheduleType) {
       case ScheduleType.daily:
-        hasGoalDay = true;
+        isGoalPlanned = true;
         break;
       case ScheduleType.once:
-        hasGoalDay = isSameDay(startDate, day);
+        isGoalPlanned = isSameDay(startDate, day);
         break;
       case ScheduleType.weekly:
-        hasGoalDay = schedule.daysOfWeek.contains(day.weekday - 1);
+        isGoalPlanned = schedule.daysOfWeek.contains(day.weekday - 1);
         break;
       default:
         break;
     }
-    return hasGoalDay;
+
+    // && 시작시간 이후이면서 && 내일보다 이전이면서
+    var tommorrow = nextDay(DateTime.now());
+    isGoalPlanned =
+        isGoalPlanned && day.isAfter(startDate) && day.isBefore(tommorrow);
+
+    // && 종료시간이 있으면 종료시간보다 이전인경우에만 표시
+    if (endTime != null) {
+      var endTimeTommorrow = nextDay(endTime!);
+      isGoalPlanned = isGoalPlanned && day.isBefore(endTimeTommorrow);
+    }
+
+    return isGoalPlanned;
   }
 
   bool isAchievement(DateTime day) {
@@ -184,6 +198,11 @@ class Goal extends HiveObject {
     }
 
     return a.year == b.year && a.month == b.month && a.day == b.day;
+  }
+
+  DateTime nextDay(DateTime current) {
+    return DateTime(current.year, current.month, current.day)
+        .add(const Duration(days: 1));
   }
 }
 

@@ -62,7 +62,10 @@ class ChartByDayOfWeekWidget extends StatelessWidget {
             alignment: BarChartAlignment.spaceAround,
             barGroups: barGroups,
             borderData: FlBorderData(show: false),
-            gridData: const FlGridData(show: false),
+            gridData: const FlGridData(
+              show: true,
+              drawVerticalLine: false,
+            ),
             titlesData: FlTitlesData(
               topTitles: const AxisTitles(
                 sideTitles: SideTitles(showTitles: false),

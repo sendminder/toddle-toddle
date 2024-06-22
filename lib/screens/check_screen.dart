@@ -21,9 +21,9 @@ class CheckScreen extends ConsumerWidget {
         onPanEnd: (details) {
           final dx = details.velocity.pixelsPerSecond.dx;
           if (dx > 0) {
-            ref.watch(focusedTimeProvider.notifier).dayCountDown();
+            ref.read(focusedTimeProvider.notifier).dayCountDown();
           } else if (dx < 0) {
-            ref.watch(focusedTimeProvider.notifier).dayCountUp();
+            ref.read(focusedTimeProvider.notifier).dayCountUp();
           }
         },
         child: SafeArea(

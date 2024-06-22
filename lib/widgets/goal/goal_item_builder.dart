@@ -11,6 +11,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:toddle_toddle/data/enums/schedule_type.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:toddle_toddle/widgets/goal/add_or_update_goal.dart';
+import 'package:toddle_toddle/const/style.dart';
 
 class GoalItemListWidget extends ConsumerWidget {
   const GoalItemListWidget({super.key});
@@ -65,7 +66,7 @@ class GoalItemListWidget extends ConsumerWidget {
           key: Key(currentGoal.id.toString()),
           closeOnScroll: true,
           endActionPane: ActionPane(
-            extentRatio: 0.23,
+            extentRatio: 0.25,
             motion: const DrawerMotion(),
             children: [
               SlidableAction(
@@ -146,6 +147,7 @@ class GoalItemListWidget extends ConsumerWidget {
                   Expanded(
                     flex: 1,
                     child: IconButton(
+                      padding: const EdgeInsets.only(right: 2),
                       icon: currentGoal.needPush
                           ? const Icon(
                               FluentIcons.alert_24_filled,
@@ -176,6 +178,7 @@ class GoalItemListWidget extends ConsumerWidget {
                       ),
                     ),
                   ),
+                  const SizedBox(width: 5),
                 ],
               ),
             ),
@@ -218,16 +221,16 @@ class GoalItemListWidget extends ConsumerWidget {
         return AlertDialog(
           backgroundColor: Theme.of(context).colorScheme.surface,
           title: Text(goalName),
-          content: Text(contentNameKey.tr()),
+          content: Text(contentNameKey.tr(), style: contentStyle),
           actions: <Widget>[
             TextButton(
-              child: Text('button_negative'.tr()),
+              child: Text('button_negative'.tr(), style: contentStyle),
               onPressed: () {
                 Navigator.of(context).pop(false);
               },
             ),
             TextButton(
-              child: Text('button_positive'.tr()),
+              child: Text('button_positive'.tr(), style: contentStyle),
               onPressed: () {
                 Navigator.of(context).pop(true);
               },

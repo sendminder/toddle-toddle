@@ -4,6 +4,7 @@ import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:toddle_toddle/states/focused_time_state.dart';
+import 'package:toddle_toddle/const/style.dart';
 
 class WeeklyCalendar extends ConsumerWidget {
   const WeeklyCalendar({super.key});
@@ -24,7 +25,7 @@ class WeeklyCalendar extends ConsumerWidget {
         TableCalendar(
           locale: locale,
           calendarFormat: CalendarFormat.week,
-          focusedDay: focusedDay.focusedTime!,
+          focusedDay: focusedDay.focusedTime,
           firstDay: firstDay,
           lastDay: lastDay,
           headerStyle: const HeaderStyle(
@@ -124,7 +125,7 @@ class WeeklyCalendar extends ConsumerWidget {
         return AlertDialog(
           backgroundColor: Theme.of(context).colorScheme.surface,
           title: Text('check'.tr()),
-          content: Text(message),
+          content: Text(message, style: contentStyle),
           actions: <Widget>[
             TextButton(
               onPressed: () {

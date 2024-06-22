@@ -10,6 +10,7 @@ import 'package:toddle_toddle/widgets/goal/add_or_update_goal.dart';
 import 'package:toddle_toddle/data/enums/goal_filter_type.dart';
 import 'package:toddle_toddle/data/models/goal.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:toddle_toddle/const/style.dart';
 
 class GoalListManageWidget extends ConsumerWidget {
   const GoalListManageWidget({super.key});
@@ -63,15 +64,19 @@ class GoalListManageWidget extends ConsumerWidget {
           key: Key(currentGoal.id.toString()),
           closeOnScroll: true,
           endActionPane: ActionPane(
-            extentRatio: 0.23,
+            extentRatio: 0.25,
             motion: const DrawerMotion(),
             children: [
               SlidableAction(
                 autoClose: true,
                 onPressed: (context) async {
-                  await ref
-                      .read(goalsStateProvider.notifier)
-                      .removeGoal(currentGoal.id);
+                  bool? result = await showDeleteConfirmationDialog(
+                      context, currentGoal.name, 'delete_goal');
+                  if (result == true) {
+                    await ref
+                        .read(goalsStateProvider.notifier)
+                        .removeGoal(currentGoal.id);
+                  }
                 },
                 backgroundColor: Theme.of(context).colorScheme.surface,
                 foregroundColor: currentGoal.color,
@@ -164,6 +169,7 @@ class GoalListManageWidget extends ConsumerWidget {
                   Expanded(
                     flex: 1,
                     child: IconButton(
+                      padding: const EdgeInsets.only(right: 2),
                       icon: const Icon(
                         FluentIcons.edit_settings_24_regular,
                         color: Colors.white70,
@@ -187,6 +193,7 @@ class GoalListManageWidget extends ConsumerWidget {
                   Expanded(
                     flex: 1,
                     child: IconButton(
+                      padding: const EdgeInsets.only(right: 2),
                       icon: currentGoal.isEnd
                           ? const Icon(
                               FluentIcons.arrow_undo_24_filled,
@@ -222,7 +229,7 @@ class GoalListManageWidget extends ConsumerWidget {
                       },
                     ),
                   ),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 5),
                 ],
               ),
             ),
@@ -240,16 +247,16 @@ class GoalListManageWidget extends ConsumerWidget {
         return AlertDialog(
           backgroundColor: Theme.of(context).colorScheme.surface,
           title: Text(goalName),
-          content: Text(contentNameKey.tr()),
+          content: Text(contentNameKey.tr(), style: contentStyle),
           actions: <Widget>[
             TextButton(
-              child: Text('button_negative'.tr()),
+              child: Text('button_negative'.tr(), style: contentStyle),
               onPressed: () {
                 Navigator.of(context).pop(false);
               },
             ),
             TextButton(
-              child: Text('button_positive'.tr()),
+              child: Text('button_positive'.tr(), style: contentStyle),
               onPressed: () {
                 Navigator.of(context).pop(true);
               },

@@ -33,7 +33,7 @@
     "lets_achieve_goal": "목표 시작!",
     "button_positive": "확인",
     "button_negative": "취소",
-    "delete_goal": "목표를 삭제하시겠어요?",
+    "delete_goal": "목표를 삭제한 이후에는 복구할 수 없어요. 목표를 삭제하시겠어요?",
     "notification_time": "알림 시간",
     "start_date": "시작 날짜",
     "schedule": "일정",

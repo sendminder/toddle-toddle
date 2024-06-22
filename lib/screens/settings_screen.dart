@@ -9,6 +9,7 @@ import 'package:hive/hive.dart';
 import 'package:toddle_toddle/const/strings.dart';
 import 'package:toddle_toddle/states/font_state.dart';
 import 'package:toddle_toddle/const/cheer_up_messages.dart';
+import 'package:toddle_toddle/const/style.dart';
 
 // ignore: must_be_immutable
 class SettingsScreen extends ConsumerWidget {
@@ -26,26 +27,22 @@ class SettingsScreen extends ConsumerWidget {
           title: Text('select_language'.tr()),
           children: <Widget>[
             SimpleDialogOption(
-              onPressed: () async {
+              onPressed: () {
+                Navigator.pop(context);
                 context.setLocale(const Locale('en'));
                 CheerUpMessages.setLanguage(context.locale.languageCode);
-                await ref.read(goalsStateProvider.notifier).syncSchedule();
-
-                // ignore: use_build_context_synchronously
-                Navigator.pop(context);
+                ref.read(goalsStateProvider.notifier).syncSchedule();
               },
-              child: Text('en'.tr()),
+              child: Text('en'.tr(), style: contentStyle),
             ),
             SimpleDialogOption(
-              onPressed: () async {
+              onPressed: () {
+                Navigator.pop(context);
                 context.setLocale(const Locale('ko'));
                 CheerUpMessages.setLanguage(context.locale.languageCode);
-                await ref.read(goalsStateProvider.notifier).syncSchedule();
-
-                // ignore: use_build_context_synchronously
-                Navigator.pop(context);
+                ref.read(goalsStateProvider.notifier).syncSchedule();
               },
-              child: Text('ko'.tr()),
+              child: Text('ko'.tr(), style: contentStyle),
             ),
           ],
         );
@@ -232,7 +229,8 @@ class SettingsScreen extends ConsumerWidget {
         Text(
           text,
           style: TextStyle(
-            color: Theme.of(context).colorScheme.primary,
+            color: colors[0],
+            fontSize: 15,
           ),
         ),
       ],

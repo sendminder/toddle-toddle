@@ -16,43 +16,55 @@ class BottomNavBar extends ConsumerWidget {
       margin: const EdgeInsets.only(top: 1, right: 4, left: 4),
       elevation: 4,
       shadowColor: Theme.of(context).colorScheme.shadow,
-      color: Theme.of(context).colorScheme.surfaceContainerHighest,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(16),
           topRight: Radius.circular(16),
         ),
       ),
-      child: BottomNavigationBar(
-        currentIndex: navIndex ?? 0,
-        onTap: (int index) {
-          ref.read(bottomNavProvider.notifier).setAndPersistValue(index);
-        },
-        type: BottomNavigationBarType.fixed,
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        selectedItemColor: Theme.of(context).colorScheme.primary,
-        unselectedItemColor: Theme.of(context).textTheme.bodySmall!.color,
-        selectedFontSize: 12,
-        selectedLabelStyle: const TextStyle(
-          fontWeight: FontWeight.w300,
-        ),
-        unselectedFontSize: 12,
-        unselectedLabelStyle: const TextStyle(
-          fontWeight: FontWeight.w300,
-        ),
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: const Icon(FluentIcons.run_24_regular),
-            label: tr('bottom_nav_first'),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Divider(
+            height: 3,
+            thickness: 0.2,
+            indent: 5,
+            endIndent: 5,
+            color: Colors.grey,
           ),
-          BottomNavigationBarItem(
-            icon: const Icon(FluentIcons.history_24_regular),
-            label: tr('bottom_nav_second'),
-          ),
-          BottomNavigationBarItem(
-            icon: const Icon(FluentIcons.settings_24_regular),
-            label: tr('bottom_nav_third'),
+          BottomNavigationBar(
+            enableFeedback: false,
+            currentIndex: navIndex ?? 0,
+            onTap: (int index) {
+              ref.read(bottomNavProvider.notifier).setAndPersistValue(index);
+            },
+            type: BottomNavigationBarType.fixed,
+            elevation: 0,
+            backgroundColor: Theme.of(context).colorScheme.surface,
+            selectedItemColor: Theme.of(context).colorScheme.primary,
+            unselectedItemColor: Theme.of(context).textTheme.bodySmall!.color,
+            selectedFontSize: 12,
+            selectedLabelStyle: const TextStyle(
+              fontWeight: FontWeight.w300,
+            ),
+            unselectedFontSize: 12,
+            unselectedLabelStyle: const TextStyle(
+              fontWeight: FontWeight.w300,
+            ),
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: const Icon(FluentIcons.run_24_regular),
+                label: tr('bottom_nav_first'),
+              ),
+              BottomNavigationBarItem(
+                icon: const Icon(FluentIcons.history_24_regular),
+                label: tr('bottom_nav_second'),
+              ),
+              BottomNavigationBarItem(
+                icon: const Icon(FluentIcons.settings_24_regular),
+                label: tr('bottom_nav_third'),
+              ),
+            ],
           ),
         ],
       ),

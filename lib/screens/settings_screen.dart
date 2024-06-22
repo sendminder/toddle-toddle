@@ -244,6 +244,8 @@ class SettingsScreen extends ConsumerWidget {
     const divider = Divider(
       height: 3,
       thickness: 0.3,
+      indent: 5,
+      endIndent: 5,
       color: Colors.grey,
     );
     var selectedLanguageName = context.locale.toString();

@@ -27,32 +27,32 @@ class CustomThemeData {
   void updateColorPallete(ColorPaletteType type) {
     switch (type) {
       case ColorPaletteType.yellow:
-        _primaryColor = 0xFFF3B74B;
+        _primaryColor = 0xFFEDB300;
         _textColor = 0xFF6D4C41;
         primarySwatch = MaterialColor(_primaryColor, <int, Color>{
-          50: const Color(0xFFFEF9F1), // indigo-50
-          100: const Color(0xFFFDF2DE), // indigo-100
+          50: const Color(0xFFFEF9F1),
+          100: const Color(0xFFFDF2DE),
           200: const Color(0xFFF9DCA7), // 토글버튼 백그라운드
-          300: const Color(0xFFFAE3B9), // indigo-300
-          400: const Color(0xFFF9DCA7), // indigo-400
-          500: Color(_primaryColor), // indigo-500
-          600: const Color(0xFF97650A), // indigo-600
-          700: const Color(0xFF855809), // indigo-700
-          800: const Color(0xFF724C08), // indigo-800
+          300: const Color(0xFFFAE3B9),
+          400: const Color(0xFFF9DCA7),
+          500: Color(_primaryColor),
+          600: const Color(0xFF97650A),
+          700: const Color(0xFF855809),
+          800: const Color(0xFF724C08),
           900: const Color(0xFF4D3405), // dark 토글 백그라운드
         });
 
         textSwatch = MaterialColor(_textColor, <int, Color>{
-          50: const Color(0xFFFEFEFD), // slate-50
-          100: const Color(0xFFF7F3F1), // slate-100
+          50: const Color(0xFFFEFEFD),
+          100: const Color(0xFFF7F3F1),
           200: const Color(0xFFEFE7E5), // 기본 백그라운드
           300: const Color(0xFFD9C6C0), // 기본 텍스트
           400: const Color(0xFFC3A59B), // 네비게이션 텍스트
-          500: Color(_textColor), // slate-500
+          500: Color(_textColor),
           600: const Color(0xFF6D4C41), // 달력, 글씨 기본
-          700: const Color(0xFF543B32), // slate-700
-          800: const Color(0xFF30211C), // slate-800
-          900: const Color(0xFF17100E), // slate-900
+          700: const Color(0xFF543B32),
+          800: const Color(0xFF30211C),
+          900: const Color(0xFF17100E),
         });
 
         lightColorScheme = ColorScheme.light(
@@ -62,8 +62,8 @@ class CustomThemeData {
           error: errorColor,
           onSurface: textSwatch.shade500,
           surface: textSwatch.shade200,
-          surfaceContainerHighest: Colors.white,
           shadow: textSwatch.shade900.withOpacity(.1),
+          onSecondaryFixedVariant: textSwatch.shade200, // 네비게이션바 백그라운드
         );
 
         darkColorScheme = ColorScheme.dark(
@@ -73,8 +73,8 @@ class CustomThemeData {
           error: errorColor,
           onSurface: textSwatch.shade300,
           surface: const Color(0xFF17100E),
-          surfaceContainerHighest: const Color(0xFF282832),
           shadow: textSwatch.shade900.withOpacity(.2),
+          onSecondaryFixedVariant: textSwatch.shade900,
         );
         break;
       case ColorPaletteType.purple:
@@ -113,7 +113,6 @@ class CustomThemeData {
           error: errorColor,
           onSurface: textSwatch.shade500,
           surface: textSwatch.shade200,
-          surfaceContainerHighest: Colors.white,
           shadow: textSwatch.shade900.withOpacity(.1),
         );
 
@@ -123,13 +122,12 @@ class CustomThemeData {
           onSecondary: Colors.white,
           error: errorColor,
           onSurface: textSwatch.shade300,
-          surface: const Color(0xFF0F172A),
-          surfaceContainerHighest: const Color(0xFF282832),
+          surface: textSwatch.shade900,
           shadow: textSwatch.shade900.withOpacity(.2),
         );
         break;
       case ColorPaletteType.green:
-        _primaryColor = 0xFF34D399;
+        _primaryColor = 0xFF28B883;
         _textColor = 0xFF3B4D61;
         primarySwatch = MaterialColor(_primaryColor, <int, Color>{
           50: const Color(0xFFE5F9F2),
@@ -164,7 +162,6 @@ class CustomThemeData {
           error: errorColor,
           onSurface: textSwatch.shade500,
           surface: textSwatch.shade200,
-          surfaceContainerHighest: Colors.white,
           shadow: textSwatch.shade900.withOpacity(.1),
         );
 
@@ -175,7 +172,6 @@ class CustomThemeData {
           error: errorColor,
           onSurface: textSwatch.shade300,
           surface: const Color(0xFF161D24),
-          surfaceContainerHighest: const Color(0xFF282832),
           shadow: textSwatch.shade900.withOpacity(.2),
         );
         break;
@@ -188,6 +184,7 @@ class CustomThemeData {
       font = '';
     }
     lightTheme = ThemeData(
+      splashFactory: NoSplash.splashFactory,
       colorScheme: lightColorScheme,
       fontFamily: font,
       textTheme: TextTheme(

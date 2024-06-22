@@ -110,12 +110,24 @@ class GoalListManageWidget extends ConsumerWidget {
                 children: [
                   Expanded(
                     flex: 3,
-                    child: Text(
-                      currentGoal.schedule.notificationTime,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: Colors.white70,
-                        fontWeight: FontWeight.bold,
+                    child: GestureDetector(
+                      onTap: () async {
+                        showModalBottomSheet<void>(
+                          isScrollControlled: true,
+                          showDragHandle: true,
+                          context: context,
+                          builder: (BuildContext context) {
+                            return GoalChartWidget(goal: currentGoal);
+                          },
+                        );
+                      },
+                      child: Text(
+                        currentGoal.schedule.notificationTime,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.white70,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),

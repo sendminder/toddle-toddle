@@ -9,6 +9,8 @@ import 'package:toddle_toddle/widgets/calendar/weekly_calendar.dart';
 import 'package:toddle_toddle/states/theme_mode_state.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:toddle_toddle/data/enums/schedule_type.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:toddle_toddle/widgets/goal/add_or_update_goal.dart';
 
 class GoalItemListWidget extends ConsumerWidget {
   const GoalItemListWidget({super.key});
@@ -59,82 +61,120 @@ class GoalItemListWidget extends ConsumerWidget {
         var alpha = done ? inActiveAlpha : 255;
         var goalNameColor = done ? Colors.white70 : Colors.white;
 
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 3),
-          child: Container(
-            decoration: BoxDecoration(
-              color: currentGoal.color.withAlpha(alpha),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-            child: Row(
-              children: [
-                Expanded(
-                  flex: 3,
-                  child: Text(
-                    currentGoal.schedule.notificationTime,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: Colors.white70,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 7,
-                  child: GestureDetector(
-                    onTap: () async {
-                      await updateAchievement(context, ref, currentAchievement,
-                          currentGoal, targetTime);
+        return Slidable(
+          key: Key(currentGoal.id.toString()),
+          endActionPane: ActionPane(
+            motion: const DrawerMotion(),
+            children: [
+              SlidableAction(
+                onPressed: (context) async {
+                  showModalBottomSheet<void>(
+                    isScrollControlled: true,
+                    showDragHandle: true,
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AddOrUpdateGoalBottomSheet(
+                        initGoal: currentGoal,
+                        init: false,
+                      );
                     },
-                    child: Text(
-                      currentGoal.name,
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: goalNameColor,
-                        fontWeight: FontWeight.bold,
-                        decorationColor: Colors.white70,
-                        decoration: done
-                            ? TextDecoration.lineThrough
-                            : TextDecoration.none,
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: IconButton(
-                    icon: currentGoal.needPush
-                        ? const Icon(
-                            FluentIcons.alert_24_filled,
-                            color: Colors.white70,
-                          )
-                        : const Icon(FluentIcons.alert_off_24_filled,
-                            color: Colors.white70),
-                    onPressed: () {
-                      ref
-                          .read(goalsStateProvider.notifier)
-                          .toggleNeedPush(currentGoal.id);
-                    },
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  flex: 1,
-                  child: Transform.scale(
-                    scale: 1.2,
-                    child: Checkbox(
-                      fillColor: WidgetStateProperty.all(
-                          currentGoal.color.withAlpha(170)),
-                      value: currentAchievement?.achieved ?? false,
-                      onChanged: (bool? value) async {
+                  );
+                },
+                backgroundColor: currentGoal.color.withAlpha(180),
+                foregroundColor: Colors.white,
+                icon: const Icon(
+                  FluentIcons.edit_settings_24_regular,
+                  color: Colors.white70,
+                ).icon,
+                label: 'edit'.tr(),
+                spacing: 4,
+                borderRadius: BorderRadius.circular(20.0),
+              ),
+            ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 3),
+            child: Container(
+              decoration: BoxDecoration(
+                color: currentGoal.color.withAlpha(alpha),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: GestureDetector(
+                      onTap: () async {
                         await updateAchievement(context, ref,
                             currentAchievement, currentGoal, targetTime);
                       },
+                      child: Text(
+                        currentGoal.schedule.notificationTime,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Colors.white70,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                  Expanded(
+                    flex: 7,
+                    child: GestureDetector(
+                      onTap: () async {
+                        await updateAchievement(context, ref,
+                            currentAchievement, currentGoal, targetTime);
+                      },
+                      child: Text(
+                        currentGoal.name,
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: goalNameColor,
+                          fontWeight: FontWeight.bold,
+                          decorationColor: Colors.white70,
+                          decoration: done
+                              ? TextDecoration.lineThrough
+                              : TextDecoration.none,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: IconButton(
+                      icon: currentGoal.needPush
+                          ? const Icon(
+                              FluentIcons.alert_24_filled,
+                              color: Colors.white70,
+                            )
+                          : const Icon(FluentIcons.alert_off_24_filled,
+                              color: Colors.white70),
+                      onPressed: () {
+                        ref
+                            .read(goalsStateProvider.notifier)
+                            .toggleNeedPush(currentGoal.id);
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 15),
+                  Expanded(
+                    flex: 1,
+                    child: Transform.scale(
+                      scale: 1.2,
+                      child: Checkbox(
+                        fillColor: WidgetStateProperty.all(
+                            currentGoal.color.withAlpha(170)),
+                        value: currentAchievement?.achieved ?? false,
+                        onChanged: (bool? value) async {
+                          await updateAchievement(context, ref,
+                              currentAchievement, currentGoal, targetTime);
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         );

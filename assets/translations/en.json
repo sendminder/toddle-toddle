@@ -78,5 +78,7 @@
   "monthly_achievements": "Monthly Achievements",
   "select_now_day": "Please select previous or current.",
   "check": "Check",
-  "complete_goal" : "Want to complete the goal?"
+  "complete_goal" : "Want to complete the goal?",
+  "delete": "Delete",
+  "edit": "Edit"
 }

@@ -78,5 +78,7 @@
     "monthly_achievements": "목표 달성 달력",
     "select_now_day": "이전 날짜를 선택해주세요.",
     "check": "확인",
-    "complete_goal" : "목표를 완료 하시겠어요?"
+    "complete_goal" : "목표를 완료 하시겠어요?",
+    "delete": "삭제하기",
+    "edit": "수정하기"
 }

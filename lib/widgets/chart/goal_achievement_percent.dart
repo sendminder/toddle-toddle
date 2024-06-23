@@ -10,6 +10,8 @@ class GoalAchievementPercentWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     GoalStatistics goalStat = goal.getGoalStatistics();
+    var width = MediaQuery.of(context).size.width;
+    width = width - 64;
 
     return Container(
       padding: const EdgeInsets.all(16.0),
@@ -44,8 +46,7 @@ class GoalAchievementPercentWidget extends StatelessWidget {
               ),
               Container(
                 height: 20,
-                width: (goalStat.achievementPercentage / 100) *
-                    MediaQuery.of(context).size.width,
+                width: (goalStat.achievementPercentage / 100) * width,
                 decoration: BoxDecoration(
                   color: goal.color.withAlpha(230),
                   borderRadius: BorderRadius.circular(10),

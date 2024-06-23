@@ -202,26 +202,26 @@ class SettingsScreen extends ConsumerWidget {
                 },
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: ListTile(
-                trailing: Icon(
-                  FluentIcons.drink_coffee_24_regular,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-                title: Text(
-                  'support_developer'.tr(),
-                  style: normalStyle,
-                ),
-                subtitle: Text(
-                  'support_developer_subtitle'.tr(),
-                  style: smallStyle,
-                ),
-                onTap: () {
-                  _showLanguagePicker(context, ref);
-                },
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.only(right: 8),
+            //   child: ListTile(
+            //     trailing: Icon(
+            //       FluentIcons.drink_coffee_24_regular,
+            //       color: Theme.of(context).colorScheme.primary,
+            //     ),
+            //     title: Text(
+            //       'support_developer'.tr(),
+            //       style: normalStyle,
+            //     ),
+            //     subtitle: Text(
+            //       'support_developer_subtitle'.tr(),
+            //       style: smallStyle,
+            //     ),
+            //     onTap: () {
+            //       _showLanguagePicker(context, ref);
+            //     },
+            //   ),
+            // ),
             Padding(
               padding: const EdgeInsets.only(right: 8),
               child: ListTile(

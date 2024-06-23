@@ -1,3 +1,4 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -10,6 +11,7 @@ import 'package:toddle_toddle/const/strings.dart';
 import 'package:toddle_toddle/states/font_state.dart';
 import 'package:toddle_toddle/const/cheer_up_messages.dart';
 import 'package:toddle_toddle/const/style.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // ignore: must_be_immutable
 class SettingsScreen extends ConsumerWidget {
@@ -17,6 +19,228 @@ class SettingsScreen extends ConsumerWidget {
     version = Hive.box(hivePrefBox).get('version', defaultValue: '') as String;
   }
   late String version;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    PushNotificationState pushEnable = ref.watch(pushNotificationProvider);
+    ThemeModeState themeMode = ref.watch(themeProvider);
+    const divider = Divider(
+      height: 3,
+      thickness: 0.2,
+      indent: 5,
+      endIndent: 5,
+      color: Colors.grey,
+    );
+    var selectedLanguageName = context.locale.toString();
+    const normalStyle = TextStyle(fontSize: 16);
+    const smallStyle = TextStyle(fontSize: 14);
+    const boldStyle = TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
+    var primaryColorStyle = TextStyle(
+      fontSize: 15,
+      color: Theme.of(context).colorScheme.primary,
+    );
+    final font = ref.watch(fontProvider);
+
+    return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.only(left: 8, right: 8, bottom: 10),
+          children: <Widget>[
+            const SizedBox(height: 15),
+            ListTile(
+              title: Text(
+                'notifications'.tr(),
+                style: boldStyle,
+              ),
+            ),
+            SwitchListTile(
+              title: Text(
+                'push_setting_title'.tr(),
+                style: normalStyle,
+              ),
+              subtitle: Text(
+                'push_setting_subtitle'.tr(),
+                style: smallStyle,
+              ),
+              value: pushEnable.pushNotificationEnable!,
+              onChanged: (bool value) async {
+                pushEnable.setPushNotificationEnable(value);
+                if (value) {
+                  await ref.read(goalsStateProvider.notifier).syncSchedule();
+                } else {
+                  await ref
+                      .read(goalsStateProvider.notifier)
+                      .cancelAllSchedule();
+                }
+              },
+            ),
+            divider,
+            ListTile(
+              title: Text(
+                'appearance'.tr(),
+                style: boldStyle,
+              ),
+            ),
+            SwitchListTile(
+              title: Text(
+                'dark_mode_title'.tr(),
+                style: normalStyle,
+              ),
+              subtitle: Text(
+                'dark_mode_content'.tr(),
+                style: smallStyle,
+              ),
+              value: themeMode.currentThemeMode == ThemeMode.dark,
+              onChanged: (bool value) {
+                if (value) {
+                  themeMode.setThemeMode(ThemeMode.dark);
+                } else {
+                  themeMode.setThemeMode(ThemeMode.light);
+                }
+              },
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: ListTile(
+                trailing: Text(
+                  themeMode.colorPaletteType.toStringValue().tr(),
+                  style: primaryColorStyle,
+                  textAlign: TextAlign.end,
+                ),
+                title: Text(
+                  'theme_title'.tr(),
+                  style: normalStyle,
+                ),
+                subtitle: Text(
+                  'theme_subtitle'.tr(),
+                  style: smallStyle,
+                ),
+                onTap: () {
+                  _showThemePicker(context, ref);
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: ListTile(
+                trailing: Text(
+                  font.font,
+                  style: primaryColorStyle,
+                  textAlign: TextAlign.end,
+                ),
+                title: Text(
+                  'font_title'.tr(),
+                  style: normalStyle,
+                ),
+                subtitle: Text(
+                  'font_subtitle'.tr(),
+                  style: smallStyle,
+                ),
+                onTap: () {
+                  _showFontPicker(context, ref);
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: ListTile(
+                trailing: Text(
+                  selectedLanguageName.tr(),
+                  style: primaryColorStyle,
+                  textAlign: TextAlign.end,
+                ),
+                title: Text(
+                  'language_title'.tr(),
+                  style: normalStyle,
+                ),
+                subtitle: Text(
+                  'language_content'.tr(),
+                  style: smallStyle,
+                ),
+                onTap: () {
+                  _showLanguagePicker(context, ref);
+                },
+              ),
+            ),
+            divider,
+            ListTile(
+              title: Text(
+                'support'.tr(),
+                style: boldStyle,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: ListTile(
+                trailing: Icon(
+                  FluentIcons.mail_add_24_regular,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                title: Text(
+                  'send_feedback'.tr(),
+                  style: normalStyle,
+                ),
+                subtitle: Text(
+                  'send_feedback_subtitle'.tr(),
+                  style: smallStyle,
+                ),
+                onTap: () async {
+                  final Uri emailLaunchUri = Uri(
+                    scheme: 'mailto',
+                    path: 'email'.tr(),
+                    queryParameters: {
+                      'subject': 'feedback_subject'.tr(),
+                      'body': 'App Version :$version'
+                    },
+                  );
+                  if (await canLaunchUrl(emailLaunchUri)) {
+                    await launchUrl(emailLaunchUri);
+                  } else {
+                    throw 'Could not launch $emailLaunchUri';
+                  }
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: ListTile(
+                trailing: Icon(
+                  FluentIcons.drink_coffee_24_regular,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                title: Text(
+                  'support_developer'.tr(),
+                  style: normalStyle,
+                ),
+                subtitle: Text(
+                  'support_developer_subtitle'.tr(),
+                  style: smallStyle,
+                ),
+                onTap: () {
+                  _showLanguagePicker(context, ref);
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: ListTile(
+                trailing: Text(
+                  version,
+                  style: primaryColorStyle,
+                  textAlign: TextAlign.end,
+                ),
+                title: Text(
+                  'version'.tr(),
+                  style: normalStyle,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   void _showLanguagePicker(BuildContext context, WidgetRef ref) {
     showDialog(
@@ -252,176 +476,6 @@ class SettingsScreen extends ConsumerWidget {
           ),
         ),
       ],
-    );
-  }
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    PushNotificationState pushEnable = ref.watch(pushNotificationProvider);
-    ThemeModeState themeMode = ref.watch(themeProvider);
-    const divider = Divider(
-      height: 3,
-      thickness: 0.2,
-      indent: 5,
-      endIndent: 5,
-      color: Colors.grey,
-    );
-    var selectedLanguageName = context.locale.toString();
-    const normalStyle = TextStyle(fontSize: 16);
-    const smalStyle = TextStyle(fontSize: 14);
-    const boldStyle = TextStyle(fontSize: 16, fontWeight: FontWeight.bold);
-    var primaryColorStyle = TextStyle(
-      fontSize: 15,
-      color: Theme.of(context).colorScheme.primary,
-    );
-    final font = ref.watch(fontProvider);
-
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.only(left: 8, right: 8, bottom: 10),
-          children: <Widget>[
-            const SizedBox(height: 15),
-            ListTile(
-              title: Text(
-                'notifications'.tr(),
-                style: boldStyle,
-              ),
-            ),
-            SwitchListTile(
-              title: Text(
-                'push_setting_title'.tr(),
-                style: normalStyle,
-              ),
-              subtitle: Text(
-                'push_setting_subtitle'.tr(),
-                style: smalStyle,
-              ),
-              value: pushEnable.pushNotificationEnable!,
-              onChanged: (bool value) async {
-                pushEnable.setPushNotificationEnable(value);
-                if (value) {
-                  await ref.read(goalsStateProvider.notifier).syncSchedule();
-                } else {
-                  await ref
-                      .read(goalsStateProvider.notifier)
-                      .cancelAllSchedule();
-                }
-              },
-            ),
-            divider,
-            ListTile(
-              title: Text(
-                'appearance'.tr(),
-                style: boldStyle,
-              ),
-            ),
-            SwitchListTile(
-              title: Text(
-                'dark_mode_title'.tr(),
-                style: normalStyle,
-              ),
-              subtitle: Text(
-                'dark_mode_content'.tr(),
-                style: smalStyle,
-              ),
-              value: themeMode.currentThemeMode == ThemeMode.dark,
-              onChanged: (bool value) {
-                if (value) {
-                  themeMode.setThemeMode(ThemeMode.dark);
-                } else {
-                  themeMode.setThemeMode(ThemeMode.light);
-                }
-              },
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: ListTile(
-                trailing: Text(
-                  themeMode.colorPaletteType.toStringValue().tr(),
-                  style: primaryColorStyle,
-                  textAlign: TextAlign.end,
-                ),
-                title: Text(
-                  'theme_title'.tr(),
-                  style: normalStyle,
-                ),
-                subtitle: Text(
-                  'theme_subtitle'.tr(),
-                  style: smalStyle,
-                ),
-                onTap: () {
-                  _showThemePicker(context, ref);
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: ListTile(
-                trailing: Text(
-                  font.font,
-                  style: primaryColorStyle,
-                  textAlign: TextAlign.end,
-                ),
-                title: Text(
-                  'font_title'.tr(),
-                  style: normalStyle,
-                ),
-                subtitle: Text(
-                  'font_subtitle'.tr(),
-                  style: smalStyle,
-                ),
-                onTap: () {
-                  _showFontPicker(context, ref);
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: ListTile(
-                trailing: Text(
-                  selectedLanguageName.tr(),
-                  style: primaryColorStyle,
-                  textAlign: TextAlign.end,
-                ),
-                title: Text(
-                  'language_title'.tr(),
-                  style: normalStyle,
-                ),
-                subtitle: Text(
-                  'language_content'.tr(),
-                  style: smalStyle,
-                ),
-                onTap: () {
-                  _showLanguagePicker(context, ref);
-                },
-              ),
-            ),
-            divider,
-            ListTile(
-              title: Text(
-                'info'.tr(),
-                style: boldStyle,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: ListTile(
-                trailing: Text(
-                  version,
-                  style: primaryColorStyle,
-                  textAlign: TextAlign.end,
-                ),
-                title: Text(
-                  'version'.tr(),
-                  style: normalStyle,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

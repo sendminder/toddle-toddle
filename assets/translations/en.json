@@ -45,6 +45,7 @@
   "notifications": "Notifications",
   "appearance": "Appearance",
   "info": "Info",
+  "support": "Support",
   "push_setting_title": "Push Notifications",
   "push_setting_subtitle": "Receive notifications for your goals.",
   "version": "Version",
@@ -80,5 +81,12 @@
   "check": "Check",
   "complete_goal" : "Want to complete the goal?",
   "delete": "Delete",
-  "edit": "Edit"
+  "edit": "Edit",
+  "share_app": "Share Toddle Toddle",
+  "send_feedback": "Send Feedback",
+  "send_feedback_subtitle": "Questions or suggestions? Let us know.",
+  "feedback_subject": "[Toddle Toddle]",
+  "email": "sendminder@gmail.com",
+  "support_developer" : "Support Developer",
+  "support_developer_subtitle": ""
 }

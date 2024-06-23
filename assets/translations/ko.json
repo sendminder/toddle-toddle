@@ -45,6 +45,7 @@
     "notifications": "알림",
     "appearance": "디자인",
     "info": "정보",
+    "support": "도움",
     "push_setting_title": "푸시 알림",
     "push_setting_subtitle": "목표 시간 알림을 받아보세요.",
     "version": "버전",
@@ -80,5 +81,12 @@
     "check": "안내",
     "complete_goal" : "목표를 완료 하시겠어요?",
     "delete": "삭제",
-    "edit": "수정"
+    "edit": "수정",
+    "share_app": "아장아장 공유하기",
+    "send_feedback": "문의하기",
+    "send_feedback_subtitle": "건의사항 및 질문이 있으면 알려주세요.",
+    "feedback_subject": "[아장아장]",
+    "email": "sendminder@gmail.com",
+    "support_developer" : "응원하기",
+    "support_developer_subtitle": ""
 }

@@ -13,7 +13,7 @@ class MonthlyCalendar extends ConsumerWidget {
     var now = DateTime.now();
     now = DateTime(now.year, now.month, now.day);
     var lastDay = now.add(const Duration(days: 7));
-    var firstDay = now.add(const Duration(days: -365));
+    var firstDay = DateTime(2000, 1, 1, 0, 0, 0, 0, 0);
 
     return Stack(
       children: [

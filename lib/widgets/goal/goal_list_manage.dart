@@ -35,19 +35,18 @@ class GoalListManageWidget extends ConsumerWidget {
     var alpha = themeMode.themeMode == ThemeMode.dark ? 145 : 180;
 
     if (goals.isEmpty) {
-      if (filterTypeState.type == GoalFilterType.completed) {
-        return Center(
-          child: Text(
-            'no_completed_goals'.tr(),
+      final height = MediaQuery.of(context).size.height;
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(height: height * 0.7),
+          Text(
+            filterTypeState.type == GoalFilterType.completed
+                ? 'no_completed_goals'.tr()
+                : 'no_goals'.tr(),
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
-        );
-      }
-      return Center(
-        child: Text(
-          'no_goals'.tr(),
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
+        ],
       );
     }
 

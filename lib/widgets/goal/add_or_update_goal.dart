@@ -47,7 +47,7 @@ class AddOrUpdateGoalBottomSheet extends ConsumerWidget {
     var now = DateTime.now();
     now = DateTime(now.year, now.month, now.day);
     var lastDay = now.add(const Duration(days: 90));
-    var firstDay = now.add(const Duration(days: -365));
+    var firstDay = DateTime(2000, 1, 1, 0, 0, 0, 0);
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 

@@ -16,9 +16,10 @@ class WeeklyCalendar extends ConsumerWidget {
     var now = DateTime.now();
     now = DateTime(now.year, now.month, now.day);
     var lastDay = now.add(const Duration(days: 7));
-    var firstDay = now.add(const Duration(days: -365));
+    var firstDay = DateTime(2000, 1, 1, 0, 0, 0, 0, 0);
     var backTodayColor = Theme.of(context).colorScheme.primary;
     var isToday = isSameDay(now, focusedDay.focusedTime);
+    final width = MediaQuery.of(context).size.width;
 
     return Stack(
       children: [
@@ -54,8 +55,8 @@ class WeeklyCalendar extends ConsumerWidget {
         isToday
             ? Container()
             : Positioned(
-                left: 80,
-                bottom: 63,
+                left: width - 80,
+                bottom: 65,
                 child: IconButton(
                   icon: Icon(
                     FluentIcons.calendar_today_24_regular,

@@ -35,7 +35,7 @@ class GoalItemListWidget extends ConsumerWidget {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(height: height * 0.6),
+          SizedBox(height: height * 0.5),
           Text(
             'no_goals'.tr(),
             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),

@@ -20,6 +20,7 @@ class WeeklyCalendar extends ConsumerWidget {
     var backTodayColor = Theme.of(context).colorScheme.primary;
     var isToday = isSameDay(now, focusedDay.focusedTime);
     final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
 
     return Stack(
       children: [
@@ -31,7 +32,7 @@ class WeeklyCalendar extends ConsumerWidget {
           lastDay: lastDay,
           headerStyle: const HeaderStyle(
             formatButtonVisible: false, // Format 버튼 숨김
-            leftChevronVisible: false, // 왼쪽 화살표 숨김
+            leftChevronVisible: true, // 왼쪽 화살표 숨김
             rightChevronVisible: false, // 오른쪽 화살표 숨김
           ),
           onDaySelected: (selectedDay, focusedDay) {
@@ -56,7 +57,7 @@ class WeeklyCalendar extends ConsumerWidget {
             ? Container()
             : Positioned(
                 left: width - 80,
-                bottom: 65,
+                bottom: 77,
                 child: IconButton(
                   icon: Icon(
                     FluentIcons.calendar_today_24_regular,

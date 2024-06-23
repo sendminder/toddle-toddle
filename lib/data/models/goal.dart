@@ -128,8 +128,11 @@ class Goal extends HiveObject {
       totalDays = 1;
     }
 
-    double achievementPercentage =
-        (totalAchievementsCount / (totalDays * targetAchievementCount)) * 100;
+    double achievementPercentage = 0;
+    if (totalDays >= 1) {
+      achievementPercentage =
+          (totalAchievementsCount / (totalDays * targetAchievementCount)) * 100;
+    }
     return GoalStatistics(
       achievementPercentage: achievementPercentage,
       totalAchievements: totalAchievementsCount,

@@ -96,23 +96,24 @@ class GoalItemListWidget extends ConsumerWidget {
               ),
             ],
           ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 3),
-            child: Container(
-              decoration: BoxDecoration(
-                color: currentGoal.color.withAlpha(alpha),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 3,
-                    child: GestureDetector(
-                      onTap: () async {
-                        await updateAchievement(context, ref,
-                            currentAchievement, currentGoal, targetTime);
-                      },
+          child: GestureDetector(
+            onTap: () async {
+              await updateAchievement(
+                  context, ref, currentAchievement, currentGoal, targetTime);
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 3),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: currentGoal.color.withAlpha(alpha),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 3,
                       child: Text(
                         currentGoal.schedule.notificationTime,
                         style: const TextStyle(
@@ -122,14 +123,8 @@ class GoalItemListWidget extends ConsumerWidget {
                         ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    flex: 7,
-                    child: GestureDetector(
-                      onTap: () async {
-                        await updateAchievement(context, ref,
-                            currentAchievement, currentGoal, targetTime);
-                      },
+                    Expanded(
+                      flex: 7,
                       child: Text(
                         currentGoal.name,
                         style: TextStyle(
@@ -143,43 +138,43 @@ class GoalItemListWidget extends ConsumerWidget {
                         ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: IconButton(
-                      padding: const EdgeInsets.only(right: 2),
-                      icon: currentGoal.needPush
-                          ? const Icon(
-                              FluentIcons.alert_24_filled,
-                              color: Colors.white70,
-                            )
-                          : const Icon(FluentIcons.alert_off_24_filled,
-                              color: Colors.white70),
-                      onPressed: () {
-                        ref
-                            .read(goalsStateProvider.notifier)
-                            .toggleNeedPush(currentGoal.id);
-                      },
-                    ),
-                  ),
-                  const SizedBox(width: 15),
-                  Expanded(
-                    flex: 1,
-                    child: Transform.scale(
-                      scale: 1.2,
-                      child: Checkbox(
-                        fillColor: WidgetStateProperty.all(
-                            currentGoal.color.withAlpha(170)),
-                        value: currentAchievement?.achieved ?? false,
-                        onChanged: (bool? value) async {
-                          await updateAchievement(context, ref,
-                              currentAchievement, currentGoal, targetTime);
+                    Expanded(
+                      flex: 1,
+                      child: IconButton(
+                        padding: const EdgeInsets.only(right: 2),
+                        icon: currentGoal.needPush
+                            ? const Icon(
+                                FluentIcons.alert_24_filled,
+                                color: Colors.white70,
+                              )
+                            : const Icon(FluentIcons.alert_off_24_filled,
+                                color: Colors.white70),
+                        onPressed: () {
+                          ref
+                              .read(goalsStateProvider.notifier)
+                              .toggleNeedPush(currentGoal.id);
                         },
                       ),
                     ),
-                  ),
-                  const SizedBox(width: 5),
-                ],
+                    const SizedBox(width: 15),
+                    Expanded(
+                      flex: 1,
+                      child: Transform.scale(
+                        scale: 1.2,
+                        child: Checkbox(
+                          fillColor: WidgetStateProperty.all(
+                              currentGoal.color.withAlpha(170)),
+                          value: currentAchievement?.achieved ?? false,
+                          onChanged: (bool? value) async {
+                            await updateAchievement(context, ref,
+                                currentAchievement, currentGoal, targetTime);
+                          },
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 5),
+                  ],
+                ),
               ),
             ),
           ),

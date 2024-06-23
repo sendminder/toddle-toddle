@@ -90,45 +90,46 @@ class GoalListManageWidget extends ConsumerWidget {
               ),
             ],
           ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 3),
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    currentGoal.color, // 시작 색상
-                    currentGoal.color,
-                    currentGoal.color.withAlpha(alpha),
-                  ],
-                  stops: [
-                    0.0, // 시작 지점
-                    goalStat.achievementPercentage / 100,
-                    goalStat.achievementPercentage / 100,
-                  ],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
+          child: GestureDetector(
+            onTap: () async {
+              showModalBottomSheet<void>(
+                isScrollControlled: true,
+                showDragHandle: true,
+                context: context,
+                builder: (BuildContext context) {
+                  return GoalChartWidget(goal: currentGoal);
+                },
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 3),
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      currentGoal.color, // 시작 색상
+                      currentGoal.color,
+                      currentGoal.color.withAlpha(alpha),
+                    ],
+                    stops: [
+                      0.0, // 시작 지점
+                      goalStat.achievementPercentage / 100,
+                      goalStat.achievementPercentage / 100,
+                    ],
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                  ),
+                  color: currentGoal.isEnd
+                      ? currentGoal.color.withAlpha(alpha)
+                      : currentGoal.color,
+                  borderRadius: BorderRadius.circular(16),
                 ),
-                color: currentGoal.isEnd
-                    ? currentGoal.color.withAlpha(alpha)
-                    : currentGoal.color,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 3,
-                    child: GestureDetector(
-                      onTap: () async {
-                        showModalBottomSheet<void>(
-                          isScrollControlled: true,
-                          showDragHandle: true,
-                          context: context,
-                          builder: (BuildContext context) {
-                            return GoalChartWidget(goal: currentGoal);
-                          },
-                        );
-                      },
+                padding:
+                    const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 3,
                       child: Text(
                         currentGoal.schedule.notificationTime,
                         style: const TextStyle(
@@ -138,20 +139,8 @@ class GoalListManageWidget extends ConsumerWidget {
                         ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    flex: 7,
-                    child: GestureDetector(
-                      onTap: () async {
-                        showModalBottomSheet<void>(
-                          isScrollControlled: true,
-                          showDragHandle: true,
-                          context: context,
-                          builder: (BuildContext context) {
-                            return GoalChartWidget(goal: currentGoal);
-                          },
-                        );
-                      },
+                    Expanded(
+                      flex: 7,
                       child: Text(
                         currentGoal.name,
                         style: TextStyle(
@@ -165,72 +154,72 @@ class GoalListManageWidget extends ConsumerWidget {
                         ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: IconButton(
-                      padding: const EdgeInsets.only(right: 2),
-                      icon: const Icon(
-                        FluentIcons.edit_settings_24_regular,
-                        color: Colors.white70,
+                    Expanded(
+                      flex: 1,
+                      child: IconButton(
+                        padding: const EdgeInsets.only(right: 2),
+                        icon: const Icon(
+                          FluentIcons.edit_settings_24_regular,
+                          color: Colors.white70,
+                        ),
+                        onPressed: () {
+                          showModalBottomSheet<void>(
+                            isScrollControlled: true,
+                            showDragHandle: true,
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AddOrUpdateGoalBottomSheet(
+                                initGoal: currentGoal,
+                                init: false,
+                              );
+                            },
+                          );
+                        },
                       ),
-                      onPressed: () {
-                        showModalBottomSheet<void>(
-                          isScrollControlled: true,
-                          showDragHandle: true,
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AddOrUpdateGoalBottomSheet(
-                              initGoal: currentGoal,
-                              init: false,
-                            );
-                          },
-                        );
-                      },
                     ),
-                  ),
-                  const SizedBox(width: 15),
-                  Expanded(
-                    flex: 1,
-                    child: IconButton(
-                      padding: const EdgeInsets.only(right: 2),
-                      icon: currentGoal.isEnd
-                          ? const Icon(
-                              FluentIcons.arrow_undo_24_filled,
-                              color: Colors.white70,
-                            )
-                          : const Icon(
-                              FluentIcons.checkmark_24_filled,
-                              color: Colors.white70,
-                            ),
-                      onPressed: () async {
-                        bool? result = currentGoal.isEnd
-                            ? await showDeleteConfirmationDialog(
-                                // ignore: use_build_context_synchronously
-                                context,
-                                currentGoal.name,
-                                'recover_goal')
-                            : await showDeleteConfirmationDialog(
-                                // ignore: use_build_context_synchronously
-                                context,
-                                currentGoal.name,
-                                'done_goal');
-                        if (result == true) {
-                          if (currentGoal.isEnd) {
-                            await ref
-                                .read(goalsStateProvider.notifier)
-                                .recoverGoal(currentGoal.id);
-                          } else {
-                            await ref
-                                .read(goalsStateProvider.notifier)
-                                .doneGoal(currentGoal.id);
+                    const SizedBox(width: 15),
+                    Expanded(
+                      flex: 1,
+                      child: IconButton(
+                        padding: const EdgeInsets.only(right: 2),
+                        icon: currentGoal.isEnd
+                            ? const Icon(
+                                FluentIcons.arrow_undo_24_filled,
+                                color: Colors.white70,
+                              )
+                            : const Icon(
+                                FluentIcons.checkmark_24_filled,
+                                color: Colors.white70,
+                              ),
+                        onPressed: () async {
+                          bool? result = currentGoal.isEnd
+                              ? await showDeleteConfirmationDialog(
+                                  // ignore: use_build_context_synchronously
+                                  context,
+                                  currentGoal.name,
+                                  'recover_goal')
+                              : await showDeleteConfirmationDialog(
+                                  // ignore: use_build_context_synchronously
+                                  context,
+                                  currentGoal.name,
+                                  'done_goal');
+                          if (result == true) {
+                            if (currentGoal.isEnd) {
+                              await ref
+                                  .read(goalsStateProvider.notifier)
+                                  .recoverGoal(currentGoal.id);
+                            } else {
+                              await ref
+                                  .read(goalsStateProvider.notifier)
+                                  .doneGoal(currentGoal.id);
+                            }
                           }
-                        }
-                      },
+                        },
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 5),
-                ],
+                    const SizedBox(width: 5),
+                  ],
+                ),
               ),
             ),
           ),

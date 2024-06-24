@@ -10,3 +10,8 @@
 
 ### create splash image
 `flutter pub run flutter_native_splash:create`
+
+### android build
+use key.properties, key.jks
+`flutter build appbundle`
+check `./build/app/outputs/bundle/release/app-release.aab``

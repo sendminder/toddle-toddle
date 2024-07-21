@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:toddle_toddle/const/cheer_up_messages.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class LocalPushService {
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
@@ -35,12 +36,12 @@ class LocalPushService {
       iOS: initializationSettingsDarwin,
     );
     await _flutterLocalNotificationsPlugin.initialize(initializationSettings);
-    await _requestPermissions();
+    await requestPermissions();
   }
 
-  Future<void> _requestPermissions() async {
+  Future<bool?> requestPermissions() async {
     if (Platform.isIOS) {
-      await _flutterLocalNotificationsPlugin
+      return await _flutterLocalNotificationsPlugin
           .resolvePlatformSpecificImplementation<
               IOSFlutterLocalNotificationsPlugin>()
           ?.requestPermissions(
@@ -54,8 +55,9 @@ class LocalPushService {
               .resolvePlatformSpecificImplementation<
                   AndroidFlutterLocalNotificationsPlugin>();
 
-      await androidImplementation?.requestNotificationsPermission();
+      return await androidImplementation?.requestNotificationsPermission();
     }
+    return false;
   }
 
   Future<void> showNotification({

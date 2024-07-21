@@ -12,6 +12,9 @@ import 'package:toddle_toddle/states/font_state.dart';
 import 'package:toddle_toddle/const/cheer_up_messages.dart';
 import 'package:toddle_toddle/const/style.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:get_it/get_it.dart';
+import 'package:toddle_toddle/service/local_push_service.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 // ignore: must_be_immutable
 class SettingsScreen extends ConsumerWidget {
@@ -19,6 +22,7 @@ class SettingsScreen extends ConsumerWidget {
     version = Hive.box(hivePrefBox).get('version', defaultValue: '') as String;
   }
   late String version;
+  final localPushService = GetIt.I<LocalPushService>();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -65,10 +69,17 @@ class SettingsScreen extends ConsumerWidget {
               ),
               value: pushEnable.pushNotificationEnable!,
               onChanged: (bool value) async {
-                pushEnable.setPushNotificationEnable(value);
                 if (value) {
-                  await ref.read(goalsStateProvider.notifier).syncSchedule();
+                  var hasPermission =
+                      await localPushService.requestPermissions();
+                  if (hasPermission!) {
+                    pushEnable.setPushNotificationEnable(value);
+                    await ref.read(goalsStateProvider.notifier).syncSchedule();
+                  } else {
+                    openAppSettings();
+                  }
                 } else {
+                  pushEnable.setPushNotificationEnable(value);
                   await ref
                       .read(goalsStateProvider.notifier)
                       .cancelAllSchedule();

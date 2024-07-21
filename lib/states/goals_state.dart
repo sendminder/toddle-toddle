@@ -208,8 +208,10 @@ class GoalsState extends StateNotifier<List<Goal>> {
       }
     }
 
-    // 목표가 종료됐거나 알림 off인 경우 알림을 설정하지 않음
-    if (goal.isEnd || !goal.needPush) {
+    // 목표가 종료됐거나 알림 off, 푸시 알림 off인 경우 알림을 설정하지 않음
+    var pushEnable = await Hive.box(hivePrefBox)
+        .get('pushNotificationEnable', defaultValue: true) as bool;
+    if (goal.isEnd || !goal.needPush || !pushEnable) {
       logger.d('${goal.name} is end');
       return;
     }

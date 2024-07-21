@@ -11,9 +11,8 @@ final AutoDisposeChangeNotifierProvider<PushNotificationState>
   return PushNotificationState();
 });
 
-class PushNotificationState extends ChangeNotifier with WidgetsBindingObserver {
+class PushNotificationState extends ChangeNotifier {
   PushNotificationState() {
-    WidgetsBinding.instance.addObserver(this);
     pushNotificationEnable = Hive.box(hivePrefBox)
         .get('pushNotificationEnable', defaultValue: true) as bool;
     checkPermission().then((value) {
@@ -22,21 +21,6 @@ class PushNotificationState extends ChangeNotifier with WidgetsBindingObserver {
         setPushNotificationEnable(false);
       }
     });
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      localPushService.requestPermissions().then((value) {
-        setPushNotificationEnable(value!);
-      });
-    }
   }
 
   final localPushService = GetIt.I<LocalPushService>();

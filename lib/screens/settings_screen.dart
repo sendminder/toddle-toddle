@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
@@ -212,6 +213,38 @@ class SettingsScreen extends ConsumerWidget {
                   }
                 },
               ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: Platform.isIOS
+                  ? ListTile(
+                      trailing: Icon(
+                        FluentIcons.star_24_filled,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                      title: Text(
+                        'sumit_review'.tr(),
+                        style: normalStyle,
+                      ),
+                      subtitle: Text(
+                        'sumit_review_subtitle'.tr(),
+                        style: smallStyle,
+                      ),
+                      onTap: () async {
+                        final Uri reviewLaunchUri = Uri(
+                          scheme: 'https',
+                          host: 'apps.apple.com',
+                          path: '/app/id6504724690',
+                          queryParameters: {'action': 'write-review'},
+                        );
+                        if (await canLaunchUrl(reviewLaunchUri)) {
+                          await launchUrl(reviewLaunchUri);
+                        } else {
+                          throw 'Could not launch $reviewLaunchUri';
+                        }
+                      },
+                    )
+                  : const SizedBox.shrink(),
             ),
             // Padding(
             //   padding: const EdgeInsets.only(right: 8),

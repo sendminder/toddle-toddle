@@ -30,6 +30,7 @@ class WeeklyCalendar extends ConsumerWidget {
           focusedDay: focusedDay.focusedTime,
           firstDay: firstDay,
           lastDay: lastDay,
+          daysOfWeekHeight: 18,
           headerStyle: const HeaderStyle(
             formatButtonVisible: false, // Format 버튼 숨김
             leftChevronVisible: true, // 왼쪽 화살표 숨김
@@ -57,7 +58,7 @@ class WeeklyCalendar extends ConsumerWidget {
             ? Container()
             : Positioned(
                 left: width - 80,
-                bottom: 77,
+                bottom: 79,
                 child: IconButton(
                   icon: Icon(
                     FluentIcons.calendar_today_24_regular,

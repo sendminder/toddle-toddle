@@ -91,6 +91,7 @@ flutter {
 
 dependencies {
     implementation 'com.microsoft.design:fluent-system-icons:1.1.226@aar'
-    implementation 'androidx.window:window:1.1.0'
+    implementation 'androidx.window:window:1.0.0'
+    implementation 'androidx.window:window-java:1.0.0'
     implementation 'androidx.multidex:multidex:2.0.1'
 }

@@ -14,7 +14,7 @@ if (localPropertiesFile.exists()) {
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
 if (flutterVersionCode == null) {
-    flutterVersionCode = '1'
+    flutterVersionCode = '3'
 }
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
@@ -89,4 +89,8 @@ flutter {
     source '../..'
 }
 
-dependencies {implementation 'com.microsoft.design:fluent-system-icons:1.1.226@aar'}
+dependencies {
+    implementation 'com.microsoft.design:fluent-system-icons:1.1.226@aar'
+    implementation 'androidx.window:window:1.1.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
+}

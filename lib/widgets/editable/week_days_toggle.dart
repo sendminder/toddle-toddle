@@ -34,14 +34,14 @@ class WeekDaysToggle extends ConsumerWidget {
       fillColor: color.withAlpha(60),
       isSelected: isSelected,
       onPressed: (int index) {
-        final newList = [...selectedDays];
+        var newList = [...selectedDays];
         if (newList.contains(index)) {
           newList.remove(index);
         } else {
           newList.add(index);
         }
-        selectedDays = newList..sort(); // 리스트를 정렬합니다.
-        onSelectedChanged(selectedDays);
+        newList.sort();
+        onSelectedChanged(newList);
       },
       children: [
         Text(

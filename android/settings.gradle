@@ -17,12 +17,12 @@ pluginManagement {
     }
 
     plugins {
-        id "dev.flutter.flutter-gradle-plugin" version "1.0.2" apply false
+        id "dev.flutter.flutter-gradle-plugin" version "1.0.3" apply false
     }
 }
 
 plugins {
-    id "dev.flutter.flutter-plugin-loader" version "1.0.2"
+    id "dev.flutter.flutter-plugin-loader" version "1.0.3"
     id "com.android.application" version "7.3.0" apply false
 }
 

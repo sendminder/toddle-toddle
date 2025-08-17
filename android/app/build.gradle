@@ -31,8 +31,7 @@ if (keystorePropertiesFile.exists()) {
 android {
     namespace "com.sendmind.toddletoddle"
     compileSdkVersion 34
-    compileSdk 34
-    ndkVersion '21.1.6352462'
+    ndkVersion '25.2.9519653'
 
     compileOptions {
         // Flag to enable support for the new language APIs

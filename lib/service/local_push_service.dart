@@ -225,10 +225,8 @@ class LocalPushService {
       scheduledDate,
       notificationDetails,
       androidScheduleMode: AndroidScheduleMode.exact,
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
-      matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime,
       payload: '$id',
+      matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime,
     );
   }
 }

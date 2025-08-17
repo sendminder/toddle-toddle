@@ -17,8 +17,6 @@ import 'package:toddle_toddle/data/models/schedule.dart';
 import 'package:toddle_toddle/data/models/achievement.dart';
 
 import 'package:toddle_toddle/const/app_constants.dart';
-import 'package:toddle_toddle/const/ui_constants.dart';
-import 'package:toddle_toddle/const/style_constants.dart';
 import 'config/theme.dart';
 import 'package:toddle_toddle/states/font_state.dart';
 import 'states/theme_mode_state.dart';
@@ -77,8 +75,6 @@ void _registerHiveAdapters() {
 }
 
 void main() async {
-  final widgetsBinding = await initializeApp();
-
   runApp(
     ProviderScope(
       child: EasyLocalization(

@@ -16,7 +16,9 @@ import 'package:toddle_toddle/data/models/goal.dart';
 import 'package:toddle_toddle/data/models/schedule.dart';
 import 'package:toddle_toddle/data/models/achievement.dart';
 
-import 'package:toddle_toddle/const/strings.dart';
+import 'package:toddle_toddle/const/app_constants.dart';
+import 'package:toddle_toddle/const/ui_constants.dart';
+import 'package:toddle_toddle/const/style_constants.dart';
 import 'config/theme.dart';
 import 'package:toddle_toddle/states/font_state.dart';
 import 'states/theme_mode_state.dart';
@@ -32,8 +34,16 @@ import 'package:toddle_toddle/data/adapter/schedule_type_adapter.dart';
 import 'package:toddle_toddle/const/cheer_up_messages.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
-void main() async {
+Future<WidgetsBinding> initializeApp() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  await _initializeServices();
+  await _initializeHive();
+  await setupVersion();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  return widgetsBinding;
+}
+
+Future<void> _initializeServices() async {
   GetIt.I.registerSingleton<Logger>(Logger());
   GetIt.I.registerSingleton<LocalPushService>(LocalPushService());
   await GetIt.I<LocalPushService>().init();
@@ -43,10 +53,20 @@ void main() async {
   if (Platform.isAndroid) {
     await FlutterDisplayMode.setHighRefreshRate();
   }
+}
 
+Future<void> _initializeHive() async {
   final Directory appDocDir = await getApplicationDocumentsDirectory();
   await Hive.initFlutter(appDocDir.path);
 
+  _registerHiveAdapters();
+
+  GetIt.I.registerSingleton<IdGenerator>(IdGenerator());
+  await Hive.openBox(AppConstants.hivePrefBox);
+  await Hive.openBox<Goal>(AppConstants.hiveGoalBox);
+}
+
+void _registerHiveAdapters() {
   Hive.registerAdapter(ColorAdapter());
   Hive.registerAdapter(GoalAdapter());
   Hive.registerAdapter(AchievementAdapter());
@@ -54,30 +74,26 @@ void main() async {
   Hive.registerAdapter(GoalFilterTypeAdapter());
   Hive.registerAdapter(ColorPaletteTypeAdapter());
   Hive.registerAdapter(ScheduleTypeAdapter());
+}
 
-  GetIt.I.registerSingleton<IdGenerator>(IdGenerator());
-  await Hive.openBox(hivePrefBox);
-  // await Hive.deleteBoxFromDisk(hiveGoalBox);
-  await Hive.openBox<Goal>(hiveGoalBox);
-  await setupVersion();
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+void main() async {
+  final widgetsBinding = await initializeApp();
 
   runApp(
     ProviderScope(
       child: EasyLocalization(
         path: 'assets/translations',
-        supportedLocales: const <Locale>[
-          Locale('en'),
-          Locale('ko'),
+        supportedLocales: [
+          for (final locale in AppConstants.supportedLocales) Locale(locale),
         ],
-        fallbackLocale: const Locale('ko'),
+        fallbackLocale: const Locale(AppConstants.defaultLocale),
         useFallbackTranslations: true,
         child: const MyApp(),
       ),
     ),
   );
 
-  Timer(const Duration(milliseconds: 500), () {
+  Timer(const Duration(milliseconds: AppConstants.splashDuration), () {
     FlutterNativeSplash.remove();
   });
 }
@@ -116,5 +132,5 @@ Future<void> setupTimeZone() async {
 
 Future<void> setupVersion() async {
   final packageInfo = await PackageInfo.fromPlatform();
-  Hive.box(hivePrefBox).put('version', packageInfo.version);
+  Hive.box(AppConstants.hivePrefBox).put('version', packageInfo.version);
 }

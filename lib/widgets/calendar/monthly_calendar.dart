@@ -25,23 +25,19 @@ class MonthlyCalendar extends ConsumerWidget {
           lastDay: lastDay,
           availableGestures: AvailableGestures.horizontalSwipe,
           headerStyle: const HeaderStyle(
-            formatButtonVisible: false, // Format 버튼 숨김
-            leftChevronVisible: false, // 왼쪽 화살표 숨김
-            rightChevronVisible: false, // 오른쪽 화살표 숨김
+            formatButtonVisible: false,
+            leftChevronVisible: false,
+            rightChevronVisible: false,
           ),
           calendarBuilders: CalendarBuilders(
-            todayBuilder: (context, date, focusedDay) {
-              return focusedContainer(context, date);
-            },
-            defaultBuilder: (context, date, focusedDay) {
-              return focusedContainer(context, date);
-            },
-            outsideBuilder: (context, date, focusedDay) {
-              return focusedContainer(context, date);
-            },
-            disabledBuilder: (context, date, focusedDay) {
-              return focusedContainer(context, date);
-            },
+            todayBuilder: (context, day, focusedDay) =>
+                focusedContainer(context, day),
+            defaultBuilder: (context, day, focusedDay) =>
+                focusedContainer(context, day),
+            outsideBuilder: (context, day, focusedDay) =>
+                focusedContainer(context, day),
+            disabledBuilder: (context, day, focusedDay) =>
+                focusedContainer(context, day),
           ),
         ),
       ],

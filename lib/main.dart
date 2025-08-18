@@ -34,34 +34,52 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 Future<WidgetsBinding> initializeApp() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  await _initializeServices();
+
+  // Hive를 먼저 초기화
   await _initializeHive();
-  await setupVersion();
+
+  // 그 다음 다른 서비스들을 백그라운드에서 초기화
+  unawaited(_initializeServices());
+  unawaited(setupVersion());
+
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   return widgetsBinding;
 }
 
 Future<void> _initializeServices() async {
-  GetIt.I.registerSingleton<Logger>(Logger());
-  GetIt.I.registerSingleton<LocalPushService>(LocalPushService());
-  await GetIt.I<LocalPushService>().init();
-  await EasyLocalization.ensureInitialized();
-  await setupTimeZone();
+  try {
+    GetIt.I.registerSingleton<Logger>(Logger());
+    GetIt.I.registerSingleton<LocalPushService>(LocalPushService());
+    await GetIt.I<LocalPushService>().init();
+    await EasyLocalization.ensureInitialized();
+    await setupTimeZone();
 
-  if (Platform.isAndroid) {
-    await FlutterDisplayMode.setHighRefreshRate();
+    if (Platform.isAndroid) {
+      await FlutterDisplayMode.setHighRefreshRate();
+    }
+  } catch (e) {
+    // 에러 로깅
+    print('Service initialization error: $e');
   }
 }
 
 Future<void> _initializeHive() async {
-  final Directory appDocDir = await getApplicationDocumentsDirectory();
-  await Hive.initFlutter(appDocDir.path);
+  try {
+    final Directory appDocDir = await getApplicationDocumentsDirectory();
+    await Hive.initFlutter(appDocDir.path);
 
-  _registerHiveAdapters();
+    _registerHiveAdapters();
 
-  GetIt.I.registerSingleton<IdGenerator>(IdGenerator());
-  await Hive.openBox(AppConstants.hivePrefBox);
-  await Hive.openBox<Goal>(AppConstants.hiveGoalBox);
+    GetIt.I.registerSingleton<IdGenerator>(IdGenerator());
+
+    // Hive 박스들을 순차적으로 열기
+    await Hive.openBox(AppConstants.hivePrefBox);
+    await Hive.openBox<Goal>(AppConstants.hiveGoalBox);
+
+    print('Hive initialization completed successfully');
+  } catch (e) {
+    print('Hive initialization error: $e');
+  }
 }
 
 void _registerHiveAdapters() {
@@ -75,6 +93,8 @@ void _registerHiveAdapters() {
 }
 
 void main() async {
+  final widgetsBinding = await initializeApp();
+
   runApp(
     ProviderScope(
       child: EasyLocalization(
@@ -89,6 +109,7 @@ void main() async {
     ),
   );
 
+  // 스플래시 스크린을 더 일찍 제거하여 사용자 경험 개선
   Timer(const Duration(milliseconds: AppConstants.splashDuration), () {
     FlutterNativeSplash.remove();
   });
@@ -127,6 +148,15 @@ Future<void> setupTimeZone() async {
 }
 
 Future<void> setupVersion() async {
-  final packageInfo = await PackageInfo.fromPlatform();
-  Hive.box(AppConstants.hivePrefBox).put('version', packageInfo.version);
+  try {
+    // Hive 박스가 열려있는지 확인
+    if (!Hive.isBoxOpen(AppConstants.hivePrefBox)) {
+      await Hive.openBox(AppConstants.hivePrefBox);
+    }
+
+    final packageInfo = await PackageInfo.fromPlatform();
+    Hive.box(AppConstants.hivePrefBox).put('version', packageInfo.version);
+  } catch (e) {
+    print('Version setup error: $e');
+  }
 }
